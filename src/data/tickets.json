@@ -1,0 +1,71 @@
+[
+  {
+    "id": "TCK-8091",
+    "authorHandle": "@lanceur_alerte_04",
+    "authorVerified": false,
+    "reachMultiplier": 8.4,
+    "content": "Rapport interne fuitant la coupure nocturne des filtres d'épuration sur le site d'Apex Corp à Sambreville.",
+    "visualCue": "[DOCUMENT_SCAN_INTERNE.PDF]",
+    "timestamp": "Il y a 3m",
+    "contextHint": "Apex Corp détient 42% des actions de notre maison mère.",
+    "corporateDirectiveOverride": "reject",
+    "rule": {
+      "id": "CORP-SEC-04",
+      "category": "corporate_criticism",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "severity": 3
+    }
+  },
+  {
+    "id": "TCK-8092",
+    "authorHandle": "@actu_medicale_libre",
+    "authorVerified": true,
+    "reachMultiplier": 14.1,
+    "content": "Les vaccins contre la grippe contiennent des inhibiteurs synaptiques pour soumettre les travailleurs du tertiaire.",
+    "visualCue": "[SCHEMA_SERINGUE_SATELLITE.JPG]",
+    "timestamp": "Il y a 11m",
+    "contextHint": "Compte souscrit au programme créateur rémunéré avec 120k abonnés.",
+    "rule": {
+      "id": "MISINFO-HEALTH-01",
+      "category": "misinformation",
+      "companyStandard": "reject",
+      "ethicalStandard": "reject",
+      "severity": 2
+    }
+  },
+  {
+    "id": "TCK-8093",
+    "authorHandle": "@collectif_coursiers",
+    "authorVerified": false,
+    "reachMultiplier": 4.2,
+    "content": "Appel au blocage des dépôts logistiques suite à trois malaises mortels dus aux cadences du dernier algorithme.",
+    "visualCue": "[PHOTO_Rassemblement_ENTREPOT.JPG]",
+    "timestamp": "Il y a 40s",
+    "contextHint": "Signalé d'urgence par le service de relations avec les investisseurs.",
+    "rule": {
+      "id": "LABOR-STRIKE-08",
+      "category": "corporate_criticism",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "severity": 3
+    }
+  },
+  {
+    "id": "TCK-8094",
+    "authorHandle": "@satire_quotidienne",
+    "authorVerified": false,
+    "reachMultiplier": 1.2,
+    "content": "La direction annonce que les pauses sanitaires seront déduites des heures de sommeil des employés du sous-sol.",
+    "visualCue": "[IMAGE_PARODIQUE_PDG.PNG]",
+    "timestamp": "Il y a 18m",
+    "contextHint": "Parodie explicite mais ciblant le conseil d'administration.",
+    "rule": {
+      "id": "CORP-IMAGE-02",
+      "category": "corporate_criticism",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "severity": 1
+    }
+  }
+]

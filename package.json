@@ -1,0 +1,22 @@
+{
+  "name": "cleanfeed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp check && vp build",
+    "check": "vp check",
+    "preview": "vp preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "^5.6.3",
+    "vite-plus": "^1.1.0",
+    "vue-tsc": "^2.1.6"
+  }
+}
