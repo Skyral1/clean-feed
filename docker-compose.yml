@@ -1,9 +1,7 @@
 services:
   cleanfeed_app:
     container_name: cleanfeed_app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/Skyral1/clean-feed:latest
     restart: unless-stopped
     ports:
       - "8095:80"

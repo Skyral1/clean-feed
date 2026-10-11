@@ -61,7 +61,7 @@ Prerequisites: Node.js 20+ and either the `vp` CLI or standard `npm`.
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/votre-user/cleanfeed.git](https://github.com/votre-user/cleanfeed.git)
+git clone [https://github.com/Skyral1/cleanfeed.git](https://github.com/Skyral1/cleanfeed.git)
 cd cleanfeed
 
 # 2. Install dependencies
