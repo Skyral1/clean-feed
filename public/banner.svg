@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+    <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0a0d0f" />
+            <stop offset="100%" stop-color="#11161b" />
+        </linearGradient>
+    </defs>
+    <rect width="1280" height="640" fill="url(#bg)" />
+
+    <!-- Terminal Grid & Boundary Lines -->
+    <line x1="80" y1="120" x2="1200" y2="120" stroke="#1e293b" stroke-width="2" />
+    <line x1="80" y1="520" x2="1200" y2="520" stroke="#1e293b" stroke-width="2" />
+
+    <!-- Terminal Status Pill -->
+    <rect x="80" y="60" width="180" height="34" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444"
+        stroke-width="2" />
+    <text x="95" y="83" fill="#ef4444" font-family="monospace" font-size="16" font-weight="bold">SYSTEM:
+        MOD-602</text>
+
+    <!-- Title and Headline -->
+    <text x="80" y="240" fill="#f8fafc" font-family="monospace" font-size="72" font-weight="900"
+        letter-spacing="4">CLEANFEED</text>
+    <text x="80" y="300" fill="#38bdf8" font-family="monospace" font-size="24" letter-spacing="2">INDUSTRIAL
+        CONTENT MODERATION SIMULATOR</text>
+
+    <text x="80" y="380" fill="#94a3b8" font-family="monospace" font-size="20">8 seconds per
+        decision. Obey the corporate handbook or face eviction.</text>
+
+    <!-- Terminal Command Key Badges -->
+    <rect x="80" y="430" width="150" height="44" fill="#161e27" stroke="#ef4444" stroke-width="2" />
+    <text x="98" y="458" fill="#ef4444" font-family="monospace" font-size="16" font-weight="bold">[Q]
+        REJECT</text>
+
+    <rect x="250" y="430" width="150" height="44" fill="#161e27" stroke="#38bdf8" stroke-width="2" />
+    <text x="268" y="458" fill="#38bdf8" font-family="monospace" font-size="16" font-weight="bold">[SPACE]
+        SCAN</text>
+
+    <rect x="420" y="430" width="160" height="44" fill="#161e27" stroke="#10b981" stroke-width="2" />
+    <text x="438" y="458" fill="#10b981" font-family="monospace" font-size="16" font-weight="bold">[E]
+        APPROVE</text>
+
+    <text x="990" y="580" fill="#475569" font-family="monospace" font-size="16">VUE 3 // TS // VITE+</text>
+</svg>
