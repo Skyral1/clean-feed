@@ -5,16 +5,10 @@ services:
     restart: unless-stopped
     ports:
       - "8095:80"
-    networks:
-      - web
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cleanfeed.rule=Host(`cleanfeed.skyral.xyz`)"
       - "traefik.http.routers.cleanfeed.entrypoints=websecure"
       - "traefik.http.routers.cleanfeed.tls=true"
       - "traefik.http.routers.cleanfeed.tls.certresolver=cloudflare"
-      - "traefik.http.services.cleanfeed.loadbalancer.server.port=80"
-
-networks:
-  web:
-    external: true
+      - "traefik.http.services.cleanfeed.loadbalancer.server.port=8095"
