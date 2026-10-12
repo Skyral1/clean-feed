@@ -5,9 +5,9 @@
 [![Toolchain: Vite+](https://img.shields.io/badge/Toolchain-Vite+-blueviolet.svg)](https://viteplus.dev)
 [![Docker Image](https://img.shields.io/badge/Container-GHCR-blue.svg)](https://github.com/Skyral1/clean-feed/pkgs/container/clean-feed)
 
-> *"Your labor ensures our network remains brand-safe. Any delay or ethical deviation will be deducted from your payout."*
+> _"Your labor ensures our network remains brand-safe. Any delay or ethical deviation will be deducted from your payout."_
 
-**CleanFeed** is a dystopian procedural simulation and cyber-investigation game inspired by *Papers, Please*. Operating within **OmniOS**, a simulated desktop environment in your browser, you play as a precarious remote content moderator for OmniFeed Networks. 
+**CleanFeed** is a dystopian procedural simulation and cyber-investigation game inspired by _Papers, Please_. Operating within **OmniOS**, a simulated desktop environment in your browser, you play as a precarious remote content moderator for OmniFeed Networks.
 
 Investigate reported posts, confront corporate directives with raw leaks on an encrypted darknet gateway, avoid detection by intrusive algorithmic HR scans, and balance your financial survival against your personal ethics.
 
@@ -87,6 +87,7 @@ npm run dev
 ```
 
 To run linting, type-checking, and formatting:
+
 ```bash
 vp check --fix
 ```
@@ -98,11 +99,13 @@ vp check --fix
 The multi-stage `Dockerfile` compiles the static client and serves it through high-performance Nginx Alpine.
 
 1. Ensure your external Traefik network exists:
+
 ```bash
 docker network create web
 ```
 
 2. Launch the stack:
+
 ```bash
 docker compose up -d --build
 ```
