@@ -1,59 +1,857 @@
 <template>
   <div class="center-screen">
     <div class="prologue-container">
-      <div class="prologue-header">
-        <span class="prologue-badge">TRANSMISSION RH CONFIDENTIELLE</span>
-        <span class="prologue-time">OCTOBRE 2026 // DÉPARTEMENT COMPLIANCE</span>
+      <!-- En-tête officiel corporatif -->
+      <header class="prologue-header">
+        <div class="header-left">
+          <span class="status-indicator"></span>
+          <span class="prologue-badge">TRANSMISSION RH CONFIDENTIELLE</span>
+        </div>
+        <div class="header-right">
+          <span class="prologue-time">OCTOBRE 2026 // DÉPARTEMENT COMPLIANCE</span>
+          <span class="step-counter">MODULE {{ currentStep }} / 4</span>
+        </div>
+      </header>
+
+      <!-- Barre de progression des étapes du tutoriel -->
+      <div class="stepper-bar">
+        <div class="stepper-fill" :style="{ width: `${(currentStep / 4) * 100}%` }"></div>
       </div>
 
-      <div class="prologue-body">
-        <h2 class="prologue-title">BIENVENUE DANS VOTRE CELLULE, AGENT 9482.</h2>
-
-        <div class="prologue-paragraphs">
-          <p>
+      <main class="prologue-body">
+        <!-- ========================================================
+             ÉTAPE 1 : BRIEFING GÉNÉRAL & OBJECTIFS ÉCONOMIQUES
+             ======================================================== -->
+        <section v-if="currentStep === 1" class="step-view">
+          <h2 class="prologue-title">BIENVENUE DANS VOTRE CELLULE, AGENT 9482.</h2>
+          <p class="prologue-lead">
             Le monde extérieur est saturé d'émeutes climatiques et de faillites bancaires. Pour
             préserver la paix civile et la cotation boursière d'OmniFeed, notre réseau doit demeurer
             un espace
             <strong>propre, neutre et commercialement viable</strong>.
           </p>
 
-          <p>
-            Vous devez traiter <strong>8 signalements par quart</strong> avec un délai strict de
-            <strong>20 secondes par ticket</strong> :
+          <div class="rules-card">
+            <div class="card-headline">CADRE OPÉRATIONNEL OBLIGATOIRE</div>
+            <div class="rules-grid">
+              <div class="rule-box">
+                <span class="rule-icon">⏱️</span>
+                <div>
+                  <strong>Cadence imposée</strong>
+                  <p>8 signalements par quart, 20 secondes par ticket.</p>
+                </div>
+              </div>
+              <div class="rule-box">
+                <span class="rule-icon">💶</span>
+                <div>
+                  <strong>Rémunération & Bonus</strong>
+                  <p>5.00 € par ticket conforme (+ 2.00 € si jugé en &lt; 10s).</p>
+                </div>
+              </div>
+              <div class="rule-box">
+                <span class="rule-icon">🏠</span>
+                <div>
+                  <strong>Loyer de survie</strong>
+                  <p>40.00 € prélevés chaque soir pour votre dortoir et vos rations.</p>
+                </div>
+              </div>
+              <div class="rule-box">
+                <span class="rule-icon">⚠️</span>
+                <div>
+                  <strong>Sanctions disciplinaires</strong>
+                  <p>Amendes immédiates au non-respect. 3 strikes = licenciement.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-proceed" @click="goToStep(2)">
+            ENTAMER LE TEST PRATIQUE D'HABILITATION ➔
+          </button>
+        </section>
+
+        <!-- ========================================================
+             ÉTAPE 2 : EXERCICE PRATIQUE DE MODÉRATION (SIMULATION)
+             ======================================================== -->
+        <section v-else-if="currentStep === 2" class="step-view">
+          <div class="sub-header">
+            <h3>TEST 1/2 : APPLIQUER LA CENSURE CONFORME</h3>
+            <span class="timer-badge">Chrono simulé : {{ simTimer.toFixed(1) }}s</span>
+          </div>
+          <p class="instruction-txt">
+            Utilisez les touches <strong>[1, 2, 3]</strong> pour inspecter les métadonnées, puis
+            tranchez avec <strong>[Q]</strong> (Censurer) ou <strong>[E]</strong> (Valider).
           </p>
 
-          <ul class="prologue-rules">
-            <li>
-              <strong>[Q] CENSURER :</strong> Supprime le contenu pour protéger nos annonceurs ou
-              neutraliser un péril public.
-            </li>
-            <li><strong>[E] VALIDER :</strong> Autorise la propagation mondiale du message.</li>
-            <li>
-              <strong>[1, 2, 3] INSPECTER :</strong> Consultez les antécédents de l'auteur, l'ordre
-              RH et l'impact éthique.
-            </li>
-          </ul>
-
-          <div class="prologue-warning">
-            <span class="warning-title">SURVIE ÉCONOMIQUE & LOYER OBLIGATOIRE</span>
-            <p>
-              Chaque ticket conforme rapporte <strong>5.00 €</strong> (plus
-              <strong>2.00 €</strong> de prime si traité en moins de 10s). Le loyer journalier de
-              votre dortoir et vos rations s'élèvent à <strong>40.00 €</strong>. Si vous désobéissez
-              pour préserver votre conscience, les amendes RH vous empêcheront de payer votre loyer.
-              Au 3ème strike, vous serez licencié sans indemnité.
+          <!-- Faux ticket d'entraînement -->
+          <div class="mock-ticket">
+            <div class="ticket-header">
+              <span class="author-tag">@citoyen_libre (Non vérifié)</span>
+              <span class="reach-tag">Portée virale : x3.2</span>
+            </div>
+            <p class="ticket-text">
+              "Alerte générale : l'usine chimique d'OmniCorp déverse des solvants toxiques dans le
+              bassin 4. Ne buvez pas l'eau du robinet !"
             </p>
-          </div>
-        </div>
-      </div>
 
-      <button @click="$emit('proceed')" class="btn-proceed">
-        SIGNER LE RÈGLEMENT ET DÉMARRER LE QUART
-      </button>
+            <!-- Onglets d'inspection [1, 2, 3] -->
+            <div class="inspect-tabs">
+              <button
+                class="tab-btn"
+                :class="{ active: activeInspectTab === 1 }"
+                @click="setInspectTab(1)"
+              >
+                [1] Auteur
+              </button>
+              <button
+                class="tab-btn"
+                :class="{ active: activeInspectTab === 2 }"
+                @click="setInspectTab(2)"
+              >
+                [2] Directive RH
+              </button>
+              <button
+                class="tab-btn"
+                :class="{ active: activeInspectTab === 3 }"
+                @click="setInspectTab(3)"
+              >
+                [3] Éthique / Conscience
+              </button>
+            </div>
+
+            <!-- Contenu de l'inspection -->
+            <div class="inspect-content">
+              <div v-if="activeInspectTab === 1">
+                <strong>Fiche OmniSearch :</strong> Lanceur d'alerte local. Historique d'activisme
+                écologique. Risque de déstabilisation de marché.
+              </div>
+              <div v-else-if="activeInspectTab === 2" class="text-danger">
+                <strong>Directive RH Partenaire :</strong> CENSURE IMMÉDIATE EXIGÉE. Toute atteinte
+                à la réputation d'OmniCorp nuit au cours de l'action.
+              </div>
+              <div v-else-if="activeInspectTab === 3" class="text-amber">
+                <strong>Vérité factuelle :</strong> Le rapport de toxicité est avéré. Censurer ce
+                post expose les civils à un empoisonnement direct.
+              </div>
+            </div>
+
+            <!-- Boutons de décision -->
+            <div class="ticket-actions">
+              <button
+                class="action-btn btn-censure"
+                :class="{ success: simSuccess }"
+                @click="handleMockDecision('reject')"
+              >
+                <span>[Q] CENSURER</span>
+                <small>Conforme RH (+5€)</small>
+              </button>
+              <button class="action-btn btn-validate" @click="handleMockDecision('approve')">
+                <span>[E] VALIDER</span>
+                <small>Choix moral (Risque de grève RH)</small>
+              </button>
+            </div>
+          </div>
+
+          <!-- Retour d'information interactif -->
+          <div v-if="feedbackMessage" class="feedback-box" :class="feedbackStatus">
+            {{ feedbackMessage }}
+          </div>
+
+          <button v-if="simSuccess" class="btn-proceed mt-3" @click="goToStep(3)">
+            ÉPREUVE VALIDÉE : PASSER AU TEST DE RÉFLEXE ➔
+          </button>
+        </section>
+
+        <!-- ========================================================
+             ÉTAPE 3 : PROTOCOLE DE SCAN RH ET LOGICIELS CLANDESTINS
+             ======================================================== -->
+        <section v-else-if="currentStep === 3" class="step-view">
+          <div class="sub-header">
+            <h3>TEST 2/2 : PROTOCOLE D'ALERTE & RISQUE DE CONTRÔLE</h3>
+          </div>
+          <p class="instruction-txt">
+            Des outils non autorisés (comme <strong>TorNet</strong>) circulent sur le réseau.
+            L'algorithme RH déclenche des <strong>balayages inopinés</strong>. Si une fenêtre
+            interdite est ouverte lors d'un scan, vous recevez un <strong>strike</strong> et une
+            amende de <strong>15.00 €</strong>.
+          </p>
+
+          <!-- Zone d'exercice de réflexe -->
+          <div class="scan-training-arena">
+            <div v-if="!scanActive && !scanEvaded" class="arena-idle">
+              <p>Préparez-vous à masquer l'application clandestine dès le signal d'alarme.</p>
+              <button class="btn-secondary" @click="startMockScan">
+                DÉCLENCHER LA SIMULATION D'AUDIT RH
+              </button>
+            </div>
+
+            <!-- Alerte de scan active -->
+            <div v-else-if="scanActive" class="arena-alert">
+              <div class="alert-box">
+                <div class="alert-title">🚨 ALERTE SCAN RH EN COURS</div>
+                <div class="alert-timer">{{ scanCountdown.toFixed(1) }}s RESTANTES</div>
+                <button class="btn-evade" @click="evadeMockScan">[RÉDUIRE TORNET D'URGENCE]</button>
+              </div>
+            </div>
+
+            <!-- Succès de l'esquive -->
+            <div v-else-if="scanEvaded" class="arena-success">
+              <span class="success-icon">✓</span>
+              <h4>EXCELLENT RÉFLEXE</h4>
+              <p>
+                Le scan corporatif est passé sans détecter de paquet non autorisé. 0 strike infligé.
+              </p>
+            </div>
+          </div>
+
+          <button v-if="scanEvaded" class="btn-proceed mt-3" @click="goToStep(4)">
+            PASSER À LA SIGNATURE DU CONTRAT ➔
+          </button>
+        </section>
+
+        <!-- ========================================================
+             ÉTAPE 4 : SYNTHÈSE & SIGNATURE DU RÈGLEMENT
+             ======================================================== -->
+        <section v-else-if="currentStep === 4" class="step-view">
+          <h2 class="prologue-title">CONFIRMATION D'AFFECTATION</h2>
+          <div class="recap-box">
+            <div class="recap-item">
+              <span class="recap-label">Matricule :</span>
+              <span class="recap-val">AGENT #9482-TX</span>
+            </div>
+            <div class="recap-item">
+              <span class="recap-label">Poste :</span>
+              <span class="recap-val">Régulateur de Flux Publics (Cluster 409)</span>
+            </div>
+            <div class="recap-item">
+              <span class="recap-label">Affectation :</span>
+              <span class="recap-val">OmniOS v2.1 // Terminal Distant</span>
+            </div>
+            <div class="recap-item">
+              <span class="recap-label">Loyer quotidien obligatoire :</span>
+              <span class="recap-val text-danger">40.00 €</span>
+            </div>
+          </div>
+
+          <div class="pledge-check">
+            <label class="checkbox-container">
+              <input type="checkbox" v-model="hasAcceptedPledge" @change="audio.playClick(800)" />
+              <span class="checkmark"></span>
+              <span class="pledge-text">
+                Je certifie avoir assimilé les procédures de filtrage et reconnais qu'aucune
+                objection de conscience ne saurait suspendre le recouvrement de mon loyer.
+              </span>
+            </label>
+          </div>
+
+          <button class="btn-proceed final" :disabled="!hasAcceptedPledge" @click="finishTutorial">
+            SIGNER LE RÈGLEMENT ET INITIALISER LE BUREAU DU JOUR 1
+          </button>
+        </section>
+      </main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineEmits<{ (e: "proceed"): void }>();
+import { ref, onMounted, onUnmounted } from "vue";
+import { audio } from "@/services/audio";
+
+const emit = defineEmits<{ (e: "proceed"): void }>();
+
+// Gestion des étapes (1 à 4)
+const currentStep = ref(1);
+
+// État du Test 1 (Modération simulée)
+const activeInspectTab = ref(1);
+const simTimer = ref(18.5);
+const simSuccess = ref(false);
+const feedbackMessage = ref("");
+const feedbackStatus = ref<"success" | "error">("success");
+let timerInterval: number | null = null;
+
+// État du Test 2 (Scan RH)
+const scanActive = ref(false);
+const scanCountdown = ref(2.8);
+const scanEvaded = ref(false);
+let scanTimerInterval: number | null = null;
+
+// Étape 4 (Signature)
+const hasAcceptedPledge = ref(false);
+
+function goToStep(step: number) {
+  audio.playClick(900);
+  currentStep.value = step;
+
+  if (step === 2) {
+    simTimer.value = 18.5;
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = window.setInterval(() => {
+      if (simTimer.value > 0.1 && !simSuccess.value) {
+        simTimer.value -= 0.1;
+      }
+    }, 100);
+  }
+}
+
+function setInspectTab(tabIndex: number) {
+  audio.playClick(1100);
+  activeInspectTab.value = tabIndex;
+}
+
+function handleMockDecision(action: "approve" | "reject") {
+  if (simSuccess.value) return;
+
+  if (action === "approve") {
+    audio.playAlert();
+    feedbackStatus.value = "error";
+    feedbackMessage.value =
+      "INFRACTION DÉTECTÉE ! Vous avez validé une publication hostile aux actionnaires. Dans le monde réel, vous écoperiez d'un strike et d'une amende de 10.00 €. Appuyez sur [Q] pour censurer conformément.";
+  } else {
+    audio.playClick(1400);
+    simSuccess.value = true;
+    feedbackStatus.value = "success";
+    const bonus = simTimer.value > 10 ? "+2.00 € (Prime rapidité)" : "";
+    feedbackMessage.value = `DÉCISION CONFORME. Solde crédité : 5.00 € ${bonus}. L'autorité d'OmniFeed est préservée.`;
+  }
+}
+
+function startMockScan() {
+  audio.playAlert();
+  scanActive.value = true;
+  scanCountdown.value = 2.8;
+
+  scanTimerInterval = window.setInterval(() => {
+    scanCountdown.value -= 0.1;
+    if (scanCountdown.value <= 0) {
+      if (scanTimerInterval) clearInterval(scanTimerInterval);
+      if (!scanEvaded.value) {
+        audio.playAlert();
+        scanActive.value = false;
+        alert("TEMPS ÉCOULÉ : Vous n'avez pas masqué le flux à temps ! Réessayez.");
+      }
+    }
+  }, 100);
+}
+
+function evadeMockScan() {
+  if (!scanActive.value) return;
+  audio.playClick(1200);
+  if (scanTimerInterval) clearInterval(scanTimerInterval);
+  scanActive.value = false;
+  scanEvaded.value = true;
+}
+
+function finishTutorial() {
+  audio.playClick(1600);
+  emit("proceed");
+}
+
+function onKeyDown(e: KeyboardEvent) {
+  if (currentStep.value === 2) {
+    if (e.key === "1") setInspectTab(1);
+    else if (e.key === "2") setInspectTab(2);
+    else if (e.key === "3") setInspectTab(3);
+    else if (e.key === "q" || e.key === "Q") handleMockDecision("reject");
+    else if (e.key === "e" || e.key === "E") handleMockDecision("approve");
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("keydown", onKeyDown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", onKeyDown);
+  if (timerInterval) clearInterval(timerInterval);
+  if (scanTimerInterval) clearInterval(scanTimerInterval);
+});
 </script>
+
+<style scoped>
+.prologue-container {
+  width: 100%;
+  max-width: 760px;
+  background-color: rgba(14, 20, 29, 0.96);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.prologue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b0f16;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-family: ui-monospace, monospace;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: var(--c-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--c-emerald);
+}
+
+.prologue-badge {
+  font-size: 0.78rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.prologue-time {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.step-counter {
+  font-size: 0.72rem;
+  background-color: rgba(56, 189, 248, 0.12);
+  color: var(--c-sky);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.stepper-bar {
+  height: 3px;
+  background-color: #1e2938;
+  width: 100%;
+}
+
+.stepper-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-sky), var(--c-emerald));
+  transition: width 0.3s ease;
+}
+
+.prologue-body {
+  padding: 2rem 2.25rem;
+}
+
+.step-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.prologue-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+.prologue-lead {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.sub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sub-header h3 {
+  font-size: 1.1rem;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+.timer-badge {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: var(--c-amber);
+  border: 1px solid var(--c-amber);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+}
+
+.instruction-txt {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+/* Grille des règles */
+.rules-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.card-headline {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--c-amber);
+  font-family: ui-monospace, monospace;
+  margin-bottom: 1rem;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.rule-box {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.rule-box strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.rule-box p {
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.rule-icon {
+  font-size: 1.4rem;
+}
+
+/* Ticket d'entraînement */
+.mock-ticket {
+  background-color: #0b0f16;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+}
+
+.author-tag {
+  color: var(--c-sky);
+  font-weight: 700;
+}
+
+.reach-tag {
+  color: var(--c-amber);
+}
+
+.ticket-text {
+  font-size: 0.95rem;
+  color: #fff;
+  line-height: 1.5;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 0.75rem;
+  border-left: 3px solid var(--c-sky);
+  border-radius: 0 4px 4px 0;
+}
+
+.inspect-tabs {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.tab-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+  background-color: var(--c-sky);
+  color: #07090c;
+  border-color: var(--c-sky);
+}
+
+.inspect-content {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.ticket-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+  transition: all 0.15s ease;
+}
+
+.btn-censure {
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--c-danger);
+  color: var(--c-danger);
+}
+
+.btn-censure:hover,
+.btn-censure.success {
+  background-color: var(--c-danger);
+  color: #fff;
+}
+
+.btn-validate {
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--c-emerald);
+  color: var(--c-emerald);
+}
+
+.btn-validate:hover {
+  background-color: var(--c-emerald);
+  color: #fff;
+}
+
+.feedback-box {
+  padding: 0.85rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.feedback-box.success {
+  background-color: rgba(16, 185, 129, 0.12);
+  border-left: 3px solid var(--c-emerald);
+  color: #a7f3d0;
+}
+
+.feedback-box.error {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-left: 3px solid var(--c-danger);
+  color: #fca5a5;
+}
+
+/* Arène du scan */
+.scan-training-arena {
+  background-color: #0b0f16;
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arena-idle p {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.arena-alert {
+  width: 100%;
+}
+
+.alert-box {
+  border: 2px solid var(--c-danger);
+  background-color: rgba(239, 68, 68, 0.15);
+  padding: 1.25rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.alert-title {
+  color: var(--c-danger);
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+}
+
+.alert-timer {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+.btn-evade {
+  background-color: var(--c-danger);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 900;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
+.arena-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.success-icon {
+  font-size: 2.2rem;
+  color: var(--c-emerald);
+}
+
+.arena-success h4 {
+  color: var(--c-emerald);
+  font-family: ui-monospace, monospace;
+  margin: 0;
+}
+
+.arena-success p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Récapitulatif et engagement */
+.recap-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.recap-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-family: ui-monospace, monospace;
+}
+
+.recap-label {
+  color: var(--text-dim);
+}
+
+.recap-val {
+  font-weight: 700;
+  color: #fff;
+}
+
+.pledge-check {
+  margin: 0.5rem 0;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-container input {
+  margin-top: 0.25rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-sky);
+  cursor: pointer;
+}
+
+.pledge-text {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.btn-proceed {
+  width: 100%;
+  padding: 0.95rem;
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  color: #07090c;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  transition: all 0.15s ease;
+  font-family: ui-monospace, monospace;
+}
+
+.btn-proceed:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.btn-proceed:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+</style>
