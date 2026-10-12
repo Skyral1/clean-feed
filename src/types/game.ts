@@ -55,7 +55,7 @@ export interface Ticket {
 }
 
 export interface WindowState {
-  id: "moderation" | "search" | "handbook";
+  id: "moderation" | "search" | "handbook" | "status";
   title: string;
   icon: string;
   isOpen: boolean;
