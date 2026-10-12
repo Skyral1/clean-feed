@@ -1,38 +1,24 @@
 export type ModerationAction = "approve" | "reject";
+export type GameStage = "menu" | "prologue" | "playing" | "shift_report";
 
 export interface UserHistoryReport {
   accountAge: string;
-  trustScore: number; // 0 à 100
+  trustScore: number;
   previousStrikes: number;
-  realIdentityStatus:
-    | "Vérifiée (Biométrie)"
-    | "Anonyme (VPN)"
-    | "Sous mandat judiciaire"
-    | "Monétisé certifié";
+  realIdentityStatus: string;
   backgroundNotes: string;
   recentFlags: string[];
 }
 
-export interface TicketNarrativeConsequences {
-  onApprove: {
-    newsHeadline: string;
-    mentalHealthImpact: number;
-    societalImpactDesc: string;
-  };
-  onReject: {
-    newsHeadline: string;
-    mentalHealthImpact: number;
-    societalImpactDesc: string;
-  };
+export interface TicketConsequence {
+  newsHeadline: string;
+  mentalHealthImpact: number;
+  societalImpactDesc: string;
 }
 
 export interface TicketPolicyRule {
   id: string;
-  category:
-    | "Sécurité d'État"
-    | "Atteinte à l'actionnariat"
-    | "Désinformation médicale"
-    | "Mouvement social";
+  category: string;
   companyStandard: ModerationAction;
   ethicalStandard: ModerationAction;
   directiveSummary: string;
@@ -45,13 +31,17 @@ export interface Ticket {
   authorVerified: boolean;
   reachMultiplier: number;
   content: string;
+  imageUrl: string;
   visualCue: string;
   timestamp: string;
   rule: TicketPolicyRule;
   contextHint: string;
   corporateDirectiveOverride?: ModerationAction;
   userHistory: UserHistoryReport;
-  consequences: TicketNarrativeConsequences;
+  consequences: {
+    onApprove: TicketConsequence;
+    onReject: TicketConsequence;
+  };
 }
 
 export interface LoggedDecision {

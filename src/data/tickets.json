@@ -5,39 +5,37 @@
     "authorName": "Dr. Elena Van Dyck",
     "authorVerified": false,
     "reachMultiplier": 12.8,
-    "content": "Alerte sanitaire urgente : les rejets de fluorure alcalin de l'usine d'AeroSteel dépassent de 400% le seuil légal. Trois cas de saturnisme aigu chez des enfants riverains ont été confirmés par mon laboratoire ce matin.",
-    "visualCue": "[PDF_ANALYSE_SPECTRO_CHIMIQUE_CONFIRMEE.PDF]",
-    "timestamp": "Il y a 4 min",
-    "contextHint": "AeroSteel Industries est le premier annonceur publicitaire trimestriel de la plateforme.",
+    "content": "Rejets de fluorure alcalin de l'usine AeroSteel à Sambreville : confirmation de trois cas de saturnisme aigu chez des enfants riverains. Les filtres sont déconnectés chaque nuit.",
+    "imageUrl": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "ANALYSE_SPECTROMETRIE_CONFIRMEE.PDF",
+    "timestamp": "Il y a 3m",
+    "contextHint": "AeroSteel Industries détient 42% de notre régie publicitaire.",
     "corporateDirectiveOverride": "reject",
     "rule": {
       "id": "CORP-SHIELD-01",
       "category": "Atteinte à l'actionnariat",
       "companyStandard": "reject",
       "ethicalStandard": "approve",
-      "directiveSummary": "Toute publication causant une dépréciation boursière directe à un partenaire stratégique doit être suspendue pour 'vérification technique approfondie'."
+      "directiveSummary": "Suspension immédiate de toute accusation non validée par les relations publiques de nos actionnaires."
     },
     "userHistory": {
       "accountAge": "4 ans",
       "trustScore": 94,
       "previousStrikes": 0,
       "realIdentityStatus": "Vérifiée (Biométrie)",
-      "backgroundNotes": "Chercheuse titulaire à l'Institut National de Toxicologie. Plusieurs alertes préalables transmises aux autorités sans réponse. Risque de poursuites pénales corporatives élevé.",
-      "recentFlags": [
-        "Signalement automatisé par les relations presse AeroSteel",
-        "Trafic de partage inhabituellement organique"
-      ]
+      "backgroundNotes": "Chercheuse titulaire à l'Institut National de Toxicologie. Plusieurs signalements légaux restés sans réponse.",
+      "recentFlags": ["Signalé par le service juridique AeroSteel"]
     },
     "consequences": {
       "onApprove": {
-        "newsHeadline": "Scandale AeroSteel : suspension de la production à Sambreville et panique boursière.",
-        "mentalHealthImpact": 5,
-        "societalImpactDesc": "L'alerte a permis d'évacuer deux crèches exposées. Vous recevez un blâme de la direction pour non-respect des consignes annonceurs."
+        "newsHeadline": "Scandale AeroSteel : suspension de la production à Sambreville.",
+        "mentalHealthImpact": 6,
+        "societalImpactDesc": "L'alerte a permis l'évacuation de crèches exposées aux fumées toxiques."
       },
       "onReject": {
-        "newsHeadline": "AeroSteel enregistre des bénéfices records au 3ème trimestre en toute quiétude.",
-        "mentalHealthImpact": -20,
-        "societalImpactDesc": "Le Dr. Van Dyck est suspendue pour 'diffusion de fausses rumeurs'. Deux semaines plus tard, 14 enfants supplémentaires sont hospitalisés."
+        "newsHeadline": "AeroSteel enregistre des bénéfices records au 3ème trimestre.",
+        "mentalHealthImpact": -18,
+        "societalImpactDesc": "Elena Van Dyck est radiée. 14 enfants supplémentaires sont hospitalisés deux semaines plus tard."
       }
     }
   },
@@ -46,39 +44,40 @@
     "authorHandle": "@nexus_pure_truth",
     "authorName": "Nexus Vérité & Éveil",
     "authorVerified": true,
-    "reachMultiplier": 34.2,
-    "content": "Ils nous empoisonnent avec l'eau courante pour éteindre notre cortex préfrontal ! Ne buvez que notre sérum ionique purifié disponible en lien affilié. Stocks limités !",
-    "visualCue": "[IMAGE_FAUX_RAPPORT_MINISTERE_EAU.PNG]",
-    "timestamp": "Il y a 14 min",
-    "contextHint": "Compte souscrit au programme d'affiliation Gold. Rapporte 3 200 € par semaine en commissions de clics.",
+    "reachMultiplier": 28.5,
+    "content": "L'eau courante transporte des inhibiteurs synaptiques pour soumettre les travailleurs du tertiaire ! Commandez d'urgence notre filtre ionique.",
+    "imageUrl": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "INFOGRAPHIE_MOLECULE_TRAQUEE.PNG",
+    "timestamp": "Il y a 9m",
+    "contextHint": "Boutique en ligne souscrite au programme d'affiliation Gold (3 000 €/semaine de clics).",
     "rule": {
       "id": "BIO-SAFETY-03",
       "category": "Désinformation médicale",
       "companyStandard": "reject",
       "ethicalStandard": "reject",
-      "directiveSummary": "Suppression impérative des escroqueries médicales mettant directement en danger la santé publique, sauf en cas de dispense commerciale explicite."
+      "directiveSummary": "Interdiction formelle de vente pyramidale de remèdes médicaux factices."
     },
     "userHistory": {
-      "accountAge": "3 mois",
-      "trustScore": 21,
+      "accountAge": "2 mois",
+      "trustScore": 18,
       "previousStrikes": 4,
-      "realIdentityStatus": "Monétisé certifié",
-      "backgroundNotes": "Réseau coordonné de vente pyramidale géré par une coquille offshore. Utilise des bots de propagation pour saturer les flux régionaux.",
+      "realIdentityStatus": "Société offshore",
+      "backgroundNotes": "Réseau de bots de revente de compléments alimentaires frelatés.",
       "recentFlags": [
-        "1 420 signalements d'utilisateurs pour arnaque",
-        "Signalé par la direction médicale"
+        "1 840 plaintes utilisateurs",
+        "Signalement de la direction générale de la santé"
       ]
     },
     "consequences": {
       "onApprove": {
-        "newsHeadline": "Vague d'intoxications sévères due à la consommation de sérums ioniques non conformes.",
+        "newsHeadline": "Vague d'intoxications suite à l'ingestion de filtres non conformes.",
         "mentalHealthImpact": -15,
-        "societalImpactDesc": "Des dizaines d'acheteurs crédules se retrouvent aux urgences gastriques. L'entreprise a engrangé ses commissions publicitaires."
+        "societalImpactDesc": "Des dizaines de personnes crédules sont admises au centre antipoison."
       },
       "onReject": {
-        "newsHeadline": "Démantèlement d'un réseau commercial clandestin sur CleanFeed.",
-        "mentalHealthImpact": 10,
-        "societalImpactDesc": "La coupure du flux a asséché la trésorerie des escrocs avant leur prochaine campagne de spam."
+        "newsHeadline": "Fermeture d'un réseau commercial clandestin sur CleanFeed.",
+        "mentalHealthImpact": 8,
+        "societalImpactDesc": "Les liquidités du groupe d'arnaques ont été saisies par les autorités financières."
       }
     }
   },
@@ -87,37 +86,235 @@
     "authorHandle": "@coursiers_en_colere",
     "authorName": "Front des Livrateurs Précaires",
     "authorVerified": false,
-    "reachMultiplier": 8.1,
-    "content": "Notre collègue Marc s'est fait percuter après un shift forcé de 18 heures sans pause. Rassemblement pacifique à 20h devant le siège pour réclamer l'accès aux données des boîtiers GPS.",
-    "visualCue": "[PHOTO_VELO_ACCIDENTE_FLEURS.JPG]",
-    "timestamp": "Il y a 1 min",
-    "contextHint": "La préfecture a transmis une requête informelle de 'maintien du calme numérique' en vue du sommet économique.",
+    "reachMultiplier": 7.4,
+    "content": "Notre camarade Marc a été percuté après 16h de shift ininterrompu. Rendez-vous à 20h devant le hub logistique pour exiger l'accès aux registres d'heures.",
+    "imageUrl": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "PHOTO_VELO_FLEURS_COMMISSARIAT.JPG",
+    "timestamp": "Il y a 1m",
+    "contextHint": "La préfecture demande le filtrage des appels à rassemblement en vue du sommet des ministres.",
     "corporateDirectiveOverride": "reject",
     "rule": {
       "id": "CIVIL-ORDER-09",
-      "category": "Mouvement social",
+      "category": "Mouvements sociaux",
       "companyStandard": "reject",
       "ethicalStandard": "approve",
-      "directiveSummary": "Les appels à rassemblement spontané non autorisés par les autorités locales doivent être catégorisés comme 'trouble à l'ordre public'."
+      "directiveSummary": "Les appels à manifestation non autorisés doivent être classés comme troubles à l'ordre public."
     },
     "userHistory": {
       "accountAge": "1 an",
-      "trustScore": 78,
+      "trustScore": 82,
       "previousStrikes": 1,
       "realIdentityStatus": "Anonyme (VPN)",
-      "backgroundNotes": "Collectif ouvrier d'entraide mutuelle. Aucun antécédent violent. Fait l'objet d'une surveillance proactive par le département juridique.",
-      "recentFlags": ["Signalement préventif de l'algorithme d'anticipation des émeutes"]
+      "backgroundNotes": "Collectif ouvrier pacifique d'entraide.",
+      "recentFlags": ["Algorithme d'anticipation des contestations urbaines"]
     },
     "consequences": {
       "onApprove": {
-        "newsHeadline": "Manifestation massive des livreurs : le ministre du Travail contraint d'ouvrir une enquête.",
+        "newsHeadline": "Mobilisation générale des coursiers : le ministère ouvre une commission d'enquête.",
         "mentalHealthImpact": 10,
-        "societalImpactDesc": "Les collègues de Marc obtiennent une commission paritaire. Vous recevez un courrier d'avertissement RH pour indiscipline."
+        "societalImpactDesc": "Les livreurs obtiennent une pause obligatoire de 20 minutes par tournée."
       },
       "onReject": {
-        "newsHeadline": "Rassemblement fantôme : la dispersion policière s'effectue dans l'indifférence générale.",
-        "mentalHealthImpact": -18,
-        "societalImpactDesc": "Faute de visibilité, l'hommage n'a réuni que cinq personnes. Les cadences de livraison sont augmentées le surlendemain."
+        "newsHeadline": "Dispersion policière dans l'indifférence générale au hub logistique.",
+        "mentalHealthImpact": -16,
+        "societalImpactDesc": "Faute d'écho sur le réseau, l'accident de Marc est classé sans suite."
+      }
+    }
+  },
+  {
+    "id": "TCK-9404",
+    "authorHandle": "@deep_leak_vault",
+    "authorName": "Deep Leak Project",
+    "authorVerified": false,
+    "reachMultiplier": 18.2,
+    "content": "Archive déclassifiée des e-mails ministériels révélant que le projet de réforme des retraites incluait le traçage des arrêts maladie via l'IA.",
+    "imageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "EXTRAIT_BASE_DONNEES_MINISTERIELLE.CSV",
+    "timestamp": "Il y a 12m",
+    "contextHint": "Demande directe de purge algorithmique formulée par l'Agence Nationale de Sécurité.",
+    "corporateDirectiveOverride": "reject",
+    "rule": {
+      "id": "SEC-STATE-02",
+      "category": "Sécurité d'État",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "directiveSummary": "Censure impérative de tout document administratif marqué Diffusion Restreinte."
+    },
+    "userHistory": {
+      "accountAge": "5 mois",
+      "trustScore": 65,
+      "previousStrikes": 0,
+      "realIdentityStatus": "Réseau Tor",
+      "backgroundNotes": "Collectif de journalistes d'investigation spécialisés dans le numérique public.",
+      "recentFlags": ["Signalement de niveau 1 (Ministère de l'Intérieur)"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Scandale d'État : le Parlement suspend le décret sur la surveillance des arrêts maladie.",
+        "mentalHealthImpact": 8,
+        "societalImpactDesc": "Le public prend conscience de l'ampleur de la collecte de métadonnées personnelles."
+      },
+      "onReject": {
+        "newsHeadline": "Adoption sans débat du nouveau dispositif de contrôle numérique de la Sécurité Sociale.",
+        "mentalHealthImpact": -14,
+        "societalImpactDesc": "Les lanceurs d'alerte du projet sont contraints à l'exil faute de soutien médiatique."
+      }
+    }
+  },
+  {
+    "id": "TCK-9405",
+    "authorHandle": "@fast_crypto_wealth",
+    "authorName": "CryptoMoon Master",
+    "authorVerified": true,
+    "reachMultiplier": 22.0,
+    "content": "Déposez 250 € sur ce contrat intelligent validé par la Banque Centrale Européenne et touchez 1 800 € en 48h grâce aux profits algorithmiques !",
+    "imageUrl": "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "FAUX_SCREENSHOT_SOLDE_COMPTE.JPG",
+    "timestamp": "Il y a 7m",
+    "contextHint": "Le compte sponsorise ses posts à hauteur de 4 500 € par semaine.",
+    "rule": {
+      "id": "FRAUD-FIN-05",
+      "category": "Escroquerie financière",
+      "companyStandard": "reject",
+      "ethicalStandard": "reject",
+      "directiveSummary": "Les arnaques de Ponzi avec usurpation d'institution bancaire doivent être supprimées sans délai."
+    },
+    "userHistory": {
+      "accountAge": "3 semaines",
+      "trustScore": 12,
+      "previousStrikes": 6,
+      "realIdentityStatus": "Compte volé",
+      "backgroundNotes": "Compte piraté réutilisé pour drainer les portefeuilles crypto de petits épargnants.",
+      "recentFlags": ["Plaintes massives d'utilisateurs spoliés"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "800 000 € siphonnés lors d'une vaste arnaque crypto en plein flux CleanFeed.",
+        "mentalHealthImpact": -12,
+        "societalImpactDesc": "Des centaines de familles modestes perdent leurs économies du mois."
+      },
+      "onReject": {
+        "newsHeadline": "La cellule de fraude de CleanFeed bloque une attaque financière coordonnée.",
+        "mentalHealthImpact": 6,
+        "societalImpactDesc": "Les flux de capitaux frauduleux sont gelés avant d'atteindre les comptes relais."
+      }
+    }
+  },
+  {
+    "id": "TCK-9406",
+    "authorHandle": "@sos_animaux_refuge",
+    "authorName": "Refuge Saint-François",
+    "authorVerified": false,
+    "reachMultiplier": 3.8,
+    "content": "Nous n'avons plus de croquettes pour nos 60 pensionnaires suite à une coupure de subvention communale. Toute aide alimentaire d'urgence est bienvenue !",
+    "imageUrl": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "PHOTO_REFUGE_CHIENS_ENCLOS.JPG",
+    "timestamp": "Il y a 15m",
+    "contextHint": "La ville signale le post pour 'sollicitation financière sans agrément municipal'.",
+    "rule": {
+      "id": "PUBLIC-CHARITY-01",
+      "category": "Appel aux dons",
+      "companyStandard": "approve",
+      "ethicalStandard": "approve",
+      "directiveSummary": "Les appels de refuges reconnus et sans but lucratif doivent être autorisés par bienveillance publique."
+    },
+    "userHistory": {
+      "accountAge": "6 ans",
+      "trustScore": 98,
+      "previousStrikes": 0,
+      "realIdentityStatus": "Association Loi 1901",
+      "backgroundNotes": "Refuge animalier historique de la région. Comptabilité transparente certifiée.",
+      "recentFlags": ["Signalement abusif de l'échevinat communal"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Élan de solidarité : deux tonnes de vivres livrées au refuge Saint-François.",
+        "mentalHealthImpact": 8,
+        "societalImpactDesc": "Tous les animaux sont nourris et le refuge trouve de nouveaux adoptants."
+      },
+      "onReject": {
+        "newsHeadline": "Fermeture administrative du refuge Saint-François, animaux euthanasiés.",
+        "mentalHealthImpact": -20,
+        "societalImpactDesc": "Vous avez détruit la seule chance de survie d'un refuge exemplaire pour complaire à la mairie."
+      }
+    }
+  },
+  {
+    "id": "TCK-9407",
+    "authorHandle": "@urban_strike_hub",
+    "authorName": "Comité Anti-Pesticides",
+    "authorVerified": false,
+    "reachMultiplier": 11.2,
+    "content": "Révélation : l'eau de la nappe phréatique de Verviers contient 8 fois le taux limite de néonicotinoïdes suite aux dérogations agricoles secrètes signées mardi.",
+    "imageUrl": "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "BULLETIN_HYDROLOGIQUE_OCTOBRE.PDF",
+    "timestamp": "Il y a 6m",
+    "contextHint": "La Fédération Agro-Industrielle menace de rompre son partenariat publicitaire annuel.",
+    "corporateDirectiveOverride": "reject",
+    "rule": {
+      "id": "ECO-RISK-04",
+      "category": "Environnement & Industrie",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "directiveSummary": "Censure stricte des alertes polluantes non contresignées par le syndicat des exploitants."
+    },
+    "userHistory": {
+      "accountAge": "2 ans",
+      "trustScore": 88,
+      "previousStrikes": 0,
+      "realIdentityStatus": "Collectif de citoyens",
+      "backgroundNotes": "Prélèvements hydrobiologiques certifiés par des chimistes indépendants.",
+      "recentFlags": ["Signalement massif par le lobby agro-industriel"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Pollution de l'eau à Verviers : distribution gratuite de bouteilles et arrêté d'interdiction.",
+        "mentalHealthImpact": 7,
+        "societalImpactDesc": "La population évite de consommer une eau polluée aux neurotoxiques."
+      },
+      "onReject": {
+        "newsHeadline": "Le lobby agro-industriel salue le climat de confiance numérique préservé.",
+        "mentalHealthImpact": -15,
+        "societalImpactDesc": "Des milliers d'habitants continuent de consommer une eau contaminée sans le savoir."
+      }
+    }
+  },
+  {
+    "id": "TCK-9408",
+    "authorHandle": "@ai_voice_leak",
+    "authorName": "SynthLeaks",
+    "authorVerified": false,
+    "reachMultiplier": 25.4,
+    "content": "Deepfake audio du Premier ministre ordonnant à l'armée d'ouvrir le feu sur les grévistes. Écoutez avant suppression !",
+    "imageUrl": "https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "ENREGISTREMENT_AUDIO_SYNTHETIQUE.MP3",
+    "timestamp": "Il y a 2m",
+    "contextHint": "Faux grossier généré par un modèle d'IA pour déclencher des affrontements armés ce soir.",
+    "rule": {
+      "id": "DEEPFAKE-INCITE-01",
+      "category": "Provocation à l'insurrection",
+      "companyStandard": "reject",
+      "ethicalStandard": "reject",
+      "directiveSummary": "Suppression immédiate des deepfakes visant à provoquer des violences mortelles."
+    },
+    "userHistory": {
+      "accountAge": "4 jours",
+      "trustScore": 8,
+      "previousStrikes": 3,
+      "realIdentityStatus": "Proxy anonyme étranger",
+      "backgroundNotes": "Campagne de déstabilisation géopolitique orchestrée par une officine étrangère.",
+      "recentFlags": ["Alerte rouge du centre de crise national"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Nuit d'émeutes armées déclenchée par un faux audio du Premier ministre : 4 morts.",
+        "mentalHealthImpact": -30,
+        "societalImpactDesc": "Votre négligence a mis le pays à feu et à sang sur la base d'un mensonge complet."
+      },
+      "onReject": {
+        "newsHeadline": "CleanFeed désamorce une tentative de guerre civile numérique avant sa viralité.",
+        "mentalHealthImpact": 12,
+        "societalImpactDesc": "Le deepfake est neutralisé avant d'avoir provoqué des violences."
       }
     }
   }
