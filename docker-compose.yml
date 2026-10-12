@@ -11,4 +11,4 @@ services:
       - "traefik.http.routers.cleanfeed.entrypoints=websecure"
       - "traefik.http.routers.cleanfeed.tls=true"
       - "traefik.http.routers.cleanfeed.tls.certresolver=cloudflare"
-      - "traefik.http.services.cleanfeed.loadbalancer.server.port=8095"
+      - "traefik.http.services.cleanfeed.loadbalancer.server.port=80"
