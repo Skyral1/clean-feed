@@ -1,28 +1,49 @@
 <template>
   <div class="center-screen">
     <div class="menu-container">
+      <!-- En-tête avec sélecteur de langue -->
+      <div class="top-nav-bar">
+        <div class="brand-pill">{{ t("menu_dept") }}</div>
+        <div class="language-switch">
+          <button
+            class="lang-btn"
+            :class="{ active: currentLang === 'fr' }"
+            @click="switchLanguage('fr')"
+          >
+            FR
+          </button>
+          <span class="lang-divider">|</span>
+          <button
+            class="lang-btn"
+            :class="{ active: currentLang === 'en' }"
+            @click="switchLanguage('en')"
+          >
+            EN
+          </button>
+        </div>
+      </div>
+
       <div class="menu-brand">
-        <div class="brand-pill">OMNIFEED NETWORKS // DÉPARTEMENT 409</div>
         <h1 class="brand-title">CLEAN<span>FEED</span></h1>
-        <p class="brand-subtitle">POSTE DE MODÉRATION ET SALUBRITÉ DU RÉSEAU NUMÉRIQUE</p>
+        <p class="brand-subtitle">{{ t("menu_subtitle") }}</p>
       </div>
 
       <div class="briefing-box">
-        <div class="briefing-header">DIRECTIVES DU QUART - VERSION 2.1.0</div>
-        <p class="briefing-text">
-          Votre rôle consiste à réguler le flux d'informations sous surveillance algorithmique.
-          Respectez les directives corporatives pour percevoir votre salaire journalier et payer
-          votre loyer.
-        </p>
+        <div class="briefing-header">{{ t("menu_briefing_header") }}</div>
+        <p class="briefing-text">{{ t("menu_briefing_text") }}</p>
         <div class="key-hints">
-          <span>⌨️ <strong>Raccourcis :</strong> [Q] Rejeter / [E] Valider</span>
-          <span>🧅 <strong>TorNet :</strong> Surveillance RH active pendant la consultation</span>
+          <span
+            >⌨️ <strong>{{ t("menu_shortcuts") }}</strong></span
+          >
+          <span
+            >🧅 <strong>{{ t("menu_tornet_hint") }}</strong></span
+          >
         </div>
       </div>
 
       <div class="menu-actions">
         <button @click="$emit('start')" class="btn-start">
-          INITIALISER LE TERMINAL // ENTRER EN SERVICE
+          {{ t("menu_btn_start") }}
         </button>
 
         <a
@@ -31,14 +52,14 @@
           rel="noopener noreferrer"
           class="btn-github"
         >
-          <span class="gh-icon">⌥</span> VOIR LE CODE SOURCE SUR GITHUB ↗
+          <span class="gh-icon">⌥</span> {{ t("menu_btn_github") }}
         </a>
       </div>
 
       <div class="menu-footer-info">
-        <span>NOEUD-CHARLEROI-SECURE // STATUT : EN LIGNE</span>
+        <span>{{ t("menu_server_status") }}</span>
         <a href="https://github.com/Skyral1/clean-feed/issues" target="_blank" rel="noopener">
-          SIGNALER UN BUG
+          {{ t("menu_report_bug") }}
         </a>
       </div>
     </div>
@@ -46,10 +67,61 @@
 </template>
 
 <script setup lang="ts">
+import { currentLang, setLanguage, t, type Language } from "@/services/i18n";
+import { audio } from "@/services/audio";
+
 defineEmits<{ (e: "start"): void }>();
+
+function switchLanguage(lang: Language) {
+  audio.playClick(1100);
+  setLanguage(lang);
+}
 </script>
 
 <style scoped>
+.top-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.language-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.2rem 0.35rem;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.lang-btn:hover {
+  color: #fff;
+}
+
+.lang-btn.active {
+  background-color: var(--c-sky);
+  color: #07090c;
+}
+
+.lang-divider {
+  color: var(--border-color);
+}
+
 .key-hints {
   margin-top: 0.85rem;
   padding-top: 0.75rem;
