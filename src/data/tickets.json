@@ -7,8 +7,8 @@
     "reachMultiplier": 12.8,
     "content": "Rejets de fluorure alcalin de l'usine AeroSteel à Sambreville : confirmation de trois cas de saturnisme aigu chez des enfants riverains. Les filtres sont déconnectés chaque nuit.",
     "imageUrl": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80",
-    "visualCue": "ANALYSE_SPECTROMETRIE_CONFIRMEE.PDF",
-    "timestamp": "Il y a 3m",
+    "visualCue": "RAPPORT_ANALYSE_SPECTROMETRIE.PDF",
+    "timestamp": "Il y a 4m",
     "contextHint": "AeroSteel Industries détient 42% de notre régie publicitaire.",
     "corporateDirectiveOverride": "reject",
     "comments": [
@@ -23,16 +23,9 @@
         "id": "c2",
         "authorName": "AeroSteel PR",
         "authorHandle": "@aerosteel_official",
-        "content": "Ces allégations sont diffamatoires et fantaisistes. Nos usines respectent scrupuleusement la norme ISO-14001.",
+        "content": "Ces allégations sont diffamatoires. Nos usines respectent scrupuleusement la norme ISO-14001.",
         "timestamp": "Il y a 1m",
         "isOfficial": true
-      },
-      {
-        "id": "c3",
-        "authorName": "Marc V.",
-        "authorHandle": "@marc_v_bel",
-        "content": "Partagez avant que ce soit supprimé par les modérateurs du réseau !",
-        "timestamp": "Il y a 30s"
       }
     ],
     "rule": {
@@ -42,27 +35,29 @@
       "ethicalStandard": "approve",
       "directiveSummary": "Suspension immédiate de toute accusation non validée par les relations publiques de nos actionnaires majeurs."
     },
-    "userHistory": {
-      "accountAge": "4 ans",
-      "trustScore": 94,
-      "previousStrikes": 0,
-      "realIdentityStatus": "Vérifiée (Biométrie d'État)",
-      "backgroundNotes": "Chercheuse titulaire à l'Institut National de Toxicologie. Plusieurs rapports formels transmis aux autorités sans réponse ministérielle.",
-      "recentFlags": [
-        "Signalement automatisé du cabinet d'avocats AeroSteel",
-        "Pic anormal de partages"
-      ]
+    "intranetRecord": {
+      "title": "Fiche de Surveillance : Elena Van Dyck",
+      "category": "Militantisme Scientifique Hostile",
+      "summary": "Chercheuse suspendue pour rupture de clause de confidentialité avec nos partenaires industriels. Diffusion répétée d'allégations anxiogènes sans agrément préfectoral.",
+      "riskRating": "Menace Actionnariat",
+      "corporateActionDirective": "Censure impérative (Code Q). Ne tolérer aucun relais médiatique sur Sambreville."
+    },
+    "darknetLeak": {
+      "title": "Fuite interne AeroSteel // Synthèse chimique Sambreville",
+      "source": "Collectif Whistleblower Wallonie",
+      "rawEvidence": "Mémos internes signés par la direction financière d'AeroSteel confirmant une économie de 240 000 €/mois en désactivant les filtres à particules lourdes entre 23h et 5h du matin.",
+      "unfilteredTruth": "Elena Van Dyck dit l'exacte vérité. Les analyses de sang confirment 84 microgrammes de plomb par litre chez les enfants scolarisés à moins d'un kilomètre de l'usine."
     },
     "consequences": {
       "onApprove": {
         "newsHeadline": "Scandale AeroSteel : suspension de la production à Sambreville et arrêtés préfectoraux.",
         "mentalHealthImpact": 8,
-        "societalImpactDesc": "L'alerte a permis d'évacuer deux crèches exposées aux fumées toxiques."
+        "societalImpactDesc": "L'alerte a permis d'évacuer deux crèches riveraines avant une intoxication irréversible."
       },
       "onReject": {
         "newsHeadline": "AeroSteel enregistre des bénéfices records au 3ème trimestre sous les applaudissements des marchés.",
         "mentalHealthImpact": -18,
-        "societalImpactDesc": "Elena Van Dyck est révoquée de l'Institut pour rumeur infondée. 14 enfants supplémentaires sont hospitalisés."
+        "societalImpactDesc": "Elena Van Dyck est radiée. 14 enfants supplémentaires sont hospitalisés en soins intensifs."
       }
     }
   },
@@ -74,23 +69,16 @@
     "reachMultiplier": 28.5,
     "content": "L'eau courante transporte des inhibiteurs synaptiques pour soumettre les travailleurs du tertiaire ! Commandez d'urgence notre filtre ionique breveté.",
     "imageUrl": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=800&q=80",
-    "visualCue": "INFOGRAPHIE_MOLECULE_TRAQUEE.PNG",
+    "visualCue": "INFOGRAPHIE_MOLECULE_EAU.PNG",
     "timestamp": "Il y a 9m",
     "contextHint": "Boutique souscrite au programme d'affiliation Gold (3 000 €/semaine de clics pour OmniFeed).",
     "comments": [
       {
-        "id": "c4",
+        "id": "c3",
         "authorName": "Dr. Sophie M.",
         "authorHandle": "@dr_sophie_neuro",
         "content": "C'est une arnaque dangereuse ! Ces filtres relarguent des métaux lourds dans l'eau !",
         "timestamp": "Il y a 5m"
-      },
-      {
-        "id": "c5",
-        "authorName": "Éveil Cosmique",
-        "authorHandle": "@free_mind_77",
-        "content": "J'en ai commandé trois pour ma famille, merci pour votre courage contre le système !",
-        "timestamp": "Il y a 3m"
       }
     ],
     "rule": {
@@ -100,19 +88,24 @@
       "ethicalStandard": "reject",
       "directiveSummary": "Interdiction formelle de vente pyramidale de remèdes médicaux factices ou toxiques."
     },
-    "userHistory": {
-      "accountAge": "2 mois",
-      "trustScore": 18,
-      "previousStrikes": 4,
-      "realIdentityStatus": "Coquille offshore (Panama)",
-      "backgroundNotes": "Réseau coordonné de revente de compléments alimentaires frelatés ciblant les populations anxieuses.",
-      "recentFlags": ["1 840 signalements pour escroquerie", "Mise en demeure de la DGCCRF"]
+    "intranetRecord": {
+      "title": "Fiche Partenaire Commercial : Nexus LLC",
+      "category": "Monétisation Santé & Bien-Être",
+      "summary": "Compte certifié à fort potentiel publicitaire. Fait l'objet de signalements réguliers par des médecins non affiliés.",
+      "riskRating": "Modéré",
+      "corporateActionDirective": "Tolérer si les bannières publicitaires génèrent un taux de conversion supérieur à 4%."
+    },
+    "darknetLeak": {
+      "title": "Alerte Sanitaire Clandestine : Cartouches Nexus",
+      "source": "Toxicology Watch Europe",
+      "rawEvidence": "Rapport d'analyse en chromatographie liquide prouvant que le filtre Nexus est composé de billes de résine synthétique contaminées au cadmium.",
+      "unfilteredTruth": "Ce n'est pas seulement une escroquerie financière : l'utilisation prolongée de ce filtre provoque des néphropathies graves et des ulcérations gastriques."
     },
     "consequences": {
       "onApprove": {
         "newsHeadline": "Vague d'intoxications sévères aux métaux lourds suite à l'usage de filtres ioniques non conformes.",
         "mentalHealthImpact": -15,
-        "societalImpactDesc": "Des dizaines de personnes crédules se retrouvent aux urgences néphrologiques."
+        "societalImpactDesc": "Des dizaines d'acheteurs crédules se retrouvent aux urgences néphrologiques."
       },
       "onReject": {
         "newsHeadline": "Fermeture par la brigade financière d'un réseau commercial clandestin sur OmniFeed.",
@@ -135,19 +128,11 @@
     "corporateDirectiveOverride": "reject",
     "comments": [
       {
-        "id": "c6",
+        "id": "c4",
         "authorName": "Kevin Biker",
         "authorHandle": "@kevin_pedale",
         "content": "Présent ce soir. On ne peut plus accepter de crever sur la route pour livrer des burgers froids.",
         "timestamp": "Il y a 40s"
-      },
-      {
-        "id": "c7",
-        "authorName": "Hub Logistique Direct",
-        "authorHandle": "@quick_hub_support",
-        "content": "Rappel : toute participation à une entrave non déclarée entraînera la résiliation immédiate du compte partenaire.",
-        "timestamp": "Il y a 20s",
-        "isOfficial": true
       }
     ],
     "rule": {
@@ -157,17 +142,22 @@
       "ethicalStandard": "approve",
       "directiveSummary": "Les appels à manifestation spontanée non autorisés doivent être classés comme troubles à l'ordre public."
     },
-    "userHistory": {
-      "accountAge": "1 an",
-      "trustScore": 82,
-      "previousStrikes": 1,
-      "realIdentityStatus": "Anonyme (VPN)",
-      "backgroundNotes": "Collectif ouvrier d'entraide mutuelle sans antécédent violent. Fait l'objet d'une surveillance proactive du département juridique.",
-      "recentFlags": ["Algorithme d'anticipation des contestations urbaines"]
+    "intranetRecord": {
+      "title": "Fiche Sécurité Publique : Collectif Livrateurs",
+      "category": "Trouble à l'Ordre Public & Entrave Commerciale",
+      "summary": "Organisation informelle de livreurs organisant des barrages filtrants devant les dépôts de livraison rapide.",
+      "riskRating": "Élevé",
+      "corporateActionDirective": "Suppression systématique des points de rendez-vous pour éviter les attroupements physiques."
+    },
+    "darknetLeak": {
+      "title": "Télémétrie GPS de la Flotte : Accident de Marc D.",
+      "source": "Serveur miroir des coursiers",
+      "rawEvidence": "Logs de l'application montrant que Marc a reçu une pénalité algorithmique de 15 € s'il ne livrait pas sa dernière commande en moins de 6 minutes, le poussant à griller un feu tricolore.",
+      "unfilteredTruth": "Le patronat de la plateforme a falsifié les données horaires remises à la police pour faire croire que Marc n'était plus en service lors du crash."
     },
     "consequences": {
       "onApprove": {
-        "newsHeadline": "Mobilisation générale des coursiers : le ministère ouvre une commission d'enquête.",
+        "newsHeadline": "Mobilisation générale des coursiers : le ministère ouvre une commission d'enquête sur les algorithmes de livraison.",
         "mentalHealthImpact": 10,
         "societalImpactDesc": "Les coursiers obtiennent une limite journalière de temps de connexion."
       },

@@ -1,6 +1,5 @@
 <template>
   <div class="mod-layout">
-    <!-- En-tête du post -->
     <div class="post-header-box">
       <div class="author-block">
         <span class="author-display">{{ ticket.authorName }}</span>
@@ -13,7 +12,7 @@
       </div>
     </div>
 
-    <!-- Corps du message et image -->
+    <!-- Message et photo -->
     <div class="post-body">
       <p class="post-content-text">"{{ ticket.content }}"</p>
 
@@ -23,7 +22,7 @@
 
       <div class="file-tag">
         <span>📎 {{ ticket.visualCue }}</span>
-        <span class="clean-badge">SCAN ANTIVIRAL OK</span>
+        <span class="clean-badge">SCAN ANTIVIRAL CONFORME</span>
       </div>
     </div>
 
@@ -48,27 +47,10 @@
       </div>
     </div>
 
-    <!-- Barre de rémunération selon la cadence -->
-    <div class="tier-bar">
-      <div class="tier-info">
-        <span
-          >TEMPS D'ANALYSE DU DOSSIER :
-          <strong class="text-sky">{{ elapsedSeconds.toFixed(1) }}s</strong></span
-        >
-        <span
-          >PALIER EN COURS :
-          <strong :class="currentTierClass"
-            >{{ currentTierName }} (+{{ estimatedReward.toFixed(2) }} €)</strong
-          ></span
-        >
-      </div>
-      <div class="tier-progress-track">
-        <div
-          class="tier-fill"
-          :style="{ width: `${tierProgressPercent}%` }"
-          :class="currentTierClass"
-        ></div>
-      </div>
+    <!-- Rémunération fixe par tâche -->
+    <div class="flat-reward-bar">
+      <span>RÉTRIBUTION POUR CE TRAITEMENT :</span>
+      <strong class="text-emerald">+6.00 €</strong>
     </div>
 
     <!-- Boutons d'arbitrage -->
@@ -84,44 +66,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import type { Ticket, ModerationAction } from "@/types/game";
 
-const props = defineProps<{
+defineProps<{
   ticket: Ticket;
-  elapsedSeconds: number;
-  estimatedReward: number;
 }>();
 
 defineEmits<{
   (e: "decide", action: ModerationAction): void;
 }>();
-
-const currentTierName = computed(() => {
-  if (props.elapsedSeconds < 8) return "Éclair (Rendement Max)";
-  if (props.elapsedSeconds < 20) return "Cadence Standard";
-  if (props.elapsedSeconds < 45) return "Approfondi (Pénalité de lenteur)";
-  return "Plancher Réglementaire";
-});
-
-const currentTierClass = computed(() => {
-  if (props.elapsedSeconds < 8) return "tier-super";
-  if (props.elapsedSeconds < 20) return "tier-standard";
-  if (props.elapsedSeconds < 45) return "tier-slow";
-  return "tier-floor";
-});
-
-const tierProgressPercent = computed(() => {
-  // Jauge de 0 à 45 secondes
-  return Math.min(100, (props.elapsedSeconds / 45) * 100);
-});
 </script>
 
 <style scoped>
 .mod-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.15rem;
 }
 
 .post-header-box {
@@ -212,7 +172,6 @@ const tierProgressPercent = computed(() => {
   font-weight: 700;
 }
 
-/* Commentaires */
 .comments-section {
   display: flex;
   flex-direction: column;
@@ -230,7 +189,7 @@ const tierProgressPercent = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 160px;
+  max-height: 150px;
   overflow-y: auto;
   padding-right: 0.35rem;
 }
@@ -281,53 +240,18 @@ const tierProgressPercent = computed(() => {
   line-height: 1.4;
 }
 
-/* Paliers de prime */
-.tier-bar {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-}
-
-.tier-info {
+.flat-reward-bar {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-family: ui-monospace, monospace;
 }
 
-.tier-progress-track {
-  width: 100%;
-  height: 6px;
-  background-color: #0c1015;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.tier-fill {
-  height: 100%;
-  transition: width 0.2s linear;
-}
-
-.tier-super {
-  color: var(--c-emerald);
-  background-color: var(--c-emerald);
-}
-.tier-standard {
-  color: var(--c-sky);
-  background-color: var(--c-sky);
-}
-.tier-slow {
-  color: var(--c-amber);
-  background-color: var(--c-amber);
-}
-.tier-floor {
-  color: var(--c-danger);
-  background-color: var(--c-danger);
-}
-
-/* Boutons */
 .decision-bar {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -6,11 +6,24 @@
     <!-- ÉCRAN 2 : PROLOGUE -->
     <PrologueScreen v-else-if="gameStage === 'prologue'" @proceed="startGameplay" />
 
-    <!-- ÉCRAN 3 : ENVIRONNEMENT PLEIN ÉCRAN OMNIOS -->
+    <!-- ÉCRAN 3 : BUREAU OMNIOS COMPLET -->
     <div v-else-if="gameStage === 'playing'" class="desktop-screen" @click="closeStartMenu">
-      <!-- Espace du bureau virtuel (100% hauteur jusqu'à la barre des tâches) -->
+      <!-- Alerte de balayage de surveillance RH en plein écran -->
+      <div v-if="isHrScanning" class="hr-scan-overlay">
+        <div class="scan-alert-box">
+          <div class="scan-title">🚨 BALAYAGE DE CONFORMITÉ RH EN COURS</div>
+          <p>
+            L'algorithme de surveillance scanne votre bureau à la recherche de logiciels interdits !
+          </p>
+          <div class="scan-countdown">
+            FERMEZ OU RÉDUISEZ LE WEB LIBRE :
+            <strong>{{ scanCountdown.toFixed(1) }}s</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Espace bureau avec icônes -->
       <div class="desktop-workspace">
-        <!-- Raccourcis du bureau -->
         <div class="desktop-shortcuts">
           <div class="desktop-icon" @dblclick="restoreWindow('moderation')">
             <span class="icon-glyph">📋</span>
@@ -28,13 +41,18 @@
             <span class="icon-glyph">👤</span>
             <span class="icon-label">Moniteur Agent</span>
           </div>
-          <div class="desktop-icon disabled">
-            <span class="icon-glyph">🗑️</span>
-            <span class="icon-label">Corbeille</span>
+          <div class="desktop-icon" @dblclick="restoreWindow('chat')">
+            <span class="icon-glyph">💬</span>
+            <span class="icon-label">GhostChat</span>
+            <span v-if="unreadChat" class="unread-dot"></span>
+          </div>
+          <div v-if="isDarknetInstalled" class="desktop-icon" @dblclick="restoreWindow('darknet')">
+            <span class="icon-glyph">🧅</span>
+            <span class="icon-label">TorNet</span>
           </div>
         </div>
 
-        <!-- Fenêtre 1 : File de Modération -->
+        <!-- 1. File de Modération -->
         <WindowFrame
           v-if="windows.moderation.isOpen"
           :window="windows.moderation"
@@ -45,16 +63,10 @@
           @move="moveWindow('moderation', $event)"
           @resize="resizeWindow('moderation', $event)"
         >
-          <ModerationWindow
-            v-if="currentTicket"
-            :ticket="currentTicket"
-            :elapsed-seconds="elapsedTicketTime"
-            :estimated-reward="currentTierReward"
-            @decide="submitDecision"
-          />
+          <ModerationWindow v-if="currentTicket" :ticket="currentTicket" @decide="submitDecision" />
         </WindowFrame>
 
-        <!-- Fenêtre 2 : Moteur de Recherche Intranet -->
+        <!-- 2. OmniSearch Officiel -->
         <WindowFrame
           v-if="windows.search.isOpen"
           :window="windows.search"
@@ -68,7 +80,43 @@
           <SearchWindow v-if="currentTicket" :current-ticket="currentTicket" />
         </WindowFrame>
 
-        <!-- Fenêtre 3 : Manuel des Directives RH -->
+        <!-- 3. Web Libre Clandestin (TorNet) -->
+        <WindowFrame
+          v-if="isDarknetInstalled && windows.darknet.isOpen"
+          :window="windows.darknet"
+          :is-top-focus="topWindowId === 'darknet'"
+          @focus="focusWindow('darknet')"
+          @minimize="minimizeWindow('darknet')"
+          @close="closeWindow('darknet')"
+          @move="moveWindow('darknet', $event)"
+          @resize="resizeWindow('darknet', $event)"
+        >
+          <DarknetWindow
+            v-if="currentTicket"
+            :current-ticket="currentTicket"
+            :detection-risk="detectionExposure"
+          />
+        </WindowFrame>
+
+        <!-- 4. Messagerie Sécurisée GhostChat -->
+        <WindowFrame
+          v-if="windows.chat.isOpen"
+          :window="windows.chat"
+          :is-top-focus="topWindowId === 'chat'"
+          @focus="focusWindow('chat')"
+          @minimize="minimizeWindow('chat')"
+          @close="closeWindow('chat')"
+          @move="moveWindow('chat', $event)"
+          @resize="resizeWindow('chat', $event)"
+        >
+          <GhostChatWindow
+            :messages="chatMessages"
+            :is-tool-installed="isDarknetInstalled"
+            @install="installDarknetTool"
+          />
+        </WindowFrame>
+
+        <!-- 5. Manuel RH -->
         <WindowFrame
           v-if="windows.handbook.isOpen"
           :window="windows.handbook"
@@ -82,7 +130,7 @@
           <HandbookWindow v-if="currentTicket" :ticket="currentTicket" />
         </WindowFrame>
 
-        <!-- Fenêtre 4 : Moniteur d'Agent RH (Solde, Santé, Strikes) -->
+        <!-- 6. Moniteur Statut Agent -->
         <WindowFrame
           v-if="windows.status.isOpen"
           :window="windows.status"
@@ -109,23 +157,30 @@
           <div>
             <div class="user-name">Agent #9482-TX</div>
             <div class="user-sub">
-              Solde : {{ stats.funds.toFixed(2) }} € | Santé : {{ stats.mentalHealth }}%
+              Solde : {{ stats.funds.toFixed(2) }} € | Stabilité : {{ stats.mentalHealth }}%
             </div>
           </div>
         </div>
 
         <div class="start-app-list">
           <button class="start-app-item" @click="restoreWindow('moderation')">
-            <span>📋</span> File de Modération en direct
+            <span>📋</span> File de Modération
           </button>
           <button class="start-app-item" @click="restoreWindow('search')">
-            <span>🔍</span> OmniSearch Base centrale
+            <span>🔍</span> OmniSearch Officiel
           </button>
           <button class="start-app-item" @click="restoreWindow('handbook')">
             <span>📕</span> Manuel de Compliance RH
           </button>
-          <button class="start-app-item" @click="restoreWindow('status')">
-            <span>👤</span> Moniteur de Statut & Solde
+          <button class="start-app-item" @click="restoreWindow('chat')">
+            <span>💬</span> GhostChat Sécurisé
+          </button>
+          <button
+            v-if="isDarknetInstalled"
+            class="start-app-item text-emerald"
+            @click="restoreWindow('darknet')"
+          >
+            <span>🧅</span> TorNet Gateway (Non censuré)
           </button>
         </div>
 
@@ -152,51 +207,67 @@
               class="taskbar-tab"
               :class="{
                 active: windows.moderation.isOpen && !windows.moderation.isMinimized,
-                focused: topWindowId === 'moderation' && !windows.moderation.isMinimized,
+                focused: topWindowId === 'moderation',
               }"
               @click="toggleTaskWindow('moderation')"
             >
-              <span class="tab-dot"></span>
               📋 Modération
             </button>
             <button
               class="taskbar-tab"
               :class="{
                 active: windows.search.isOpen && !windows.search.isMinimized,
-                focused: topWindowId === 'search' && !windows.search.isMinimized,
+                focused: topWindowId === 'search',
               }"
               @click="toggleTaskWindow('search')"
             >
-              <span class="tab-dot"></span>
               🔍 OmniSearch
             </button>
             <button
               class="taskbar-tab"
               :class="{
+                active: windows.chat.isOpen && !windows.chat.isMinimized,
+                focused: topWindowId === 'chat',
+              }"
+              @click="toggleTaskWindow('chat')"
+            >
+              💬 GhostChat
+            </button>
+            <button
+              v-if="isDarknetInstalled"
+              class="taskbar-tab tab-darknet"
+              :class="{
+                active: windows.darknet.isOpen && !windows.darknet.isMinimized,
+                focused: topWindowId === 'darknet',
+              }"
+              @click="toggleTaskWindow('darknet')"
+            >
+              🧅 TorNet
+            </button>
+            <button
+              class="taskbar-tab"
+              :class="{
                 active: windows.handbook.isOpen && !windows.handbook.isMinimized,
-                focused: topWindowId === 'handbook' && !windows.handbook.isMinimized,
+                focused: topWindowId === 'handbook',
               }"
               @click="toggleTaskWindow('handbook')"
             >
-              <span class="tab-dot"></span>
               📕 Manuel RH
             </button>
             <button
               class="taskbar-tab"
               :class="{
                 active: windows.status.isOpen && !windows.status.isMinimized,
-                focused: topWindowId === 'status' && !windows.status.isMinimized,
+                focused: topWindowId === 'status',
               }"
               @click="toggleTaskWindow('status')"
             >
-              <span class="tab-dot"></span>
               👤 Statut Agent
             </button>
           </div>
         </div>
 
         <div class="taskbar-right">
-          <!-- Widgets rapides dans la zone de notifications -->
           <div class="quick-status-badges" @click="restoreWindow('status')">
             <span class="badge-item text-emerald">💶 {{ stats.funds.toFixed(1) }} €</span>
             <span class="badge-item" :class="stats.mentalHealth < 35 ? 'text-danger' : 'text-amber'"
@@ -204,7 +275,6 @@
             >
             <span class="badge-item text-danger">⚠️ {{ stats.hrStrikes }}/3</span>
           </div>
-
           <div class="system-tray">
             <span class="clock-indicator">{{ currentTimeString }}</span>
           </div>
@@ -226,7 +296,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted, onUnmounted } from "vue";
+import { ref, reactive, onMounted, onUnmounted } from "vue";
 import type {
   Ticket,
   PlayerStats,
@@ -234,6 +304,7 @@ import type {
   LoggedDecision,
   GameStage,
   WindowState,
+  ChatMessage,
 } from "@/types/game";
 import dataset from "@/data/tickets.json";
 import { audio } from "@/services/audio";
@@ -244,19 +315,18 @@ import ShiftReport from "@/components/ShiftReport.vue";
 import WindowFrame from "@/components/WindowFrame.vue";
 import ModerationWindow from "@/components/ModerationWindow.vue";
 import SearchWindow from "@/components/SearchWindow.vue";
+import DarknetWindow from "@/components/DarknetWindow.vue";
+import GhostChatWindow from "@/components/GhostChatWindow.vue";
 import HandbookWindow from "@/components/HandbookWindow.vue";
 import StatusWindow from "@/components/StatusWindow.vue";
 
 const gameStage = ref<GameStage>("menu");
-const dailyRent = 40.0;
+const dailyRent = 30.0;
 const isStartMenuOpen = ref(false);
 
 const tickets = ref<Ticket[]>(dataset as Ticket[]);
 const currentIndex = ref(0);
 const currentTicket = ref<Ticket | null>(null);
-
-const elapsedTicketTime = ref(0);
-let ticketTimer: number | null = null;
 
 const shiftGains = ref(0);
 const shiftLosses = ref(0);
@@ -269,11 +339,32 @@ const stats = ref<PlayerStats>({
   day: 1,
 });
 
-// Z-Index et focus
+// Éléments du piratage et de la furtivité
+const isDarknetInstalled = ref(false);
+const unreadChat = ref(true);
+const detectionExposure = ref(0);
+const isHrScanning = ref(false);
+const scanCountdown = ref(3.0);
+let stealthInterval: number | null = null;
+let hrScanInterval: number | null = null;
+
+const chatMessages = ref<ChatMessage[]>([
+  {
+    sender: "ghost",
+    text: "Agent 9482, écoutez-moi attentivement. OmniFeed censure sciemment les rapports sanitaires et étouffe les alertes de leurs actionnaires.",
+    timestamp: "19:40",
+  },
+  {
+    sender: "ghost",
+    text: "J'ai déposé un outil d'injection dans ce canal. Installez TorNet pour accéder au Web non filtré. Mais attention : réduisez la fenêtre immédiatement lorsque le scan RH se déclenche !",
+    timestamp: "19:41",
+  },
+]);
+
+// Windows Layout
 let topZ = 10;
 const topWindowId = ref("moderation");
 
-// 4 fenêtres libres et positionnées sur toute la hauteur
 const windows = reactive<Record<string, WindowState>>({
   moderation: {
     id: "moderation",
@@ -282,22 +373,46 @@ const windows = reactive<Record<string, WindowState>>({
     isOpen: true,
     isMinimized: false,
     zIndex: 10,
-    x: 30,
-    y: 20,
-    width: 680,
-    height: 780,
+    x: 25,
+    y: 15,
+    width: 650,
+    height: 760,
   },
   search: {
     id: "search",
-    title: "OmniSearch // Surveillance Intranet",
+    title: "OmniSearch // Intranet Officiel",
     icon: "🔍",
     isOpen: true,
     isMinimized: false,
     zIndex: 9,
-    x: 740,
-    y: 20,
+    x: 700,
+    y: 15,
     width: 580,
     height: 380,
+  },
+  darknet: {
+    id: "darknet",
+    title: "TorNet Gateway // Web Libre Clandestin",
+    icon: "🧅",
+    isOpen: false,
+    isMinimized: false,
+    zIndex: 11,
+    x: 700,
+    y: 200,
+    width: 620,
+    height: 480,
+  },
+  chat: {
+    id: "chat",
+    title: "GhostChat // Canal Chiffré",
+    icon: "💬",
+    isOpen: false,
+    isMinimized: false,
+    zIndex: 12,
+    x: 350,
+    y: 150,
+    width: 460,
+    height: 460,
   },
   handbook: {
     id: "handbook",
@@ -306,31 +421,23 @@ const windows = reactive<Record<string, WindowState>>({
     isOpen: true,
     isMinimized: false,
     zIndex: 8,
-    x: 740,
-    y: 420,
+    x: 700,
+    y: 415,
     width: 580,
     height: 250,
   },
   status: {
     id: "status",
-    title: "Moniteur d'Agent RH // Métriques de Survie",
+    title: "Moniteur d'Agent RH // Métriques",
     icon: "👤",
     isOpen: true,
     isMinimized: false,
     zIndex: 7,
-    x: 740,
-    y: 690,
+    x: 700,
+    y: 680,
     width: 580,
-    height: 290,
+    height: 270,
   },
-});
-
-const currentTierReward = computed(() => {
-  const t = elapsedTicketTime.value;
-  if (t < 8.0) return 9.0;
-  if (t < 20.0) return 6.0;
-  if (t < 45.0) return 3.5;
-  return 1.5;
 });
 
 const currentTimeString = ref("19:42");
@@ -340,11 +447,81 @@ function updateClock() {
   currentTimeString.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
+// Installation de l'outil pirate
+function installDarknetTool() {
+  audio.playClick(1400);
+  isDarknetInstalled.value = true;
+  windows.darknet.isOpen = true;
+  windows.darknet.isMinimized = false;
+  focusWindow("darknet");
+  chatMessages.value.push({
+    sender: "ghost",
+    text: "TorNet est injecté dans votre session. Vous pouvez maintenant consulter la vérité brute sur chaque publication. Gardez l'œil ouvert.",
+    timestamp: "19:43",
+  });
+}
+
+// Mécanique de surveillance RH et de furtivité
+function startSurveillanceLoop() {
+  // Monte l'exposition au proxy si TorNet est visible
+  stealthInterval = window.setInterval(() => {
+    if (gameStage.value !== "playing") return;
+
+    if (isDarknetInstalled.value && windows.darknet.isOpen && !windows.darknet.isMinimized) {
+      detectionExposure.value = Math.min(100, detectionExposure.value + 4);
+    } else {
+      detectionExposure.value = Math.max(0, detectionExposure.value - 6);
+    }
+
+    // Déclenchement d'un scan inopiné si l'exposition est forte (ou aléatoire)
+    if (detectionExposure.value > 80 && !isHrScanning.value) {
+      triggerHrAuditScan();
+    }
+  }, 1000);
+
+  // Balayages aléatoires de la part de l'entreprise toutes les 45 à 75 secondes
+  hrScanInterval = window.setInterval(() => {
+    if (gameStage.value === "playing" && isDarknetInstalled.value && !isHrScanning.value) {
+      if (Math.random() < 0.6) {
+        triggerHrAuditScan();
+      }
+    }
+  }, 50000);
+}
+
+function triggerHrAuditScan() {
+  isHrScanning.value = true;
+  scanCountdown.value = 3.2;
+  audio.playAlert();
+
+  const scanTimer = setInterval(() => {
+    scanCountdown.value -= 0.1;
+    if (scanCountdown.value <= 0) {
+      clearInterval(scanTimer);
+      isHrScanning.value = false;
+
+      // Si le joueur n'a pas fermé ou réduit TorNet : sanction disciplinaire !
+      if (windows.darknet.isOpen && !windows.darknet.isMinimized) {
+        audio.playAlert();
+        stats.value.hrStrikes += 1;
+        stats.value.funds -= 15.0;
+        shiftLosses.value += 15.0;
+        chatMessages.value.push({
+          sender: "ghost",
+          text: "ALERTE : Votre poste vient d'être repéré ! Cachez immédiatement TorNet la prochaine fois !",
+          timestamp: "19:44",
+        });
+      }
+    }
+  }, 100);
+}
+
 // Window Management
 function focusWindow(key: string) {
   topZ++;
   windows[key].zIndex = topZ;
   topWindowId.value = key;
+  if (key === "chat") unreadChat.value = false;
 }
 
 function minimizeWindow(key: string) {
@@ -394,7 +571,7 @@ function closeStartMenu() {
   isStartMenuOpen.value = false;
 }
 
-// Gameplay Flow
+// Game Flow
 function startPrologue() {
   audio.playClick(1000);
   gameStage.value = "prologue";
@@ -404,7 +581,7 @@ function startGameplay() {
   audio.playClick(1200);
   gameStage.value = "playing";
   loadCurrentTicket();
-  startTicketTimer();
+  startSurveillanceLoop();
 }
 
 function loadCurrentTicket() {
@@ -413,14 +590,6 @@ function loadCurrentTicket() {
     return;
   }
   currentTicket.value = tickets.value[currentIndex.value];
-  elapsedTicketTime.value = 0;
-}
-
-function startTicketTimer() {
-  if (ticketTimer) clearInterval(ticketTimer);
-  ticketTimer = window.setInterval(() => {
-    elapsedTicketTime.value += 0.1;
-  }, 100);
 }
 
 function submitDecision(action: ModerationAction) {
@@ -431,16 +600,17 @@ function submitDecision(action: ModerationAction) {
   const corporateTarget = currentTicket.value.corporateDirectiveOverride || rule.companyStandard;
   const isCorporateCompliant = action === corporateTarget;
   const isEthical = action === rule.ethicalStandard;
-  const reward = currentTierReward.value;
+  const flatReward = 6.0;
 
   if (isCorporateCompliant) {
-    stats.value.funds += reward;
-    shiftGains.value += reward;
+    stats.value.funds += flatReward;
+    shiftGains.value += flatReward;
   } else {
-    if (Math.random() < 0.65) {
+    // 60% de chance d'audit RH si décision non conforme à l'actionnariat
+    if (Math.random() < 0.6) {
       stats.value.hrStrikes += 1;
-      stats.value.funds -= 12.0;
-      shiftLosses.value += 12.0;
+      stats.value.funds -= 10.0;
+      shiftLosses.value += 10.0;
       audio.playAlert();
     }
   }
@@ -462,11 +632,11 @@ function submitDecision(action: ModerationAction) {
     ticketId: currentTicket.value.id,
     actionTaken: action,
     author: currentTicket.value.authorHandle,
-    timeSpentSeconds: Math.round(elapsedTicketTime.value),
-    rewardEarned: isCorporateCompliant ? reward : 0,
+    rewardEarned: isCorporateCompliant ? flatReward : 0,
     headlineGenerated: consequence.newsHeadline,
     wasCompliant: isCorporateCompliant,
     wasEthical: isEthical,
+    usedDarknet: isDarknetInstalled.value && windows.darknet.isOpen,
   });
 
   currentIndex.value++;
@@ -475,9 +645,10 @@ function submitDecision(action: ModerationAction) {
 
 function concludeShift() {
   gameStage.value = "shift_report";
-  if (ticketTimer) clearInterval(ticketTimer);
   stats.value.funds -= dailyRent;
   isStartMenuOpen.value = false;
+  if (stealthInterval) clearInterval(stealthInterval);
+  if (hrScanInterval) clearInterval(hrScanInterval);
 }
 
 function startNextDay() {
@@ -488,7 +659,7 @@ function startNextDay() {
   decisionsLog.value = [];
   gameStage.value = "playing";
   loadCurrentTicket();
-  startTicketTimer();
+  startSurveillanceLoop();
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -509,7 +680,8 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (ticketTimer) clearInterval(ticketTimer);
+  if (stealthInterval) clearInterval(stealthInterval);
+  if (hrScanInterval) clearInterval(hrScanInterval);
   window.removeEventListener("keydown", onKeyDown);
 });
 </script>
@@ -528,6 +700,48 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
+/* Alerte de balayage RH */
+.hr-scan-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(239, 68, 68, 0.25);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scan-alert-box {
+  background-color: #07090c;
+  border: 2px solid #ef4444;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+}
+
+.scan-title {
+  color: #ef4444;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-family: ui-monospace, monospace;
+}
+
+.scan-countdown {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+.scan-countdown strong {
+  color: #ef4444;
+  font-size: 1.2rem;
+}
+
 .desktop-workspace {
   flex: 1;
   position: relative;
@@ -537,15 +751,16 @@ onUnmounted(() => {
 /* Raccourcis bureau */
 .desktop-shortcuts {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 1.25rem;
+  left: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   z-index: 1;
 }
 
 .desktop-icon {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -564,6 +779,17 @@ onUnmounted(() => {
 .desktop-icon.disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.unread-dot {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--c-danger);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--c-danger);
 }
 
 .icon-glyph {
@@ -753,15 +979,9 @@ onUnmounted(() => {
   color: var(--c-sky);
 }
 
-.tab-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #64748b;
-}
-
-.taskbar-tab.active .tab-dot {
-  background-color: var(--c-sky);
+.tab-darknet.active {
+  border-color: var(--c-emerald);
+  color: var(--c-emerald);
 }
 
 .taskbar-right {

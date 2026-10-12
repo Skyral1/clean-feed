@@ -10,13 +10,19 @@ export interface PostComment {
   isOfficial?: boolean;
 }
 
-export interface UserHistoryReport {
-  accountAge: string;
-  trustScore: number;
-  previousStrikes: number;
-  realIdentityStatus: string;
-  backgroundNotes: string;
-  recentFlags: string[];
+export interface IntranetRecord {
+  title: string;
+  category: string;
+  summary: string;
+  riskRating: "Faible" | "Modéré" | "Élevé" | "Menace Actionnariat";
+  corporateActionDirective: string;
+}
+
+export interface DarknetLeak {
+  title: string;
+  source: string;
+  rawEvidence: string;
+  unfilteredTruth: string;
 }
 
 export interface TicketPolicyRule {
@@ -47,7 +53,10 @@ export interface Ticket {
   rule: TicketPolicyRule;
   contextHint: string;
   corporateDirectiveOverride?: ModerationAction;
-  userHistory: UserHistoryReport;
+  // Données officielles de l'entreprise
+  intranetRecord: IntranetRecord;
+  // Révélations non censurées du Web libre / TorNet
+  darknetLeak: DarknetLeak;
   consequences: {
     onApprove: TicketConsequence;
     onReject: TicketConsequence;
@@ -55,7 +64,7 @@ export interface Ticket {
 }
 
 export interface WindowState {
-  id: "moderation" | "search" | "handbook" | "status";
+  id: "moderation" | "search" | "darknet" | "chat" | "handbook" | "status";
   title: string;
   icon: string;
   isOpen: boolean;
@@ -71,11 +80,11 @@ export interface LoggedDecision {
   ticketId: string;
   actionTaken: ModerationAction;
   author: string;
-  timeSpentSeconds: number;
   rewardEarned: number;
   headlineGenerated: string;
   wasCompliant: boolean;
   wasEthical: boolean;
+  usedDarknet: boolean;
 }
 
 export interface PlayerStats {
@@ -83,4 +92,10 @@ export interface PlayerStats {
   mentalHealth: number;
   hrStrikes: number;
   day: number;
+}
+
+export interface ChatMessage {
+  sender: "ghost" | "player";
+  text: string;
+  timestamp: string;
 }
