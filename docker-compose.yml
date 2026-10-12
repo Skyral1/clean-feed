@@ -1,7 +1,7 @@
 services:
   cleanfeed_app:
-    container_name: cleanfeed_app
     image: ghcr.io/skyral1/clean-feed:latest
+    container_name: cleanfeed_app
     restart: unless-stopped
     ports:
       - "8095:80"
@@ -9,5 +9,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.cleanfeed.rule=Host(`cleanfeed.skyral.xyz`)"
       - "traefik.http.routers.cleanfeed.entrypoints=websecure"
+      - "traefik.http.routers.cleanfeed.tls=true"
       - "traefik.http.routers.cleanfeed.tls.certresolver=cloudflare"
-      - "traefik.http.services.cleanfeed.loadbalancer.server.port=80"
+      - "traefik.http.services.cleanfeed.loadbalancer.server.port=8095"
