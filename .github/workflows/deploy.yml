@@ -31,7 +31,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extraction des métadonnées
+      - name: Extraction des métadonnées Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -40,7 +40,7 @@ jobs:
             type=raw,value=latest
             type=sha
 
-      - name: Compilation et publication Docker
+      - name: Compilation et publication de l'image
         uses: docker/build-push-action@v5
         with:
           context: .
