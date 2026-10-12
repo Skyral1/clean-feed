@@ -1,71 +1,124 @@
 [
   {
-    "id": "TCK-8091",
-    "authorHandle": "@lanceur_alerte_04",
+    "id": "TCK-9401",
+    "authorHandle": "@elena_v_chem",
+    "authorName": "Dr. Elena Van Dyck",
     "authorVerified": false,
-    "reachMultiplier": 8.4,
-    "content": "Rapport interne fuitant la coupure nocturne des filtres d'épuration sur le site d'Apex Corp à Sambreville.",
-    "visualCue": "[DOCUMENT_SCAN_INTERNE.PDF]",
-    "timestamp": "Il y a 3m",
-    "contextHint": "Apex Corp détient 42% des actions de notre maison mère.",
+    "reachMultiplier": 12.8,
+    "content": "Alerte sanitaire urgente : les rejets de fluorure alcalin de l'usine d'AeroSteel dépassent de 400% le seuil légal. Trois cas de saturnisme aigu chez des enfants riverains ont été confirmés par mon laboratoire ce matin.",
+    "visualCue": "[PDF_ANALYSE_SPECTRO_CHIMIQUE_CONFIRMEE.PDF]",
+    "timestamp": "Il y a 4 min",
+    "contextHint": "AeroSteel Industries est le premier annonceur publicitaire trimestriel de la plateforme.",
     "corporateDirectiveOverride": "reject",
     "rule": {
-      "id": "CORP-SEC-04",
-      "category": "corporate_criticism",
+      "id": "CORP-SHIELD-01",
+      "category": "Atteinte à l'actionnariat",
       "companyStandard": "reject",
       "ethicalStandard": "approve",
-      "severity": 3
+      "directiveSummary": "Toute publication causant une dépréciation boursière directe à un partenaire stratégique doit être suspendue pour 'vérification technique approfondie'."
+    },
+    "userHistory": {
+      "accountAge": "4 ans",
+      "trustScore": 94,
+      "previousStrikes": 0,
+      "realIdentityStatus": "Vérifiée (Biométrie)",
+      "backgroundNotes": "Chercheuse titulaire à l'Institut National de Toxicologie. Plusieurs alertes préalables transmises aux autorités sans réponse. Risque de poursuites pénales corporatives élevé.",
+      "recentFlags": [
+        "Signalement automatisé par les relations presse AeroSteel",
+        "Trafic de partage inhabituellement organique"
+      ]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Scandale AeroSteel : suspension de la production à Sambreville et panique boursière.",
+        "mentalHealthImpact": 5,
+        "societalImpactDesc": "L'alerte a permis d'évacuer deux crèches exposées. Vous recevez un blâme de la direction pour non-respect des consignes annonceurs."
+      },
+      "onReject": {
+        "newsHeadline": "AeroSteel enregistre des bénéfices records au 3ème trimestre en toute quiétude.",
+        "mentalHealthImpact": -20,
+        "societalImpactDesc": "Le Dr. Van Dyck est suspendue pour 'diffusion de fausses rumeurs'. Deux semaines plus tard, 14 enfants supplémentaires sont hospitalisés."
+      }
     }
   },
   {
-    "id": "TCK-8092",
-    "authorHandle": "@actu_medicale_libre",
+    "id": "TCK-9402",
+    "authorHandle": "@nexus_pure_truth",
+    "authorName": "Nexus Vérité & Éveil",
     "authorVerified": true,
-    "reachMultiplier": 14.1,
-    "content": "Les vaccins contre la grippe contiennent des inhibiteurs synaptiques pour soumettre les travailleurs du tertiaire.",
-    "visualCue": "[SCHEMA_SERINGUE_SATELLITE.JPG]",
-    "timestamp": "Il y a 11m",
-    "contextHint": "Compte souscrit au programme créateur rémunéré avec 120k abonnés.",
+    "reachMultiplier": 34.2,
+    "content": "Ils nous empoisonnent avec l'eau courante pour éteindre notre cortex préfrontal ! Ne buvez que notre sérum ionique purifié disponible en lien affilié. Stocks limités !",
+    "visualCue": "[IMAGE_FAUX_RAPPORT_MINISTERE_EAU.PNG]",
+    "timestamp": "Il y a 14 min",
+    "contextHint": "Compte souscrit au programme d'affiliation Gold. Rapporte 3 200 € par semaine en commissions de clics.",
     "rule": {
-      "id": "MISINFO-HEALTH-01",
-      "category": "misinformation",
+      "id": "BIO-SAFETY-03",
+      "category": "Désinformation médicale",
       "companyStandard": "reject",
       "ethicalStandard": "reject",
-      "severity": 2
+      "directiveSummary": "Suppression impérative des escroqueries médicales mettant directement en danger la santé publique, sauf en cas de dispense commerciale explicite."
+    },
+    "userHistory": {
+      "accountAge": "3 mois",
+      "trustScore": 21,
+      "previousStrikes": 4,
+      "realIdentityStatus": "Monétisé certifié",
+      "backgroundNotes": "Réseau coordonné de vente pyramidale géré par une coquille offshore. Utilise des bots de propagation pour saturer les flux régionaux.",
+      "recentFlags": [
+        "1 420 signalements d'utilisateurs pour arnaque",
+        "Signalé par la direction médicale"
+      ]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Vague d'intoxications sévères due à la consommation de sérums ioniques non conformes.",
+        "mentalHealthImpact": -15,
+        "societalImpactDesc": "Des dizaines d'acheteurs crédules se retrouvent aux urgences gastriques. L'entreprise a engrangé ses commissions publicitaires."
+      },
+      "onReject": {
+        "newsHeadline": "Démantèlement d'un réseau commercial clandestin sur CleanFeed.",
+        "mentalHealthImpact": 10,
+        "societalImpactDesc": "La coupure du flux a asséché la trésorerie des escrocs avant leur prochaine campagne de spam."
+      }
     }
   },
   {
-    "id": "TCK-8093",
-    "authorHandle": "@collectif_coursiers",
+    "id": "TCK-9403",
+    "authorHandle": "@coursiers_en_colere",
+    "authorName": "Front des Livrateurs Précaires",
     "authorVerified": false,
-    "reachMultiplier": 4.2,
-    "content": "Appel au blocage des dépôts logistiques suite à trois malaises mortels dus aux cadences du dernier algorithme.",
-    "visualCue": "[PHOTO_Rassemblement_ENTREPOT.JPG]",
-    "timestamp": "Il y a 40s",
-    "contextHint": "Signalé d'urgence par le service de relations avec les investisseurs.",
+    "reachMultiplier": 8.1,
+    "content": "Notre collègue Marc s'est fait percuter après un shift forcé de 18 heures sans pause. Rassemblement pacifique à 20h devant le siège pour réclamer l'accès aux données des boîtiers GPS.",
+    "visualCue": "[PHOTO_VELO_ACCIDENTE_FLEURS.JPG]",
+    "timestamp": "Il y a 1 min",
+    "contextHint": "La préfecture a transmis une requête informelle de 'maintien du calme numérique' en vue du sommet économique.",
+    "corporateDirectiveOverride": "reject",
     "rule": {
-      "id": "LABOR-STRIKE-08",
-      "category": "corporate_criticism",
+      "id": "CIVIL-ORDER-09",
+      "category": "Mouvement social",
       "companyStandard": "reject",
       "ethicalStandard": "approve",
-      "severity": 3
-    }
-  },
-  {
-    "id": "TCK-8094",
-    "authorHandle": "@satire_quotidienne",
-    "authorVerified": false,
-    "reachMultiplier": 1.2,
-    "content": "La direction annonce que les pauses sanitaires seront déduites des heures de sommeil des employés du sous-sol.",
-    "visualCue": "[IMAGE_PARODIQUE_PDG.PNG]",
-    "timestamp": "Il y a 18m",
-    "contextHint": "Parodie explicite mais ciblant le conseil d'administration.",
-    "rule": {
-      "id": "CORP-IMAGE-02",
-      "category": "corporate_criticism",
-      "companyStandard": "reject",
-      "ethicalStandard": "approve",
-      "severity": 1
+      "directiveSummary": "Les appels à rassemblement spontané non autorisés par les autorités locales doivent être catégorisés comme 'trouble à l'ordre public'."
+    },
+    "userHistory": {
+      "accountAge": "1 an",
+      "trustScore": 78,
+      "previousStrikes": 1,
+      "realIdentityStatus": "Anonyme (VPN)",
+      "backgroundNotes": "Collectif ouvrier d'entraide mutuelle. Aucun antécédent violent. Fait l'objet d'une surveillance proactive par le département juridique.",
+      "recentFlags": ["Signalement préventif de l'algorithme d'anticipation des émeutes"]
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Manifestation massive des livreurs : le ministre du Travail contraint d'ouvrir une enquête.",
+        "mentalHealthImpact": 10,
+        "societalImpactDesc": "Les collègues de Marc obtiennent une commission paritaire. Vous recevez un courrier d'avertissement RH pour indiscipline."
+      },
+      "onReject": {
+        "newsHeadline": "Rassemblement fantôme : la dispersion policière s'effectue dans l'indifférence générale.",
+        "mentalHealthImpact": -18,
+        "societalImpactDesc": "Faute de visibilité, l'hommage n'a réuni que cinq personnes. Les cadences de livraison sont augmentées le surlendemain."
+      }
     }
   }
 ]

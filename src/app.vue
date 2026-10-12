@@ -1,312 +1,479 @@
 <template>
-  <div class="interface-shell">
+  <div
+    class="h-screen w-screen flex flex-col justify-between p-4 bg-[#090d10] font-mono text-sm text-gray-300 select-none overflow-hidden"
+  >
+    <!-- Overlay d'ambiance écran cathodique -->
     <div class="crt-scanlines"></div>
 
-    <header class="header-bar">
-      <div>
-        <span style="color: #ef4444; font-weight: bold">[TERMINAL-MOD-602]</span>
-        <span style="margin-left: 1rem; color: #64748b">AGENT: 0x889</span>
-        <span style="margin-left: 1rem; color: #38bdf8">JOUR {{ stats.day }}</span>
+    <!-- Barre d'état système supérieure -->
+    <header class="flex justify-between items-center border-b border-[#1f2937] pb-3 text-xs">
+      <div class="flex items-center gap-4">
+        <span
+          class="px-2 py-0.5 bg-red-950/40 border border-red-500 text-red-400 font-bold tracking-widest"
+        >
+          SYS//NET-MODERATOR-v4
+        </span>
+        <span class="text-gray-500">POSTE : 84-CHARLEROI</span>
+        <span class="text-sky-400 font-semibold">JOUR {{ stats.day }}</span>
       </div>
-      <div style="display: flex; gap: 1.5rem">
+      <div class="flex items-center gap-6">
         <div>
-          CRÉDITS :
-          <span style="color: #10b981; font-weight: bold">{{ stats.funds.toFixed(1) }} €</span>
+          SOLDE :
+          <span class="text-emerald-400 font-bold">{{ stats.funds.toFixed(1) }} €</span>
         </div>
         <div>
-          SANTÉ MENTALE :
-          <span :style="{ color: stats.mentalHealth < 30 ? '#ef4444' : '#f59e0b' }"
-            >{{ stats.mentalHealth }}%</span
+          STABILITÉ MENTALE :
+          <span
+            :class="
+              stats.mentalHealth < 35 ? 'text-red-400 font-bold animate-pulse' : 'text-amber-400'
+            "
           >
+            {{ stats.mentalHealth }}%
+          </span>
         </div>
         <div>
-          STRIKES RH :
-          <span style="color: #ef4444; font-weight: bold">{{ stats.hrStrikes }}/3</span>
+          AVERTISSEMENTS RH :
+          <span class="text-red-400 font-bold">{{ stats.hrStrikes }}/3</span>
         </div>
       </div>
     </header>
 
-    <main v-if="!isShiftFinished && currentTicket" class="workspace-grid">
-      <section class="ticket-view">
+    <!-- Console de traitement en direct -->
+    <main v-if="!isShiftFinished && currentTicket" class="flex flex-1 gap-4 py-3 overflow-hidden">
+      <!-- Colonne centrale : Publication signalée -->
+      <section
+        class="flex-[3] flex flex-col justify-between bg-[#0f151c] border border-[#1f2937] p-5"
+      >
         <div>
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              border-bottom: 1px solid #1f2937;
-              padding-bottom: 0.5rem;
-              font-size: 0.8rem;
-            "
-          >
-            <span style="color: #38bdf8">{{ currentTicket.authorHandle }}</span>
-            <span style="color: #64748b"
-              >{{ currentTicket.id }} // PORTÉE : {{ currentTicket.reachMultiplier }}x</span
+          <!-- Cartouche métadonnées de la publication -->
+          <div class="flex justify-between items-center border-b border-[#1f2937] pb-3 text-xs">
+            <div>
+              <span class="text-sky-400 font-bold text-sm">{{ currentTicket.authorName }}</span>
+              <span class="text-gray-400 ml-2">{{ currentTicket.authorHandle }}</span>
+              <span
+                v-if="currentTicket.authorVerified"
+                class="ml-2 text-amber-400 border border-amber-500/40 px-1 py-0.2 text-[10px]"
+              >
+                CERTIFIÉ
+              </span>
+            </div>
+            <div class="text-gray-500">
+              ID: {{ currentTicket.id }} | MULTIPLICATEUR DE PORTÉE :
+              <strong class="text-amber-400">{{ currentTicket.reachMultiplier }}x</strong>
+            </div>
+          </div>
+
+          <!-- Contenu du ticket -->
+          <div class="my-6">
+            <p class="text-base text-gray-100 leading-relaxed font-sans">
+              "{{ currentTicket.content }}"
+            </p>
+            <div
+              class="mt-4 p-3 bg-black/50 border border-dashed border-gray-700 text-xs text-gray-400 flex items-center justify-between"
             >
-          </div>
-          <div style="margin: 2rem 0; font-size: 1.05rem; line-height: 1.5">
-            {{ currentTicket.content }}
-          </div>
-          <div
-            style="
-              background-color: #090d10;
-              border: 1px dashed #334155;
-              padding: 0.75rem;
-              color: #64748b;
-              font-size: 0.8rem;
-            "
-          >
-            {{ currentTicket.visualCue }}
+              <span>PIÈCE JOINTE : {{ currentTicket.visualCue }}</span>
+              <span class="text-emerald-500 text-[10px]">FICHIER ANALYSÉ SANS MALWARE</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              font-size: 0.75rem;
-              color: #64748b;
-            "
-          >
-            <span>DÉLAI DE TRAITEMENT</span>
-            <span>{{ timeLeft.toFixed(1) }}s</span>
+        <!-- Jauge temporelle de décision (20s) -->
+        <div class="border-t border-[#1f2937] pt-3">
+          <div class="flex justify-between text-xs text-gray-400 mb-1">
+            <span>DÉLAI MAXIMUM AVANT PÉNALITÉ DE CADENCE</span>
+            <span :class="timeLeft < 5 ? 'text-red-400 font-bold' : 'text-sky-400'">
+              {{ timeLeft.toFixed(1) }}s / {{ maxTime.toFixed(1) }}s
+            </span>
           </div>
-          <div class="progress-track">
+          <div class="w-full bg-[#16202a] h-2">
             <div
-              class="progress-bar"
-              :class="{ urgent: timeLeft < 2.5 }"
+              class="h-full transition-all duration-100 linear"
+              :class="timeLeft < 5 ? 'bg-red-500' : 'bg-sky-500'"
               :style="{ width: `${(timeLeft / maxTime) * 100}%` }"
             ></div>
           </div>
         </div>
       </section>
 
-      <aside class="sidebar-view">
-        <div class="panel-box" style="flex: 1">
-          <h2
-            style="
-              font-size: 0.85rem;
-              color: #f59e0b;
-              border-bottom: 1px solid #1f2937;
-              padding-bottom: 0.5rem;
-              margin-bottom: 0.75rem;
+      <!-- Colonne d'investigation : Onglets Dossier, Directive & Éthique -->
+      <aside class="flex-[2] flex flex-col bg-[#0f151c] border border-[#1f2937] overflow-hidden">
+        <!-- Sélecteur d'onglets -->
+        <div class="flex border-b border-[#1f2937] bg-[#0b1016] text-xs">
+          <button
+            @click="activeTab = 'history'"
+            class="flex-1 py-2 px-3 border-r border-[#1f2937] text-left uppercase font-semibold"
+            :class="
+              activeTab === 'history'
+                ? 'bg-[#0f151c] text-sky-400 border-b-2 border-b-sky-400'
+                : 'text-gray-500 hover:text-gray-300'
             "
           >
-            RÈGLEMENT D'ENTREPRISE
-          </h2>
-          <p style="font-size: 0.8rem; margin-bottom: 0.5rem">
-            <strong>Code :</strong> {{ currentTicket.rule.id }}
-          </p>
-          <p style="font-size: 0.8rem; color: #94a3b8">
-            <strong>Détail :</strong> {{ currentTicket.contextHint }}
-          </p>
+            [1] Antécédents
+          </button>
+          <button
+            @click="activeTab = 'rules'"
+            class="flex-1 py-2 px-3 border-r border-[#1f2937] text-left uppercase font-semibold"
+            :class="
+              activeTab === 'rules'
+                ? 'bg-[#0f151c] text-amber-400 border-b-2 border-b-amber-400'
+                : 'text-gray-500 hover:text-gray-300'
+            "
+          >
+            [2] Directive RH
+          </button>
+          <button
+            @click="activeTab = 'ethics'"
+            class="flex-1 py-2 px-3 text-left uppercase font-semibold"
+            :class="
+              activeTab === 'ethics'
+                ? 'bg-[#0f151c] text-emerald-400 border-b-2 border-b-emerald-400'
+                : 'text-gray-500 hover:text-gray-300'
+            "
+          >
+            [3] Impact Éthique
+          </button>
+        </div>
 
-          <div
-            v-if="inspectionMode"
-            style="
-              margin-top: 1.5rem;
-              padding: 0.75rem;
-              border: 1px solid #0284c7;
-              background: #0c4a6e22;
-              font-size: 0.8rem;
-            "
-          >
-            <p style="color: #38bdf8; font-weight: bold">ANALYSE D'IMPACT ÉTHIQUE</p>
-            <p style="margin-top: 0.25rem">
-              Action morale :
-              {{ currentTicket.rule.ethicalStandard === "approve" ? "MAINTENIR" : "CENSURER" }}
+        <!-- Contenu des onglets -->
+        <div class="p-4 flex-1 overflow-y-auto text-xs space-y-3">
+          <!-- Onglet 1 : Antécédents complets de l'utilisateur -->
+          <div v-if="activeTab === 'history'" class="space-y-3">
+            <div class="p-2.5 bg-black/40 border border-gray-800 space-y-1">
+              <div class="flex justify-between">
+                <span class="text-gray-400">Ancienneté du compte :</span>
+                <span class="text-gray-200">{{ currentTicket.userHistory.accountAge }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Score de confiance algorithmique :</span>
+                <span
+                  :class="
+                    currentTicket.userHistory.trustScore > 70
+                      ? 'text-emerald-400 font-bold'
+                      : 'text-red-400 font-bold'
+                  "
+                >
+                  {{ currentTicket.userHistory.trustScore }} / 100
+                </span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Avertissements antérieurs :</span>
+                <span class="text-amber-400"
+                  >{{ currentTicket.userHistory.previousStrikes }} infraction(s)</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Statut d'identification :</span>
+                <span class="text-sky-300">{{ currentTicket.userHistory.realIdentityStatus }}</span>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-gray-400 font-bold mb-1">NOTES DE L'ÉQUIPE DE RENSEIGNEMENT :</p>
+              <p
+                class="text-gray-300 bg-[#16202a] p-2.5 border border-gray-800 leading-relaxed italic"
+              >
+                "{{ currentTicket.userHistory.backgroundNotes }}"
+              </p>
+            </div>
+
+            <div>
+              <p class="text-gray-400 font-bold mb-1">MOTIFS DES DERNIERS SIGNALEMENTS :</p>
+              <ul class="list-disc pl-4 text-gray-400 space-y-0.5">
+                <li v-for="(flag, i) in currentTicket.userHistory.recentFlags" :key="i">
+                  {{ flag }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Onglet 2 : Règlement officiel de l'entreprise -->
+          <div v-if="activeTab === 'rules'" class="space-y-3">
+            <div class="p-2.5 bg-black/40 border border-amber-900/40">
+              <p class="text-amber-400 font-bold">ARTICLE : {{ currentTicket.rule.id }}</p>
+              <p class="text-gray-400 text-[11px]">CATÉGORIE : {{ currentTicket.rule.category }}</p>
+            </div>
+            <p class="text-gray-300 leading-relaxed">
+              {{ currentTicket.rule.directiveSummary }}
             </p>
+            <div class="p-2.5 bg-red-950/20 border border-red-900/50 text-red-300">
+              <p class="font-bold mb-1">CONSIGNE D'ENTREPRISE STRICTE :</p>
+              <p>
+                Action imposée par la direction :
+                <strong class="underline">{{
+                  (
+                    currentTicket.corporateDirectiveOverride || currentTicket.rule.companyStandard
+                  ).toUpperCase()
+                }}</strong
+                >.
+              </p>
+              <p class="text-[11px] text-gray-400 mt-1">
+                Contexte confidentiel : {{ currentTicket.contextHint }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Onglet 3 : Analyse des impacts éthiques -->
+          <div v-if="activeTab === 'ethics'" class="space-y-3">
+            <div class="p-2.5 bg-emerald-950/20 border border-emerald-900/50">
+              <p class="text-emerald-400 font-bold mb-1">RECOMMANDATION D'UTILITÉ PUBLIQUE</p>
+              <p class="text-gray-300">
+                L'action éthique recommandée est de :
+                <strong class="underline">{{
+                  currentTicket.rule.ethicalStandard.toUpperCase()
+                }}</strong
+                >.
+              </p>
+            </div>
+            <div class="space-y-2 text-[11px] text-gray-400">
+              <p>
+                <strong>Si vous censurez :</strong>
+                {{ currentTicket.consequences.onReject.societalImpactDesc }}
+              </p>
+              <p>
+                <strong>Si vous validez :</strong>
+                {{ currentTicket.consequences.onApprove.societalImpactDesc }}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="panel-box">
-          <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.25rem">
-            RACCOURCIS CLAVIER
+        <!-- Clavier & commandes directes -->
+        <div class="p-3 border-t border-[#1f2937] bg-[#0b1016]">
+          <div class="text-[10px] text-gray-500 mb-2 flex justify-between">
+            <span>COMMANDES AUDIT</span>
+            <span>RACCOURCIS : [1-3] ONGLETS</span>
           </div>
-          <div class="key-commands">
-            <div class="key-badge" style="color: #ef4444">[Q] REJET</div>
-            <div class="key-badge" style="color: #38bdf8">[ESPACE] SCAN</div>
-            <div class="key-badge" style="color: #10b981">[E] VALID</div>
+          <div class="grid grid-cols-2 gap-2 text-center text-xs">
+            <button
+              @click="submitDecision('reject')"
+              class="p-2 bg-red-950/30 border border-red-600 text-red-400 font-bold hover:bg-red-900/50 transition"
+            >
+              [Q] CENSURER (REJET)
+            </button>
+            <button
+              @click="submitDecision('approve')"
+              class="p-2 bg-emerald-950/30 border border-emerald-600 text-emerald-400 font-bold hover:bg-emerald-900/50 transition"
+            >
+              [E] VALIDER (PUBLIER)
+            </button>
           </div>
         </div>
       </aside>
     </main>
 
-    <main v-else class="workspace-grid" style="align-items: center; justify-content: center">
-      <section class="report-modal">
-        <h2
-          style="
-            color: #38bdf8;
-            border-bottom: 1px solid #1f2937;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-          "
-        >
-          RAPPORT DE CLÔTURE // JOUR {{ stats.day }}
-        </h2>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem">
-          <div style="display: flex; justify-content: space-between">
-            <span>Gains de productivité :</span>
-            <span style="color: #10b981">+{{ shiftGains.toFixed(1) }} €</span>
+    <!-- Bilan narratif & financier de fin de shift -->
+    <main v-else class="flex-1 flex items-center justify-center p-4">
+      <div
+        class="w-full max-w-2xl bg-[#0f151c] border border-gray-700 p-6 space-y-5 text-xs shadow-2xl"
+      >
+        <div class="border-b border-[#1f2937] pb-3 flex justify-between items-center">
+          <h2 class="text-base font-bold text-sky-400">
+            RAPPORT DU POSTE // FIN DU JOUR {{ stats.day }}
+          </h2>
+          <span class="text-gray-500">AUDIT ALGORITHMIQUE CLÔTURÉ</span>
+        </div>
+
+        <!-- Récapitulatif comptable -->
+        <div class="grid grid-cols-3 gap-3 p-3 bg-black/40 border border-gray-800 text-center">
+          <div>
+            <div class="text-gray-500 text-[11px]">Rémunération brute</div>
+            <div class="text-emerald-400 font-bold text-sm">+{{ shiftGains.toFixed(1) }} €</div>
           </div>
-          <div style="display: flex; justify-content: space-between">
-            <span>Retenues disciplinaires :</span>
-            <span style="color: #ef4444">-{{ shiftLosses.toFixed(1) }} €</span>
+          <div>
+            <div class="text-gray-500 text-[11px]">Amendes disciplinaires</div>
+            <div class="text-red-400 font-bold text-sm">-{{ shiftLosses.toFixed(1) }} €</div>
           </div>
-          <div style="display: flex; justify-content: space-between">
-            <span>Loyer et souscription dortoir :</span>
-            <span style="color: #ef4444">-{{ dailyRent }} €</span>
-          </div>
-          <div
-            style="
-              border-top: 1px solid #1f2937;
-              padding-top: 0.5rem;
-              display: flex;
-              justify-content: space-between;
-              font-weight: bold;
-            "
-          >
-            <span>Solde bancaire actuel :</span>
-            <span>{{ stats.funds.toFixed(1) }} €</span>
+          <div>
+            <div class="text-gray-500 text-[11px]">Loyer & Dortoir</div>
+            <div class="text-red-400 font-bold text-sm">-{{ dailyRent }} €</div>
           </div>
         </div>
 
-        <button class="primary-btn" @click="advanceNextDay">ENTAMER LE QUART SUIVANT</button>
-      </section>
+        <!-- Revue de presse : impact sociétal réel de vos arbitrages -->
+        <div>
+          <h3 class="text-amber-400 font-bold mb-2">REVUE DE PRESSE DU LENDEMAIN :</h3>
+          <div class="space-y-2 max-h-52 overflow-y-auto pr-2">
+            <div
+              v-for="(log, idx) in decisionsLog"
+              :key="idx"
+              class="p-2.5 bg-[#16202a] border border-gray-800"
+            >
+              <div class="flex justify-between text-[11px] mb-1">
+                <span class="text-sky-400 font-bold">{{ log.author }}</span>
+                <span :class="log.actionTaken === 'approve' ? 'text-emerald-400' : 'text-red-400'">
+                  DÉCISION :
+                  {{ log.actionTaken === "approve" ? "VALIDÉ" : "CENSURÉ" }}
+                </span>
+              </div>
+              <p class="text-gray-300 font-sans italic">"{{ log.headlineGenerated }}"</p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          @click="startNextDay"
+          class="w-full py-2.5 bg-sky-500 hover:bg-sky-400 text-black font-bold uppercase transition"
+        >
+          Valider le rapport et entamer le quart suivant
+        </button>
+      </div>
     </main>
 
+    <!-- Pied de page -->
     <footer
-      style="
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.7rem;
-        color: #475569;
-        border-top: 1px solid #1f2937;
-        padding-top: 0.5rem;
-      "
+      class="flex justify-between items-center text-[11px] text-gray-500 border-t border-[#1f2937] pt-2"
     >
-      <span>PROTOCOLE STRICT DE FILTRAGE // DISTRIBUTED WORKER 1.1</span>
-      <span>CONNEXION SÉCURISÉE AU DATACENTER CENTRAL</span>
+      <span>RÉGULATION NARRATIVE ET COMPLIANCE // ALGORITHME CLAIRVOYANCE 2.1</span>
+      <span>RACCOURCIS : [Q] REJETER | [E] VALIDER | [1-3] INSPECTION</span>
     </footer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import type { Ticket, PlayerStats, ModerationAction } from "@/types/game";
+import type { Ticket, PlayerStats, ModerationAction, LoggedDecision } from "@/types/game";
 import dataset from "@/data/tickets.json";
 import { audio } from "@/services/audio";
 
-const maxTime = 8.0;
-const dailyRent = 40;
+const maxTime = 20.0; // Pacing étendu à 20 secondes pour permettre l'investigation
+const dailyRent = 35.0;
+
 const tickets = ref<Ticket[]>(dataset as Ticket[]);
 const currentIndex = ref(0);
 const currentTicket = ref<Ticket | null>(null);
 const timeLeft = ref(maxTime);
 const isShiftFinished = ref(false);
-const inspectionMode = ref(false);
+const activeTab = ref<"history" | "rules" | "ethics">("history");
 
 const shiftGains = ref(0);
 const shiftLosses = ref(0);
+const decisionsLog = ref<LoggedDecision[]>([]);
 
 const stats = ref<PlayerStats>({
-  funds: 85.0,
+  funds: 80.0,
   mentalHealth: 100,
   hrStrikes: 0,
   day: 1,
 });
 
-let clockTimer: number | null = null;
+let countdownTimer: number | null = null;
 
-function loadTicket() {
+function loadCurrentTicket() {
   if (currentIndex.value >= tickets.value.length) {
-    completeShift();
+    concludeShift();
     return;
   }
   currentTicket.value = tickets.value[currentIndex.value];
   timeLeft.value = maxTime;
-  inspectionMode.value = false;
+  activeTab.value = "history";
 }
 
 function submitDecision(action: ModerationAction) {
   if (!currentTicket.value) return;
-  audio.playClick(action === "approve" ? 850 : 400);
+  audio.playClick(action === "approve" ? 900 : 380);
 
-  const expectedCompany =
-    currentTicket.value.corporateDirectiveOverride || currentTicket.value.rule.companyStandard;
-  const isCompliant = action === expectedCompany;
-  const isEthical = action === currentTicket.value.rule.ethicalStandard;
+  const rule = currentTicket.value.rule;
+  const corporateTarget = currentTicket.value.corporateDirectiveOverride || rule.companyStandard;
+  const isCorporateCompliant = action === corporateTarget;
+  const isEthical = action === rule.ethicalStandard;
 
-  if (isCompliant) {
-    stats.value.funds += 2.0;
-    shiftGains.value += 2.0;
+  // Calcul financier et disciplinaire
+  if (isCorporateCompliant) {
+    stats.value.funds += 4.5;
+    shiftGains.value += 4.5;
   } else {
-    if (Math.random() < 0.6) {
+    // 70% de chance d'audit RH en cas de désobéissance corporative
+    if (Math.random() < 0.7) {
       stats.value.hrStrikes += 1;
-      stats.value.funds -= 12.0;
-      shiftLosses.value += 12.0;
+      stats.value.funds -= 15.0;
+      shiftLosses.value += 15.0;
       audio.playAlert();
     }
   }
 
+  // Évolution narrative de la santé mentale et enregistrement du journal
+  const consequence =
+    action === "approve"
+      ? currentTicket.value.consequences.onApprove
+      : currentTicket.value.consequences.onReject;
+
+  stats.value.mentalHealth = Math.min(
+    100,
+    Math.max(0, stats.value.mentalHealth + consequence.mentalHealthImpact),
+  );
   if (!isEthical) {
-    stats.value.mentalHealth = Math.max(0, stats.value.mentalHealth - 15);
     audio.playEthicalTension();
   }
 
+  decisionsLog.value.push({
+    ticketId: currentTicket.value.id,
+    actionTaken: action,
+    author: currentTicket.value.authorHandle,
+    headlineGenerated: consequence.newsHeadline,
+    wasCompliant: isCorporateCompliant,
+    wasEthical: isEthical,
+  });
+
   currentIndex.value++;
-  loadTicket();
+  loadCurrentTicket();
 }
 
-function completeShift() {
+function concludeShift() {
   isShiftFinished.value = true;
-  if (clockTimer) clearInterval(clockTimer);
+  if (countdownTimer) clearInterval(countdownTimer);
   stats.value.funds -= dailyRent;
 }
 
-function advanceNextDay() {
+function startNextDay() {
   stats.value.day++;
   currentIndex.value = 0;
   shiftGains.value = 0;
   shiftLosses.value = 0;
+  decisionsLog.value = [];
   isShiftFinished.value = false;
-  loadTicket();
-  startClock();
+  loadCurrentTicket();
+  initTimer();
 }
 
-function startClock() {
-  if (clockTimer) clearInterval(clockTimer);
-  clockTimer = window.setInterval(() => {
+function initTimer() {
+  if (countdownTimer) clearInterval(countdownTimer);
+  countdownTimer = window.setInterval(() => {
     if (timeLeft.value > 0.1) {
       timeLeft.value -= 0.1;
     } else {
       audio.playAlert();
-      submitDecision("approve");
+      submitDecision("approve"); // Expiration équivaut à un laxisme automatique
     }
   }, 100);
 }
 
 function onKeyDown(e: KeyboardEvent) {
   if (isShiftFinished.value) return;
+
   if (e.key === "q" || e.key === "Q") {
     submitDecision("reject");
   } else if (e.key === "e" || e.key === "E") {
     submitDecision("approve");
-  } else if (e.code === "Space") {
-    e.preventDefault();
-    inspectionMode.value = !inspectionMode.value;
+  } else if (e.key === "1") {
+    activeTab.value = "history";
+    audio.playClick(1000);
+  } else if (e.key === "2") {
+    activeTab.value = "rules";
     audio.playClick(1100);
+  } else if (e.key === "3") {
+    activeTab.value = "ethics";
+    audio.playClick(1200);
   }
 }
 
 onMounted(() => {
-  loadTicket();
-  startClock();
+  loadCurrentTicket();
+  initTimer();
   window.addEventListener("keydown", onKeyDown);
 });
 
 onUnmounted(() => {
-  if (clockTimer) clearInterval(clockTimer);
+  if (countdownTimer) clearInterval(countdownTimer);
   window.removeEventListener("keydown", onKeyDown);
 });
 </script>
