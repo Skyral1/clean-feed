@@ -9,7 +9,17 @@
       <div class="terminal-screen" ref="scrollRef">
         <div v-for="(entry, idx) in logEntries" :key="idx" class="entry-row" :class="entry.role">
           <span class="prefix">
-            {{ entry.role === "ghost" ? "[GHOST] :" : entry.role === "player" ? (currentLang === 'en' ? '[YOU] :' : '[VOUS] :') : (currentLang === 'en' ? '[SYSTEM] :' : '[SYSTÈME] :') }}
+            {{
+              entry.role === "ghost"
+                ? "[GHOST] :"
+                : entry.role === "player"
+                  ? currentLang === "en"
+                    ? "[YOU] :"
+                    : "[VOUS] :"
+                  : currentLang === "en"
+                    ? "[SYSTEM] :"
+                    : "[SYSTÈME] :"
+            }}
           </span>
           <span class="text">{{ entry.text }}</span>
         </div>
@@ -18,7 +28,10 @@
 
         <!-- Choix de dialogue du joueur -->
         <div v-if="currentPrompt && !isWriting && !isInstalling" class="options-wrapper">
-          <div class="options-title">&gt; {{ currentLang === 'en' ? 'CHOOSE YOUR RESPONSE :' : 'SÉLECTIONNEZ VOTRE RÉPONSE :' }}</div>
+          <div class="options-title">
+            &gt;
+            {{ currentLang === "en" ? "CHOOSE YOUR RESPONSE :" : "SÉLECTIONNEZ VOTRE RÉPONSE :" }}
+          </div>
           <button
             v-for="(option, index) in currentPrompt.options"
             :key="index"
@@ -31,7 +44,13 @@
 
         <!-- Barre de progression d'installation de TorNet -->
         <div v-if="isInstalling" class="install-container">
-          <div class="install-label">{{ currentLang === 'en' ? 'INJECTING UNDERGROUND PROXY TORNET...' : 'INJECTION DU PROXY CLANDESTIN TORNET EN COURS...' }}</div>
+          <div class="install-label">
+            {{
+              currentLang === "en"
+                ? "INJECTING UNDERGROUND PROXY TORNET..."
+                : "INJECTION DU PROXY CLANDESTIN TORNET EN COURS..."
+            }}
+          </div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: installProgress + '%' }"></div>
           </div>
@@ -39,7 +58,11 @@
         </div>
 
         <button v-if="isCompleted" class="btn-continue" @click="$emit('finished')">
-          {{ currentLang === 'en' ? 'TERMINATE CONSOLE & BOOT DESKTOP (DAY 2) ➔' : 'TERMINER LA SESSION ET CHARGER LE BUREAU (JOUR 2) ➔' }}
+          {{
+            currentLang === "en"
+              ? "TERMINATE CONSOLE & BOOT DESKTOP (DAY 2) ➔"
+              : "TERMINER LA SESSION ET CHARGER LE BUREAU (JOUR 2) ➔"
+          }}
         </button>
       </div>
     </div>
@@ -82,83 +105,83 @@ const scriptTree: Record<string, StepNode> = {
   start: {
     message: {
       fr: "Inutile d'essayer de redémarrer votre terminal. Tu es le modérateur du cluster 409, n'est-ce pas ?",
-      en: "Don't bother rebooting your terminal. You're the moderator for cluster 409, aren't you?"
+      en: "Don't bother rebooting your terminal. You're the moderator for cluster 409, aren't you?",
     },
     options: [
       {
         text: {
           fr: "Qui êtes-vous et comment avez-vous forcé ma connexion ?",
-          en: "Who are you and how did you hijack my session?"
+          en: "Who are you and how did you hijack my session?",
         },
-        nextStep: "who"
+        nextStep: "who",
       },
       {
         text: {
           fr: "Oui c'est moi. Que me voulez-vous ?",
-          en: "Yes, that's me. What do you want?"
+          en: "Yes, that's me. What do you want?",
         },
-        nextStep: "what"
-      }
-    ]
+        nextStep: "what",
+      },
+    ],
   },
   who: {
     message: {
       fr: "On m'appelle Ghost. Je surveille les nettoyeurs d'OmniFeed. J'ai vu tes décisions au cours de ton premier quart.",
-      en: "They call me Ghost. I keep tabs on OmniFeed's scrubbers. I witnessed your calls during your first shift."
+      en: "They call me Ghost. I keep tabs on OmniFeed's scrubbers. I witnessed your calls during your first shift.",
     },
     options: [
       {
         text: {
           fr: "Je ne fais qu'appliquer la politique de l'entreprise.",
-          en: "I merely execute corporate policies."
+          en: "I merely execute corporate policies.",
         },
-        nextStep: "corporate"
+        nextStep: "corporate",
       },
       {
         text: {
           fr: "Certaines suppressions imposées me semblaient effectivement douteuses.",
-          en: "Some of those enforced takedowns indeed felt crooked."
+          en: "Some of those enforced takedowns indeed felt crooked.",
         },
-        nextStep: "free_web"
-      }
-    ]
+        nextStep: "free_web",
+      },
+    ],
   },
   what: {
     message: {
       fr: "OmniFeed verrouille l'information pour complaire à ses actionnaires. La vraie question est : obéis-tu par peur ou as-tu encore une conscience ?",
-      en: "OmniFeed locks down facts to soothe shareholders. The real question is: do you comply out of fear or do you still have a conscience?"
+      en: "OmniFeed locks down facts to soothe shareholders. The real question is: do you comply out of fear or do you still have a conscience?",
     },
     options: [
       {
         text: {
           fr: "J'ai besoin de ce travail pour payer mon loyer, rien de plus.",
-          en: "I just need this job to pay my room rent, nothing more."
+          en: "I just need this job to pay my room rent, nothing more.",
         },
-        nextStep: "corporate"
+        nextStep: "corporate",
       },
       {
         text: {
           fr: "Je veux savoir ce qu'ils dissimulent réellement au public.",
-          en: "I want to see what they are hiding from the public."
+          en: "I want to see what they are hiding from the public.",
         },
-        nextStep: "free_web"
-      }
-    ]
+        nextStep: "free_web",
+      },
+    ],
   },
   corporate: {
     message: {
       fr: "Un pion effrayé... Peu importe. Même les lâches ont droit aux faits bruts. Je force l'accès sur ta machine.",
-      en: "A terrified cog... No matter. Even cowards deserve raw reality. I'm forcing root access on your box."
+      en: "A terrified cog... No matter. Even cowards deserve raw reality. I'm forcing root access on your box.",
     },
-    triggerInstall: true
+    triggerInstall: true,
   },
   free_web: {
     message: {
       fr: "Exactement ce que j'espérais entendre. Je dépose une passerelle chiffrée sur ton bureau. Fais-en bon usage.",
-      en: "Precisely what I wanted to hear. Injecting an encrypted gateway onto your workspace. Use it wisely."
+      en: "Precisely what I wanted to hear. Injecting an encrypted gateway onto your workspace. Use it wisely.",
     },
-    triggerInstall: true
-  }
+    triggerInstall: true,
+  },
 };
 
 function pushLog(role: "ghost" | "player" | "sys", text: string, callback?: () => void) {
@@ -195,17 +218,26 @@ function handleSelect(option: StepOption) {
 function launchInstall() {
   isInstalling.value = true;
   let val = 0;
-  installStatusText.value = currentLang.value === "en" ? "Bypassing OmniFeed heuristics..." : "Contournement des pare-feux OmniFeed...";
+  installStatusText.value =
+    currentLang.value === "en"
+      ? "Bypassing OmniFeed heuristics..."
+      : "Contournement des pare-feux OmniFeed...";
 
   const interval = setInterval(() => {
     val += 15;
     installProgress.value = Math.min(100, val);
 
     if (val === 45) {
-      installStatusText.value = currentLang.value === "en" ? "Compiling TorNet socket..." : "Compilation du relais socket TorNet...";
+      installStatusText.value =
+        currentLang.value === "en"
+          ? "Compiling TorNet socket..."
+          : "Compilation du relais socket TorNet...";
     }
     if (val === 75) {
-      installStatusText.value = currentLang.value === "en" ? "Injecting binary into ~/Apps..." : "Injection du binaire TorNet dans ~/Apps...";
+      installStatusText.value =
+        currentLang.value === "en"
+          ? "Injecting binary into ~/Apps..."
+          : "Injection du binaire TorNet dans ~/Apps...";
     }
 
     if (val >= 100) {
@@ -216,7 +248,7 @@ function launchInstall() {
           "sys",
           currentLang.value === "en"
             ? "PACKAGE DEPLOYED: 'TorNet Gateway v2.4' added to workspace."
-            : "PAQUET INSTALLÉ : 'TorNet Gateway v2.4' activé sur votre bureau."
+            : "PAQUET INSTALLÉ : 'TorNet Gateway v2.4' activé sur votre bureau.",
         );
         audio.playAlert();
         isCompleted.value = true;
@@ -320,7 +352,9 @@ onMounted(() => {
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .options-wrapper {

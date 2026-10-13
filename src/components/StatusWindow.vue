@@ -54,8 +54,12 @@
           {{ stats.hrStrikes }} / 3
         </div>
         <div class="tile-foot">
-          <span v-if="stats.hrStrikes === 0" class="text-emerald">{{ t("status_strike_clean") }}</span>
-          <span v-else-if="stats.hrStrikes < 3" class="text-danger">{{ t("status_strike_warn") }}</span>
+          <span v-if="stats.hrStrikes === 0" class="text-emerald">{{
+            t("status_strike_clean")
+          }}</span>
+          <span v-else-if="stats.hrStrikes < 3" class="text-danger">{{
+            t("status_strike_warn")
+          }}</span>
           <span v-else class="text-danger font-bold">{{ t("status_strike_fire") }}</span>
         </div>
       </div>

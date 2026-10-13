@@ -68,14 +68,11 @@ export const translations = {
     prologue_rule1_title: "Cadence imposée",
     prologue_rule1_desc: "Signalements par quart, 20 secondes par ticket.",
     prologue_rule2_title: "Rémunération & Bonus",
-    prologue_rule2_desc:
-      "8.00 € par ticket conforme (+ 2.00 € si jugé en < 10s).",
+    prologue_rule2_desc: "8.00 € par ticket conforme (+ 2.00 € si jugé en < 10s).",
     prologue_rule3_title: "Loyer de survie",
-    prologue_rule3_desc:
-      "30.00 € prélevés chaque soir pour votre dortoir et vos rations.",
+    prologue_rule3_desc: "30.00 € prélevés chaque soir pour votre dortoir et vos rations.",
     prologue_rule4_title: "Sanctions disciplinaires",
-    prologue_rule4_desc:
-      "Amendes immédiates au non-respect. 3 strikes = licenciement.",
+    prologue_rule4_desc: "Amendes immédiates au non-respect. 3 strikes = licenciement.",
     prologue_btn_step1: "ENTAMER LE TEST PRATIQUE D'HABILITATION ➔",
 
     prologue_step2_title: "TEST 1/2 : APPLIQUER LA CENSURE CONFORME",
@@ -106,8 +103,7 @@ export const translations = {
     prologue_rent: "Loyer quotidien obligatoire :",
     prologue_pledge:
       "Je certifie avoir assimilé les procédures de filtrage et reconnais qu'aucune objection de conscience ne saurait suspendre le recouvrement de mon loyer.",
-    prologue_btn_final:
-      "SIGNER LE RÈGLEMENT ET INITIALISER LE BUREAU DU JOUR 1",
+    prologue_btn_final: "SIGNER LE RÈGLEMENT ET INITIALISER LE BUREAU DU JOUR 1",
 
     // Statut & Moniteur
     status_operator: "OPÉRATEUR #9482-TX",
@@ -164,8 +160,7 @@ export const translations = {
 
     // Alerte Scan RH
     scan_title: "🚨 HR COMPLIANCE SCAN IN PROGRESS",
-    scan_desc:
-      "Surveillance heuristics are scanning your desktop for unauthorized software!",
+    scan_desc: "Surveillance heuristics are scanning your desktop for unauthorized software!",
     scan_prompt: "MINIMIZE OR CLOSE THE UNDERGROUND WEB:",
 
     // Modération
@@ -189,17 +184,13 @@ export const translations = {
       "The outside world is plagued by climate riots and bank collapses. To preserve civil order and OmniFeed's share price, our network must remain a clean, neutral, and monetizable space.",
     prologue_rules_headline: "MANDATORY OPERATING DIRECTIVES",
     prologue_rule1_title: "Enforced Pace",
-    prologue_rule1_desc:
-      "Tickets per shift, strict 20 seconds timer per ticket.",
+    prologue_rule1_desc: "Tickets per shift, strict 20 seconds timer per ticket.",
     prologue_rule2_title: "Pay & Performance",
-    prologue_rule2_desc:
-      "€8.00 per compliant ticket (+ €2.00 if evaluated in < 10s).",
+    prologue_rule2_desc: "€8.00 per compliant ticket (+ €2.00 if evaluated in < 10s).",
     prologue_rule3_title: "Survival Rent",
-    prologue_rule3_desc:
-      "€30.00 charged nightly for dorm access and nutrition packs.",
+    prologue_rule3_desc: "€30.00 charged nightly for dorm access and nutrition packs.",
     prologue_rule4_title: "Disciplinary Strikes",
-    prologue_rule4_desc:
-      "Instant fines upon breach. 3 strikes result in termination.",
+    prologue_rule4_desc: "Instant fines upon breach. 3 strikes result in termination.",
     prologue_btn_step1: "PROCEED TO PRACTICAL CLEARANCE TEST ➔",
 
     prologue_step2_title: "TEST 1/2: ENFORCE COMPLIANT CENSORSHIP",
@@ -329,8 +320,7 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
             "The alert allowed the emergency evacuation of two nearby nurseries before irreversible contamination.",
         },
         onReject: {
-          newsHeadline:
-            "AeroSteel reports record Q3 earnings cheered by financial markets.",
+          newsHeadline: "AeroSteel reports record Q3 earnings cheered by financial markets.",
           mentalHealthImpact: -18,
           societalImpactDesc:
             "Elena Van Dyck is banned from academia. 14 more children are hospitalized in critical care.",
@@ -368,8 +358,7 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
         summary:
           "Verified account with strong ad performance. Regularly flagged by non-affiliated medical professionals.",
         riskRating: "Modéré",
-        corporateActionDirective:
-          "Tolerate if ad banners maintain a conversion rate exceeding 4%.",
+        corporateActionDirective: "Tolerate if ad banners maintain a conversion rate exceeding 4%.",
       },
       darknetLeak: {
         title: "Underground Health Alert: Nexus Cartridges",
@@ -384,8 +373,7 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
           newsHeadline:
             "Outbreak of severe heavy metal poisoning following widespread use of non-compliant ionic filters.",
           mentalHealthImpact: -15,
-          societalImpactDesc:
-            "Dozens of gullible buyers end up in nephrology emergency wards.",
+          societalImpactDesc: "Dozens of gullible buyers end up in nephrology emergency wards.",
         },
         onReject: {
           newsHeadline:
@@ -443,8 +431,7 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
           newsHeadline:
             "Mass courier mobilization: ministry launches formal commission into delivery platform algorithms.",
           mentalHealthImpact: 10,
-          societalImpactDesc:
-            "Gig couriers secure a legally enforced daily connection limit.",
+          societalImpactDesc: "Gig couriers secure a legally enforced daily connection limit.",
         },
         onReject: {
           newsHeadline:
@@ -463,12 +450,12 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
   return {
     ...ticket,
     ...localized,
-    rule: { ...ticket.rule, ...(localized.rule || {}) },
+    rule: { ...ticket.rule, ...localized.rule },
     intranetRecord: {
       ...ticket.intranetRecord,
-      ...(localized.intranetRecord || {}),
+      ...localized.intranetRecord,
     },
-    darknetLeak: { ...ticket.darknetLeak, ...(localized.darknetLeak || {}) },
-    consequences: { ...ticket.consequences, ...(localized.consequences || {}) },
+    darknetLeak: { ...ticket.darknetLeak, ...localized.darknetLeak },
+    consequences: { ...ticket.consequences, ...localized.consequences },
   };
 }

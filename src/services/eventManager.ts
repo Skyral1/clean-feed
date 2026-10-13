@@ -1,4 +1,4 @@
-import type { PlayerStats, Ticket, GameEvent } from "@/types/game";
+import type { PlayerStats, GameEvent } from "@/types/game";
 import { currentLang } from "@/services/i18n";
 
 export interface EventTriggerCondition {

@@ -41,12 +41,7 @@
         <span class="mini-logo">❖</span>
         <input v-model="searchQuery" type="text" class="mini-search-input" />
         <button type="submit" class="mini-search-btn">{{ t("search_scan") }}</button>
-        <button
-          type="button"
-          @click="resetHome"
-          class="mini-home-btn"
-          :title="t('search_home')"
-        >
+        <button type="button" @click="resetHome" class="mini-home-btn" :title="t('search_home')">
           {{ t("search_home") }}
         </button>
       </form>
@@ -149,7 +144,10 @@ function resetHome() {
 
 const riskClass = computed(() => {
   if (!matchedRecord.value) return "";
-  if (matchedRecord.value.riskRating.includes("Menace") || matchedRecord.value.riskRating.includes("Threat")) {
+  if (
+    matchedRecord.value.riskRating.includes("Menace") ||
+    matchedRecord.value.riskRating.includes("Threat")
+  ) {
     return "risk-extreme";
   }
   if (matchedRecord.value.riskRating === "Élevé" || matchedRecord.value.riskRating === "High") {

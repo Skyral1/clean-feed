@@ -26,11 +26,7 @@
         <span v-if="ticket.authorVerified" class="verified-tag">{{ t("mod_verified") }}</span>
       </div>
       <div class="post-meta">
-        <span
-          class="searchable-chip"
-          title="Click to copy ID"
-          @click="quickSearch(ticket.id)"
-        >
+        <span class="searchable-chip" title="Click to copy ID" @click="quickSearch(ticket.id)">
           {{ ticket.id }}
         </span>
         <span class="reach-badge">{{ t("mod_reach") }} {{ ticket.reachMultiplier }}x</span>
@@ -68,16 +64,10 @@
           :class="{ official: comment.isOfficial }"
         >
           <div class="comment-user">
-            <span
-              class="comment-author searchable-chip"
-              @click="quickSearch(comment.authorName)"
-            >
+            <span class="comment-author searchable-chip" @click="quickSearch(comment.authorName)">
               {{ comment.authorName }}
             </span>
-            <span
-              class="comment-handle searchable-chip"
-              @click="quickSearch(comment.authorHandle)"
-            >
+            <span class="comment-handle searchable-chip" @click="quickSearch(comment.authorHandle)">
               {{ comment.authorHandle }}
             </span>
             <span v-if="comment.isOfficial" class="corp-tag">{{ t("mod_official_comment") }}</span>
@@ -168,7 +158,9 @@ function quickSearch(text: string) {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 .fade-enter-from,
 .fade-leave-to {

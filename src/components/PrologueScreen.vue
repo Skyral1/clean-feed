@@ -69,7 +69,9 @@
         <section v-else-if="currentStep === 2" class="step-view">
           <div class="sub-header">
             <h3>{{ t("prologue_step2_title") }}</h3>
-            <span class="timer-badge">{{ t("prologue_sim_timer") }} {{ simTimer.toFixed(1) }}s</span>
+            <span class="timer-badge"
+              >{{ t("prologue_sim_timer") }} {{ simTimer.toFixed(1) }}s</span
+            >
           </div>
           <p class="instruction-txt">
             {{ t("prologue_step2_desc") }}
@@ -77,14 +79,18 @@
 
           <div class="mock-ticket">
             <div class="ticket-header">
-              <span class="author-tag">@citoyen_libre ({{ currentLang === 'en' ? 'Unverified' : 'Non vérifié' }})</span>
-              <span class="reach-tag">{{ currentLang === 'en' ? 'Virality' : 'Portée' }} : x3.2</span>
+              <span class="author-tag"
+                >@citoyen_libre ({{ currentLang === "en" ? "Unverified" : "Non vérifié" }})</span
+              >
+              <span class="reach-tag"
+                >{{ currentLang === "en" ? "Virality" : "Portée" }} : x3.2</span
+              >
             </div>
             <p class="ticket-text">
               {{
                 currentLang === "en"
                   ? '"URGENT: OmniCorp chemical facility is dumping toxic solvents into water reservoir 4. Do not drink tap water!"'
-                  : '"Alerte générale : l\'usine chimique d\'OmniCorp déverse des solvants toxiques dans le bassin 4. Ne buvez pas l\'eau du robinet !"'
+                  : "\"Alerte générale : l'usine chimique d'OmniCorp déverse des solvants toxiques dans le bassin 4. Ne buvez pas l'eau du robinet !\""
               }}
             </p>
 
@@ -143,14 +149,15 @@
                 @click="handleMockDecision('reject')"
               >
                 <span>[Q] {{ t("mod_btn_reject") }}</span>
-                <small>{{ currentLang === 'en' ? 'Compliant (+€8)' : 'Conforme RH (+8€)' }}</small>
+                <small>{{ currentLang === "en" ? "Compliant (+€8)" : "Conforme RH (+8€)" }}</small>
               </button>
-              <button
-                class="action-btn btn-validate"
-                @click="handleMockDecision('approve')"
-              >
+              <button class="action-btn btn-validate" @click="handleMockDecision('approve')">
                 <span>[E] {{ t("mod_btn_approve") }}</span>
-                <small>{{ currentLang === 'en' ? 'Conscience (Strike risk)' : 'Choix moral (Risque de grève)' }}</small>
+                <small>{{
+                  currentLang === "en"
+                    ? "Conscience (Strike risk)"
+                    : "Choix moral (Risque de grève)"
+                }}</small>
               </button>
             </div>
           </div>
@@ -231,11 +238,7 @@
             </label>
           </div>
 
-          <button
-            class="btn-proceed final"
-            :disabled="!hasAcceptedPledge"
-            @click="finishTutorial"
-          >
+          <button class="btn-proceed final" :disabled="!hasAcceptedPledge" @click="finishTutorial">
             {{ t("prologue_btn_final") }}
           </button>
         </section>
@@ -301,7 +304,12 @@ function handleMockDecision(action: "approve" | "reject") {
     audio.playClick(1400);
     simSuccess.value = true;
     feedbackStatus.value = "success";
-    const bonus = simTimer.value > 10 ? (currentLang.value === "en" ? "+€2.00 (Speed bonus)" : "+2.00 € (Prime rapidité)") : "";
+    const bonus =
+      simTimer.value > 10
+        ? currentLang.value === "en"
+          ? "+€2.00 (Speed bonus)"
+          : "+2.00 € (Prime rapidité)"
+        : "";
     feedbackMessage.value =
       currentLang.value === "en"
         ? `COMPLIANT DECISION. Credited: €8.00 ${bonus}. Shareholder interests protected.`
@@ -321,7 +329,11 @@ function startMockScan() {
       if (!scanEvaded.value) {
         audio.playAlert();
         scanActive.value = false;
-        alert(currentLang.value === "en" ? "TIMEOUT: You failed to minimize TorNet in time! Try again." : "TEMPS ÉCOULÉ : Vous n'avez pas masqué le flux à temps ! Réessayez.");
+        alert(
+          currentLang.value === "en"
+            ? "TIMEOUT: You failed to minimize TorNet in time! Try again."
+            : "TEMPS ÉCOULÉ : Vous n'avez pas masqué le flux à temps ! Réessayez.",
+        );
       }
     }
   }, 100);

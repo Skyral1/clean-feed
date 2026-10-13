@@ -1,10 +1,5 @@
 export type ModerationAction = "approve" | "reject";
-export type GameStage =
-  | "menu"
-  | "prologue"
-  | "playing"
-  | "shift_report"
-  | "hacker_terminal";
+export type GameStage = "menu" | "prologue" | "playing" | "shift_report" | "hacker_terminal";
 
 export interface GameEvent {
   id: string;
