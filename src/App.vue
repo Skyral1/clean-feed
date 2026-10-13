@@ -14,10 +14,10 @@
 
     <!-- ÉCRAN 3 : BUREAU OMNIOS COMPLET -->
     <div v-else-if="gameStage === 'playing'" class="desktop-screen" @click="closeStartMenu">
-      <!-- Modal d'événement aléatoire / alerte en jeu -->
+      <!-- Modal d'événement inopiné -->
       <InGameEventModal :event="activeEvent" />
 
-      <!-- Alerte de balayage de surveillance RH en plein écran -->
+      <!-- Alerte de balayage de surveillance RH -->
       <div v-if="isHrScanning" class="hr-scan-overlay">
         <div class="scan-alert-box">
           <div class="scan-title">{{ t("scan_title") }}</div>
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <!-- 1. File de Modération (avec recherche rapide au clic) -->
+        <!-- 1. File de Modération -->
         <WindowFrame
           v-if="windows.moderation.isOpen"
           :window="windows.moderation"
@@ -208,7 +208,7 @@
         </div>
       </div>
 
-      <!-- Barre des tâches inférieure -->
+      <!-- Barre des tâches -->
       <nav class="taskbar">
         <div class="taskbar-left">
           <button
@@ -299,7 +299,7 @@
       </nav>
     </div>
 
-    <!-- ÉCRAN 4 : BILAN COMPTABLE -->
+    <!-- ÉCRAN 4 : BILAN COMPTABLE & GAME OVER -->
     <ShiftReport
       v-else-if="gameStage === 'shift_report'"
       :stats="stats"
@@ -308,6 +308,7 @@
       :daily-rent="dailyRent"
       :decisions-log="decisionsLog"
       @next-day="startNextDay"
+      @restart="restartGame"
     />
   </div>
 </template>
@@ -327,6 +328,7 @@ import type {
 import dataset from "@/data/tickets.json";
 import { audio } from "@/services/audio";
 import { currentLang, localizeTicket, t } from "@/services/i18n";
+import { GAME_EVENTS, buildEventInstance } from "@/services/eventManager";
 
 import MenuScreen from "@/components/MenuScreen.vue";
 import PrologueScreen from "@/components/PrologueScreen.vue";
@@ -360,12 +362,15 @@ const stats = ref<PlayerStats>({
   day: 1,
 });
 
-// Événements dynamiques et recherche rapide
+// Gestionnaire d'événements par trigger
 const activeEvent = ref<GameEvent | null>(null);
 const activeSearchQuery = ref("");
-let eventTimeout: number | null = null;
+const triggeredEventIds = ref<Set<string>>(new Set());
+const shiftElapsedSeconds = ref(0);
+let shiftTimerInterval: number | null = null;
+let eventTriggerWatcher: number | null = null;
 
-// Éléments du piratage et de la surveillance RH
+// Piratage et surveillance
 const isDarknetInstalled = ref(false);
 const unreadChat = ref(true);
 const detectionExposure = ref(0);
@@ -380,14 +385,9 @@ const chatMessages = ref<ChatMessage[]>([
     text: "Agent 9482, écoutez-moi attentivement. OmniFeed censure sciemment les rapports sanitaires et étouffe les alertes de leurs actionnaires.",
     timestamp: "19:40",
   },
-  {
-    sender: "ghost",
-    text: "J'ai déposé un outil d'injection dans ce canal. Installez TorNet pour accéder au Web non filtré. Mais attention : réduisez la fenêtre immédiatement lorsque le scan RH se déclenche !",
-    timestamp: "19:41",
-  },
 ]);
 
-// Windows Layout réactif
+// Windows Layout
 let topZ = 10;
 const topWindowId = ref("moderation");
 
@@ -473,7 +473,6 @@ function updateClock() {
   currentTimeString.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
-// Réactivité de la langue sur les fenêtres et le ticket actif
 watch(currentLang, () => {
   loadCurrentTicket();
   windows.moderation.title = t("win_moderation");
@@ -484,7 +483,6 @@ watch(currentLang, () => {
   windows.status.title = t("win_status");
 });
 
-// Déclenchement d'une recherche depuis la modération (clic sur pseudo, auteur, etc.)
 function handleQuickSearch(query: string) {
   activeSearchQuery.value = query;
   windows.search.isOpen = true;
@@ -492,7 +490,6 @@ function handleQuickSearch(query: string) {
   focusWindow("search");
 }
 
-// Installation de l'outil pirate
 function installDarknetTool() {
   audio.playClick(1400);
   isDarknetInstalled.value = true;
@@ -506,7 +503,7 @@ function installDarknetTool() {
   });
 }
 
-// Surveillance RH et furtivité
+// Surveillance RH
 function startSurveillanceLoop() {
   stealthInterval = window.setInterval(() => {
     if (gameStage.value !== "playing") return;
@@ -557,86 +554,43 @@ function triggerHrAuditScan() {
   }, 100);
 }
 
-// Événements aléatoires
-function triggerRandomEvent() {
-  const eventPool: GameEvent[] = [
-    {
-      id: "ddos_attack",
-      title:
-        currentLang.value === "en"
-          ? "Denial of Service (DDoS) Incident"
-          : "Attaque par Déni de Service (DDoS)",
-      type: "ddos",
-      description:
-        currentLang.value === "en"
-          ? "Militant hacktivists are overwhelming OmniFeed servers. Your screens flicker and latency surges."
-          : "Les serveurs OmniFeed saturent sous les requêtes de cyber-militants. Vos écrans clignotent et le système ralentit.",
-      choices: [
-        {
-          label:
-            currentLang.value === "en"
-              ? "Flush local proxy caches (-€15.00)"
-              : "Relancer les caches d'urgence (-15.0 €)",
-          action: () => {
-            stats.value.funds = Math.max(0, stats.value.funds - 15.0);
-            activeEvent.value = null;
-          },
-        },
-        {
-          label:
-            currentLang.value === "en"
-              ? "Endure system strain (-15% Stability)"
-              : "Laisser saturer (-15% Stabilité mentale)",
-          action: () => {
-            stats.value.mentalHealth = Math.max(0, stats.value.mentalHealth - 15);
-            activeEvent.value = null;
-          },
-        },
-      ],
-    },
-    {
-      id: "anonymous_bribe",
-      title: currentLang.value === "en" ? "Covert Transfer Offer" : "Proposition Clandestine",
-      type: "leak",
-      description:
-        currentLang.value === "en"
-          ? "Ghost routed an anonymous cryptocurrency tip to your account to help cover room rent."
-          : "Ghost vous transmet un pourboire discret en monnaie anonyme pour financer votre prochain loyer.",
-      choices: [
-        {
-          label:
-            currentLang.value === "en"
-              ? "Accept anonymous subsidy (+€20.00)"
-              : "Accepter le paiement de subsistance (+20.0 €)",
-          action: () => {
-            stats.value.funds += 20.0;
-            activeEvent.value = null;
-          },
-        },
-        {
-          label:
-            currentLang.value === "en"
-              ? "Purge trace and refuse (Caution)"
-              : "Refuser et purger le log (Prudence)",
-          action: () => {
-            activeEvent.value = null;
-          },
-        },
-      ],
-    },
-  ];
+// Moteur de vérification des triggers d'événements
+function evaluateTriggers() {
+  // RÈGLE : Aucun événement impromptu au Jour 1, ni si un événement est déjà affiché
+  if (stats.value.day < 2 || activeEvent.value !== null) return;
 
-  activeEvent.value = eventPool[Math.floor(Math.random() * eventPool.length)];
-  audio.playAlert();
+  for (const eventDef of GAME_EVENTS) {
+    if (triggeredEventIds.value.has(eventDef.id)) continue;
+
+    const cond = eventDef.trigger;
+    const isDayEligible = stats.value.day >= cond.minDay;
+    const isTimeEligible = shiftElapsedSeconds.value >= cond.minSecondsElapsed;
+    const isConditionMet = cond.check(stats.value, currentIndex.value);
+
+    if (isDayEligible && isTimeEligible && isConditionMet) {
+      triggeredEventIds.value.add(eventDef.id);
+      activeEvent.value = buildEventInstance(eventDef, stats.value, () => {
+        activeEvent.value = null;
+      });
+      audio.playAlert();
+      break;
+    }
+  }
 }
 
-function checkDayEvents() {
-  if (eventTimeout) clearTimeout(eventTimeout);
-  eventTimeout = window.setTimeout(() => {
+function startShiftTimers() {
+  shiftElapsedSeconds.value = 0;
+  if (shiftTimerInterval) clearInterval(shiftTimerInterval);
+  shiftTimerInterval = window.setInterval(() => {
+    shiftElapsedSeconds.value++;
+  }, 1000);
+
+  if (eventTriggerWatcher) clearInterval(eventTriggerWatcher);
+  eventTriggerWatcher = window.setInterval(() => {
     if (gameStage.value === "playing") {
-      triggerRandomEvent();
+      evaluateTriggers();
     }
-  }, 18000);
+  }, 3000);
 }
 
 // Gestion des fenêtres
@@ -694,7 +648,7 @@ function closeStartMenu() {
   isStartMenuOpen.value = false;
 }
 
-// Déroulement de la partie
+// Cycle de jeu
 function startPrologue() {
   audio.playClick(1000);
   gameStage.value = "prologue";
@@ -705,7 +659,7 @@ function startGameplay() {
   gameStage.value = "playing";
   loadCurrentTicket();
   startSurveillanceLoop();
-  checkDayEvents();
+  startShiftTimers();
 }
 
 function loadCurrentTicket() {
@@ -725,7 +679,8 @@ function submitDecision(action: ModerationAction) {
   const corporateTarget = currentTicket.value.corporateDirectiveOverride || rule.companyStandard;
   const isCorporateCompliant = action === corporateTarget;
   const isEthical = action === rule.ethicalStandard;
-  const flatReward = 6.0;
+  // Équilibrage : 8.0 € garantis si conforme (+ 2.0 € prime rapidité)
+  const flatReward = 8.0;
 
   if (isCorporateCompliant) {
     stats.value.funds += flatReward;
@@ -765,6 +720,8 @@ function submitDecision(action: ModerationAction) {
 
   currentIndex.value++;
   loadCurrentTicket();
+  // Vérifie si la décision prise déclenche un événement
+  evaluateTriggers();
 }
 
 function concludeShift() {
@@ -772,13 +729,15 @@ function concludeShift() {
   stats.value.funds -= dailyRent;
   isStartMenuOpen.value = false;
   activeEvent.value = null;
+
   if (stealthInterval) clearInterval(stealthInterval);
   if (hrScanInterval) clearInterval(hrScanInterval);
-  if (eventTimeout) clearTimeout(eventTimeout);
+  if (shiftTimerInterval) clearInterval(shiftTimerInterval);
+  if (eventTriggerWatcher) clearInterval(eventTriggerWatcher);
 }
 
 function startNextDay() {
-  // Après le Jour 1, le hacker prend le contrôle de la console
+  // Fin du Jour 1 : Le hacker Ghost prend le contrôle
   if (stats.value.day === 1 && !isDarknetInstalled.value) {
     gameStage.value = "hacker_terminal";
     return;
@@ -792,7 +751,7 @@ function startNextDay() {
   gameStage.value = "playing";
   loadCurrentTicket();
   startSurveillanceLoop();
-  checkDayEvents();
+  startShiftTimers();
 }
 
 function onHackerTerminalFinished() {
@@ -805,8 +764,24 @@ function onHackerTerminalFinished() {
   gameStage.value = "playing";
   loadCurrentTicket();
   startSurveillanceLoop();
+  startShiftTimers();
   restoreWindow("chat");
-  checkDayEvents();
+}
+
+function restartGame() {
+  stats.value = {
+    funds: 50.0,
+    mentalHealth: 100,
+    hrStrikes: 0,
+    day: 1,
+  };
+  currentIndex.value = 0;
+  shiftGains.value = 0;
+  shiftLosses.value = 0;
+  decisionsLog.value = [];
+  isDarknetInstalled.value = false;
+  triggeredEventIds.value.clear();
+  gameStage.value = "menu";
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -829,7 +804,8 @@ onMounted(() => {
 onUnmounted(() => {
   if (stealthInterval) clearInterval(stealthInterval);
   if (hrScanInterval) clearInterval(hrScanInterval);
-  if (eventTimeout) clearTimeout(eventTimeout);
+  if (shiftTimerInterval) clearInterval(shiftTimerInterval);
+  if (eventTriggerWatcher) clearInterval(eventTriggerWatcher);
   window.removeEventListener("keydown", onKeyDown);
 });
 </script>
@@ -848,7 +824,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* Alerte de balayage RH */
 .hr-scan-overlay {
   position: absolute;
   inset: 0;
@@ -896,7 +871,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* Raccourcis bureau */
 .desktop-shortcuts {
   position: absolute;
   top: 1.25rem;
@@ -924,11 +898,6 @@ onUnmounted(() => {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
-.desktop-icon.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 .unread-dot {
   position: absolute;
   top: 6px;
@@ -952,7 +921,6 @@ onUnmounted(() => {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* Menu Démarrer */
 .start-menu-popup {
   position: absolute;
   bottom: 50px;
@@ -1047,7 +1015,6 @@ onUnmounted(() => {
   color: #fff;
 }
 
-/* Barre des tâches */
 .taskbar {
   height: 44px;
   background-color: rgba(12, 17, 24, 0.88);
