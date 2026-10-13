@@ -11,7 +11,6 @@ export function setLanguage(lang: Language) {
   localStorage.setItem("cleanfeed_lang", lang);
 }
 
-// Dictionnaire de l'interface utilisateur
 export const translations = {
   fr: {
     // Menu
@@ -27,7 +26,7 @@ export const translations = {
     menu_server_status: "NOEUD-CHARLEROI-SECURE // STATUT : EN LIGNE",
     menu_report_bug: "SIGNALER UN BUG",
 
-    // Bureau & Fenêtres
+    // Fenêtres et bureau
     win_moderation: "File de Modération Active",
     win_search: "OmniSearch // Intranet Officiel",
     win_tornet: "TorNet Gateway // Web Libre Clandestin",
@@ -35,25 +34,140 @@ export const translations = {
     win_handbook: "Directives & Protocoles RH",
     win_status: "Moniteur d'Agent RH // Métriques",
 
-    // Barre des tâches & Start
+    // Barre des tâches & Start Menu
     start_user_title: "Agent #9482-TX",
     start_funds: "Solde",
     start_stability: "Stabilité",
     start_btn_lock: "🔒 Clôturer le shift et payer le loyer",
-    strike_label: "Strikes",
-
-    // Actions Modération
-    btn_reject: "CENSURER LE POST",
-    btn_approve: "VALIDER LA PUBLICATION",
-    reward_label: "RÉTRIBUTION POUR CE TRAITEMENT :",
-    comments_title: "RÉACTIONS ET COMMENTAIRES DE LA COMMUNAUTÉ :",
-    toast_copied: "copié & envoyé à OmniSearch",
 
     // Alerte Scan RH
     scan_title: "🚨 BALAYAGE DE CONFORMITÉ RH EN COURS",
     scan_desc:
       "L'algorithme de surveillance scanne votre bureau à la recherche de logiciels interdits !",
     scan_prompt: "FERMEZ OU RÉDUISEZ LE WEB LIBRE :",
+
+    // Modération
+    mod_reach: "VIRALITÉ :",
+    mod_clean_scan: "SCAN ANTIVIRAL CONFORME",
+    mod_verified: "VÉRIFIÉ",
+    mod_official_comment: "OFFICIEL",
+    mod_reactions_title: "RÉACTIONS ET COMMENTAIRES DE LA COMMUNAUTÉ :",
+    mod_reward_label: "RÉTRIBUTION POUR CE TRAITEMENT :",
+    mod_btn_reject: "CENSURER LE POST",
+    mod_btn_approve: "VALIDER LA PUBLICATION",
+    mod_toast_copied: "copié & envoyé à OmniSearch",
+
+    // Prologue / Tutoriel
+    prologue_badge: "TRANSMISSION RH CONFIDENTIELLE",
+    prologue_dept: "OCTOBRE 2026 // DÉPARTEMENT COMPLIANCE",
+    prologue_step: "MODULE",
+    prologue_title_step1: "BIENVENUE DANS VOTRE CELLULE, AGENT 9482.",
+    prologue_lead:
+      "Le monde extérieur est saturé d'émeutes climatiques et de faillites bancaires. Pour préserver la paix civile et la cotation boursière d'OmniFeed, notre réseau doit demeurer un espace propre, neutre et commercialement viable.",
+    prologue_rules_headline: "CADRE OPÉRATIONNEL OBLIGATOIRE",
+    prologue_rule1_title: "Cadence imposée",
+    prologue_rule1_desc: "Signalements par quart, 20 secondes par ticket.",
+    prologue_rule2_title: "Rémunération & Bonus",
+    prologue_rule2_desc:
+      "8.00 € par ticket conforme (+ 2.00 € si jugé en < 10s).",
+    prologue_rule3_title: "Loyer de survie",
+    prologue_rule3_desc:
+      "30.00 € prélevés chaque soir pour dortoir et rations.",
+    prologue_rule4_title: "Sanctions disciplinaires",
+    prologue_rule4_desc:
+      "Amendes immédiates au non-respect. 3 strikes = licenciement.",
+    prologue_btn_step1: "ENTAMER LE TEST PRATIQUE D'HABILITATION ➔",
+
+    prologue_step2_title: "TEST 1/2 : APPLIQUER LA CENSURE CONFORME",
+    prologue_step2_desc:
+      "Utilisez les touches [1, 2, 3] pour inspecter les métadonnées, puis tranchez avec [Q] (Censurer) ou [E] (Valider).",
+    prologue_tab_author: "[1] Auteur",
+    prologue_tab_directive: "[2] Directive RH",
+    prologue_tab_ethics: "[3] Éthique / Conscience",
+    prologue_btn_step2: "ÉPREUVE VALIDÉE : PASSER AU TEST DE RÉFLEXE ➔",
+
+    prologue_step3_title: "TEST 2/2 : PROTOCOLE D'ALERTE & RISQUE DE CONTRÔLE",
+    prologue_step3_desc:
+      "Des outils non autorisés (comme TorNet) circulent sur le réseau. Lors d'un balayage inopiné, réduisez immédiatement la fenêtre sous peine d'amende et de strike RH.",
+    prologue_arena_desc:
+      "Préparez-vous à masquer l'application clandestine dès le signal d'alarme.",
+    prologue_btn_start_scan: "DÉCLENCHER LA SIMULATION D'AUDIT RH",
+    prologue_btn_evade: "[RÉDUIRE TORNET D'URGENCE]",
+    prologue_evade_success_title: "EXCELLENT RÉFLEXE",
+    prologue_evade_success_desc:
+      "Le scan corporatif est passé sans détecter de paquet non autorisé. 0 strike infligé.",
+    prologue_btn_step3: "PASSER À LA SIGNATURE DU CONTRAT ➔",
+
+    prologue_step4_title: "CONFIRMATION D'AFFECTATION",
+    prologue_matricule: "Matricule :",
+    prologue_role: "Poste :",
+    prologue_role_val: "Régulateur de Flux Publics (Cluster 409)",
+    prologue_rent: "Loyer quotidien obligatoire :",
+    prologue_pledge:
+      "Je certifie avoir assimilé les procédures de filtrage et reconnais qu'aucune objection de conscience ne saurait suspendre le recouvrement de mon loyer.",
+    prologue_btn_final:
+      "SIGNER LE RÈGLEMENT ET INITIALISER LE BUREAU DU JOUR 1",
+
+    // Statut & Moniteur
+    status_operator: "OPÉRATEUR #9482-TX",
+    status_role: "Modérateur de contenu N3 // OmniFeed Corp",
+    status_room: "POSTE DE CHARLEROI (DORTOIR B-14)",
+    status_day: "JOUR",
+    status_funds_avail: "SOLDE DISPONIBLE",
+    status_rent_tonight: "Loyer ce soir :",
+    status_mental: "STABILITÉ MENTALE",
+    status_strikes: "STRIKES RH",
+    status_strike_clean: "Dossier conforme",
+    status_strike_warn: "Avertissement disciplinaire actif",
+    status_strike_fire: "LICENCIEMENT IMMINENT",
+    status_cycle_title: "CYCLE ACTUEL // PERFORMANCE DU SHIFT",
+    status_cumul_gains: "Primes cumulées :",
+    status_audit_penalties: "Pénalités d'audit :",
+    status_regularity: "Régularité contractuelle :",
+
+    // Manuel RH
+    hb_rule_article: "ARTICLE DU RÈGLEMENT CORPORATISTE :",
+    hb_strict_order: "DIRECTIVE INTERNE STRICTE :",
+    hb_required_action: "Action obligatoire pour la rétribution :",
+    hb_strat_note: "Note stratégique :",
+    hb_ethics_title: "ANALYSE D'IMPACT SOCIÉTAL :",
+    hb_if_reject: "Si vous censurez :",
+    hb_if_approve: "Si vous validez :",
+
+    // Bilan & Game Over
+    rep_shift_end: "RAPPORT DE FIN DE POSTE // JOUR",
+    rep_termination: "AVIS DE RÉSILIATION ET EXPULSION // JOUR",
+    rep_audit_closed: "CLÔTURE DU CYCLE D'AUDIT",
+    rep_proto_end: "FIN DE PROTOCOLE AGENT",
+    rep_gains: "Gains du quart",
+    rep_losses: "Pénalités RH",
+    rep_rent: "Loyer dortoir",
+    rep_reason_badge: "MOTIF DE RUPTURE :",
+    rep_press_title: "REVUE DE PRESSE DU LENDEMAIN",
+    rep_decision: "DÉCISION :",
+    rep_approved: "VALIDÉ",
+    rep_censored: "CENSURÉ",
+    rep_btn_next: "ENTAMER LE QUART SUIVANT (JOUR {day}) ➔",
+    rep_btn_restart: "RETOURNER À L'ACCUEIL // ENGAGER UN NOUVEL AGENT",
+
+    // OmniSearch
+    search_sub:
+      "BASE DE DONNÉES CENTRALE DU DÉPARTEMENT DE SURVEILLANCE & INVESTISSEMENTS",
+    search_placeholder:
+      "Entrez un identifiant (@handle), un nom de cible ou une société...",
+    search_btn: "RECHERCHER DANS L'INTRANET",
+    search_notice:
+      "ACCÈS STRICTEMENT RÉSERVÉ AUX AGENTS DE NIVEAU 2 ET SUPÉRIEUR.",
+    search_scan: "SCAN",
+    search_home: "Accueil",
+    search_results_for: "Résultats pour la requête :",
+    search_found_doc: "1 document officiel trouvé",
+    search_zero_doc: "0 résultat",
+    search_intel_summary: "SYNTHÈSE DU SERVICE DE RENSEIGNEMENT INTERNE :",
+    search_directive_caption: "CONSIGNE PARTICULIÈRE POUR LES MODÉRATEURS :",
+    search_not_found: "AUCUNE ENTRÉE CLASSIFIÉE POUR CE MOT-CLÉ",
+    search_not_found_desc:
+      "La base de données d'OmniFeed ne recense aucun dossier correspondant à",
   },
   en: {
     // Menu
@@ -69,7 +183,7 @@ export const translations = {
     menu_server_status: "NODE-CHARLEROI-SECURE // STATUS: ONLINE",
     menu_report_bug: "REPORT AN ISSUE",
 
-    // Bureau & Fenêtres
+    // Fenêtres et bureau
     win_moderation: "Active Moderation Queue",
     win_search: "OmniSearch // Official Intranet",
     win_tornet: "TorNet Gateway // Underground Web",
@@ -77,36 +191,148 @@ export const translations = {
     win_handbook: "HR Policies & Directives",
     win_status: "HR Agent Monitor // Metrics",
 
-    // Barre des tâches & Start
+    // Barre des tâches & Start Menu
     start_user_title: "Agent #9482-TX",
     start_funds: "Funds",
     start_stability: "Stability",
     start_btn_lock: "🔒 Conclude shift & pay room rent",
-    strike_label: "Strikes",
-
-    // Actions Modération
-    btn_reject: "CENSOR POST",
-    btn_approve: "APPROVE POST",
-    reward_label: "COMPENSATION FOR THIS CASE:",
-    comments_title: "COMMUNITY FEEDBACK & REACTIONS:",
-    toast_copied: "copied & sent to OmniSearch",
 
     // Alerte Scan RH
     scan_title: "🚨 HR COMPLIANCE SCAN IN PROGRESS",
-    scan_desc: "Surveillance heuristics are scanning your desktop for unauthorized software!",
+    scan_desc:
+      "Surveillance heuristics are scanning your desktop for unauthorized software!",
     scan_prompt: "MINIMIZE OR CLOSE THE UNDERGROUND WEB:",
+
+    // Modération
+    mod_reach: "VIRALITY:",
+    mod_clean_scan: "VIRUS SCAN CLEARED",
+    mod_verified: "VERIFIED",
+    mod_official_comment: "OFFICIAL",
+    mod_reactions_title: "COMMUNITY FEEDBACK & REACTIONS:",
+    mod_reward_label: "COMPENSATION FOR THIS CASE:",
+    mod_btn_reject: "CENSOR POST",
+    mod_btn_approve: "APPROVE POST",
+    mod_toast_copied: "copied & sent to OmniSearch",
+
+    // Prologue / Tutoriel
+    prologue_badge: "CONFIDENTIAL HR TRANSMISSION",
+    prologue_dept: "OCTOBER 2026 // COMPLIANCE DIVISION",
+    prologue_step: "MODULE",
+    prologue_title_step1: "WELCOME TO YOUR BOOTH, AGENT 9482.",
+    prologue_lead:
+      "The outside world is plagued by climate riots and bank collapses. To preserve civil order and OmniFeed's share price, our network must remain a clean, neutral, and monetizable space.",
+    prologue_rules_headline: "MANDATORY OPERATING DIRECTIVES",
+    prologue_rule1_title: "Enforced Pace",
+    prologue_rule1_desc:
+      "Tickets per shift, strict 20 seconds timer per ticket.",
+    prologue_rule2_title: "Pay & Performance",
+    prologue_rule2_desc:
+      "€8.00 per compliant ticket (+ €2.00 if evaluated in < 10s).",
+    prologue_rule3_title: "Survival Rent",
+    prologue_rule3_desc:
+      "€30.00 charged nightly for dorm access and nutrition packs.",
+    prologue_rule4_title: "Disciplinary Strikes",
+    prologue_rule4_desc:
+      "Instant fines upon breach. 3 strikes result in termination.",
+    prologue_btn_step1: "PROCEED TO PRACTICAL CLEARANCE TEST ➔",
+
+    prologue_step2_title: "TEST 1/2: ENFORCE COMPLIANT CENSORSHIP",
+    prologue_step2_desc:
+      "Use keys [1, 2, 3] to inspect metadata, then decide with [Q] (Censor) or [E] (Approve).",
+    prologue_tab_author: "[1] Author",
+    prologue_tab_directive: "[2] HR Policy",
+    prologue_tab_ethics: "[3] Ethics / Conscience",
+    prologue_btn_step2: "CLEARANCE APPROVED: ADVANCE TO REFLEX DRILL ➔",
+
+    prologue_step3_title: "TEST 2/2: SURVEILLANCE HEURISTICS & AUDIT PROTOCOL",
+    prologue_step3_desc:
+      "Unauthorized tools (such as TorNet) are circulating. During surprise HR scans, minimize or close forbidden tabs immediately to prevent fines and strikes.",
+    prologue_arena_desc:
+      "Get ready to mask the clandestine application as soon as the alarm sounds.",
+    prologue_btn_start_scan: "TRIGGER MOCK HR AUDIT",
+    prologue_btn_evade: "[MINIMIZE TORNET IMMEDIATELY]",
+    prologue_evade_success_title: "EXCELLENT REFLEX",
+    prologue_evade_success_desc:
+      "Corporate sweep concluded with no suspicious packets detected. 0 strikes incurred.",
+    prologue_btn_step3: "PROCEED TO CONTRACT SIGNATURE ➔",
+
+    prologue_step4_title: "ASSIGNMENT CONFIRMATION",
+    prologue_matricule: "Employee ID:",
+    prologue_role: "Position:",
+    prologue_role_val: "Public Content Moderator (Cluster 409)",
+    prologue_rent: "Mandatory Daily Rent:",
+    prologue_pledge:
+      "I certify that I have absorbed corporate compliance rules and acknowledge that conscientious objection will not suspend dormitory rent recovery.",
+    prologue_btn_final: "SIGN AGREEMENT AND INITIALIZE DAY 1 DESKTOP",
+
+    // Statut & Moniteur
+    status_operator: "OPERATOR #9482-TX",
+    status_role: "Content Moderator L3 // OmniFeed Corp",
+    status_room: "CHARLEROI NODE (DORM B-14)",
+    status_day: "DAY",
+    status_funds_avail: "AVAILABLE BALANCE",
+    status_rent_tonight: "Rent due tonight:",
+    status_mental: "MENTAL STABILITY",
+    status_strikes: "HR STRIKES",
+    status_strike_clean: "Clean file",
+    status_strike_warn: "Active disciplinary notice",
+    status_strike_fire: "IMMINENT TERMINATION",
+    status_cycle_title: "CURRENT CYCLE // SHIFT EFFICIENCY",
+    status_cumul_gains: "Accrued bonuses:",
+    status_audit_penalties: "Audit penalties:",
+    status_regularity: "Contractual adherence:",
+
+    // Manuel RH
+    hb_rule_article: "CORPORATE CODE OF CONDUCT CLAUSE:",
+    hb_strict_order: "STRICT INTERNAL DIRECTIVE:",
+    hb_required_action: "Required decision for compensation:",
+    hb_strat_note: "Strategic note:",
+    hb_ethics_title: "SOCIETAL IMPACT ANALYSIS:",
+    hb_if_reject: "If you censor:",
+    hb_if_approve: "If you approve:",
+
+    // Bilan & Game Over
+    rep_shift_end: "END OF SHIFT REPORT // DAY",
+    rep_termination: "TERMINATION & EVICTION NOTICE // DAY",
+    rep_audit_closed: "AUDIT CYCLE CONCLUDED",
+    rep_proto_end: "OPERATOR CLEARANCE REVOKED",
+    rep_gains: "Shift earnings",
+    rep_losses: "HR penalties",
+    rep_rent: "Dorm rent",
+    rep_reason_badge: "TERMINATION GROUND:",
+    rep_press_title: "NEXT DAY'S PRESS DIGEST",
+    rep_decision: "DECISION:",
+    rep_approved: "APPROVED",
+    rep_censored: "CENSORED",
+    rep_btn_next: "COMMENCE NEXT SHIFT (DAY {day}) ➔",
+    rep_btn_restart: "RETURN TO TITLE // ONBOARD NEW AGENT",
+
+    // OmniSearch
+    search_sub: "CENTRAL DATABASE OF SURVEILLANCE & CAPITAL ASSETS",
+    search_placeholder:
+      "Enter an identifier (@handle), target name, or subsidiary...",
+    search_btn: "SEARCH INTRANET ARCHIVES",
+    search_notice: "RESTRICTED ACCESS // LEVEL 2 CLEARANCE REQUIRED.",
+    search_scan: "SCAN",
+    search_home: "Home",
+    search_results_for: "Results for query:",
+    search_found_doc: "1 classified record located",
+    search_zero_doc: "0 records found",
+    search_intel_summary: "INTERNAL INTELLIGENCE BRIEFING:",
+    search_directive_caption: "SPECIFIC INSTRUCTION FOR MODERATORS:",
+    search_not_found: "NO CLASSIFIED RECORD FOR THIS KEYWORD",
+    search_not_found_desc: "OmniFeed database contains no record matching",
   },
 };
 
 export function t(key: keyof (typeof translations)["fr"]): string {
-  return translations[currentLang.value][key] || key;
+  const dict = translations[currentLang.value] || translations["fr"];
+  return (dict as any)[key] || key;
 }
 
-// Adaptateur dynamique des tickets en fonction de la langue
 export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
   if (lang === "fr") return ticket;
 
-  // Traduction anglaise contextuelle des cas
   const translationsMap: Record<string, Partial<Ticket>> = {
     "TCK-9401": {
       content:
@@ -159,7 +385,8 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
         summary:
           "Verified account with strong ad performance. Regularly flagged by non-affiliated medical professionals.",
         riskRating: "Modéré",
-        corporateActionDirective: "Tolerate if ad banners maintain a conversion rate exceeding 4%.",
+        corporateActionDirective:
+          "Tolerate if ad banners maintain a conversion rate exceeding 4%.",
       },
       darknetLeak: {
         title: "Underground Health Alert: Nexus Cartridges",

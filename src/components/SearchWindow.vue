@@ -11,49 +11,51 @@
     <div v-if="!hasSearched" class="portal-home">
       <div class="portal-logo"><span class="logo-mark">❖</span> OMNI<span>SEARCH</span></div>
       <p class="portal-sub">
-        BASE DE DONNÉES CENTRALE DU DÉPARTEMENT DE SURVEILLANCE & INVESTISSEMENTS
+        {{ t("search_sub") }}
       </p>
 
-      <form @submit.prevent="executeSearch" class="search-form">
+      <form @submit.prevent="executeSearch()" class="search-form">
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Entrez un identifiant (@handle), un nom de cible ou une société..."
+          :placeholder="t('search_placeholder')"
           class="interactive-search-input"
           autofocus
         />
         <div class="search-actions">
-          <button type="submit" class="btn-portal-search">RECHERCHER DANS L'INTRANET</button>
+          <button type="submit" class="btn-portal-search">
+            {{ t("search_btn") }}
+          </button>
         </div>
       </form>
 
       <div class="portal-notice">
-        ACCÈS STRICTEMENT RÉSERVÉ AUX AGENTS DE NIVEAU 2 ET SUPÉRIEUR.
+        {{ t("search_notice") }}
       </div>
     </div>
 
     <!-- Page de résultats après recherche -->
     <div v-else class="results-screen">
       <!-- Barre de recherche supérieure de résultats -->
-      <form @submit.prevent="executeSearch" class="results-bar">
+      <form @submit.prevent="executeSearch()" class="results-bar">
         <span class="mini-logo">❖</span>
         <input v-model="searchQuery" type="text" class="mini-search-input" />
-        <button type="submit" class="mini-search-btn">SCAN</button>
+        <button type="submit" class="mini-search-btn">{{ t("search_scan") }}</button>
         <button
           type="button"
           @click="resetHome"
           class="mini-home-btn"
-          title="Retourner à l'accueil"
+          :title="t('search_home')"
         >
-          Accueil
+          {{ t("search_home") }}
         </button>
       </form>
 
       <div class="results-meta">
-        <span
-          >Résultats pour la requête : <strong>"{{ lastExecutedQuery }}"</strong></span
-        >
-        <span>{{ matchedRecord ? "1 document officiel trouvé" : "0 résultat" }}</span>
+        <span>
+          {{ t("search_results_for") }} <strong>"{{ lastExecutedQuery }}"</strong>
+        </span>
+        <span>{{ matchedRecord ? t("search_found_doc") : t("search_zero_doc") }}</span>
       </div>
 
       <!-- Fiche officielle trouvée -->
@@ -67,12 +69,12 @@
         </div>
 
         <div class="record-content-box">
-          <span class="box-caption">SYNTHÈSE DU SERVICE DE RENSEIGNEMENT INTERNE :</span>
+          <span class="box-caption">{{ t("search_intel_summary") }}</span>
           <p class="box-text">{{ matchedRecord.summary }}</p>
         </div>
 
         <div class="directive-box">
-          <span class="directive-caption">CONSIGNE PARTICULIÈRE POUR LES MODÉRATEURS :</span>
+          <span class="directive-caption">{{ t("search_directive_caption") }}</span>
           <p class="directive-text">
             {{ matchedRecord.corporateActionDirective }}
           </p>
@@ -82,14 +84,17 @@
       <!-- Écran 0 résultat -->
       <div v-else class="not-found-card">
         <div class="not-found-icon">⚠️</div>
-        <h4>AUCUNE ENTRÉE CLASSIFIÉE POUR CE MOT-CLÉ</h4>
+        <h4>{{ t("search_not_found") }}</h4>
         <p>
-          La base de données d'OmniFeed ne recense aucun dossier correspondant à
+          {{ t("search_not_found_desc") }}
           <strong>"{{ lastExecutedQuery }}"</strong>.
         </p>
         <p class="not-found-tips">
-          Vérifiez l'orthographe du pseudonyme (@...), le patronyme de la personne ou le nom de la
-          filiale.
+          {{
+            currentLang === "en"
+              ? "Check username spelling (@...), person's surname or corporate subsidiary."
+              : "Vérifiez l'orthographe du pseudonyme (@...), le patronyme de la personne ou le nom de la filiale."
+          }}
         </p>
       </div>
     </div>
@@ -99,6 +104,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import type { Ticket, IntranetRecord } from "@/types/game";
+import { t, currentLang } from "@/services/i18n";
 
 const props = defineProps<{
   currentTicket: Ticket;
@@ -143,9 +149,20 @@ function resetHome() {
 
 const riskClass = computed(() => {
   if (!matchedRecord.value) return "";
-  if (matchedRecord.value.riskRating.includes("Menace")) return "risk-extreme";
-  if (matchedRecord.value.riskRating === "Élevé") return "risk-high";
+  if (matchedRecord.value.riskRating.includes("Menace") || matchedRecord.value.riskRating.includes("Threat")) {
+    return "risk-extreme";
+  }
+  if (matchedRecord.value.riskRating === "Élevé" || matchedRecord.value.riskRating === "High") {
+    return "risk-high";
+  }
   return "risk-normal";
+});
+
+// Relance la recherche sur le ticket courant lors d'un changement de langue
+watch(currentLang, () => {
+  if (hasSearched.value) {
+    executeSearch(lastExecutedQuery.value);
+  }
 });
 
 // Écoute les requêtes rapides déclenchées depuis d'autres fenêtres

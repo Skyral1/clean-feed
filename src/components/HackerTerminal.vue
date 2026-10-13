@@ -3,18 +3,14 @@
     <div class="hacker-window">
       <div class="window-topbar">
         <span class="status-dot"></span>
-        <span class="window-title">TTY_GHOST // PROXY_PORT:9050 [SESSION INTERROMPUE]</span>
+        <span class="window-title">TTY_GHOST // PROXY_PORT:9050 [SESSION INTERRUPTED]</span>
       </div>
 
       <div class="terminal-screen" ref="scrollRef">
         <div v-for="(entry, idx) in logEntries" :key="idx" class="entry-row" :class="entry.role">
-          <span class="prefix">{{
-            entry.role === "ghost"
-              ? "[GHOST] :"
-              : entry.role === "player"
-                ? "[VOUS] :"
-                : "[SYSTÈME] :"
-          }}</span>
+          <span class="prefix">
+            {{ entry.role === "ghost" ? "[GHOST] :" : entry.role === "player" ? (currentLang === 'en' ? '[YOU] :' : '[VOUS] :') : (currentLang === 'en' ? '[SYSTEM] :' : '[SYSTÈME] :') }}
+          </span>
           <span class="text">{{ entry.text }}</span>
         </div>
 
@@ -22,20 +18,20 @@
 
         <!-- Choix de dialogue du joueur -->
         <div v-if="currentPrompt && !isWriting && !isInstalling" class="options-wrapper">
-          <div class="options-title">&gt; SÉLECTIONNEZ VOTRE RÉPONSE :</div>
+          <div class="options-title">&gt; {{ currentLang === 'en' ? 'CHOOSE YOUR RESPONSE :' : 'SÉLECTIONNEZ VOTRE RÉPONSE :' }}</div>
           <button
             v-for="(option, index) in currentPrompt.options"
             :key="index"
             class="option-button"
             @click="handleSelect(option)"
           >
-            [{{ index + 1 }}] {{ option.text }}
+            [{{ index + 1 }}] {{ option.text[currentLang] }}
           </button>
         </div>
 
         <!-- Barre de progression d'installation de TorNet -->
         <div v-if="isInstalling" class="install-container">
-          <div class="install-label">INJECTION DU PROXY CLANDESTIN TORNET EN COURS...</div>
+          <div class="install-label">{{ currentLang === 'en' ? 'INJECTING UNDERGROUND PROXY TORNET...' : 'INJECTION DU PROXY CLANDESTIN TORNET EN COURS...' }}</div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: installProgress + '%' }"></div>
           </div>
@@ -43,7 +39,7 @@
         </div>
 
         <button v-if="isCompleted" class="btn-continue" @click="$emit('finished')">
-          TERMINER LA SESSION ET CHARGER LE BUREAU (JOUR 2) ➔
+          {{ currentLang === 'en' ? 'TERMINATE CONSOLE & BOOT DESKTOP (DAY 2) ➔' : 'TERMINER LA SESSION ET CHARGER LE BUREAU (JOUR 2) ➔' }}
         </button>
       </div>
     </div>
@@ -53,6 +49,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 import { audio } from "@/services/audio";
+import { currentLang } from "@/services/i18n";
 
 const emit = defineEmits<{ (e: "finished"): void }>();
 
@@ -62,13 +59,12 @@ interface LogEntry {
 }
 
 interface StepOption {
-  text: string;
+  text: { fr: string; en: string };
   nextStep: string;
-  loyalToFreeWeb: boolean;
 }
 
 interface StepNode {
-  message: string;
+  message: { fr: string; en: string };
   options?: StepOption[];
   triggerInstall?: boolean;
 }
@@ -77,70 +73,92 @@ const logEntries = ref<LogEntry[]>([]);
 const isWriting = ref(false);
 const isInstalling = ref(false);
 const installProgress = ref(0);
-const installStatusText = ref("Préparation des descripteurs de paquets...");
+const installStatusText = ref("");
 const isCompleted = ref(false);
 const currentPrompt = ref<StepNode | null>(null);
 const scrollRef = ref<HTMLDivElement | null>(null);
 
 const scriptTree: Record<string, StepNode> = {
   start: {
-    message:
-      "Inutile d'essayer de redémarrer votre terminal. Tu es le modérateur du cluster 409, n'est-ce pas ?",
+    message: {
+      fr: "Inutile d'essayer de redémarrer votre terminal. Tu es le modérateur du cluster 409, n'est-ce pas ?",
+      en: "Don't bother rebooting your terminal. You're the moderator for cluster 409, aren't you?"
+    },
     options: [
       {
-        text: "Qui êtes-vous et comment avez-vous forcé ma connexion ?",
-        nextStep: "who",
-        loyalToFreeWeb: false,
+        text: {
+          fr: "Qui êtes-vous et comment avez-vous forcé ma connexion ?",
+          en: "Who are you and how did you hijack my session?"
+        },
+        nextStep: "who"
       },
       {
-        text: "Oui c'est moi. Que me voulez-vous ?",
-        nextStep: "what",
-        loyalToFreeWeb: true,
-      },
-    ],
+        text: {
+          fr: "Oui c'est moi. Que me voulez-vous ?",
+          en: "Yes, that's me. What do you want?"
+        },
+        nextStep: "what"
+      }
+    ]
   },
   who: {
-    message:
-      "On m'appelle Ghost. Je surveille les nettoyeurs d'OmniFeed. J'ai vu tes décisions au cours de ton premier quart.",
+    message: {
+      fr: "On m'appelle Ghost. Je surveille les nettoyeurs d'OmniFeed. J'ai vu tes décisions au cours de ton premier quart.",
+      en: "They call me Ghost. I keep tabs on OmniFeed's scrubbers. I witnessed your calls during your first shift."
+    },
     options: [
       {
-        text: "Je ne fais qu'appliquer la politique de l'entreprise.",
-        nextStep: "corporate",
-        loyalToFreeWeb: false,
+        text: {
+          fr: "Je ne fais qu'appliquer la politique de l'entreprise.",
+          en: "I merely execute corporate policies."
+        },
+        nextStep: "corporate"
       },
       {
-        text: "Certaines suppressions imposées me semblaient effectivement douteuses.",
-        nextStep: "free_web",
-        loyalToFreeWeb: true,
-      },
-    ],
+        text: {
+          fr: "Certaines suppressions imposées me semblaient effectivement douteuses.",
+          en: "Some of those enforced takedowns indeed felt crooked."
+        },
+        nextStep: "free_web"
+      }
+    ]
   },
   what: {
-    message:
-      "OmniFeed verrouille l'information pour complaire à ses actionnaires. La vraie question est : obéis-tu par peur ou as-tu encore une conscience ?",
+    message: {
+      fr: "OmniFeed verrouille l'information pour complaire à ses actionnaires. La vraie question est : obéis-tu par peur ou as-tu encore une conscience ?",
+      en: "OmniFeed locks down facts to soothe shareholders. The real question is: do you comply out of fear or do you still have a conscience?"
+    },
     options: [
       {
-        text: "J'ai besoin de ce travail pour payer mon loyer, rien de plus.",
-        nextStep: "corporate",
-        loyalToFreeWeb: false,
+        text: {
+          fr: "J'ai besoin de ce travail pour payer mon loyer, rien de plus.",
+          en: "I just need this job to pay my room rent, nothing more."
+        },
+        nextStep: "corporate"
       },
       {
-        text: "Je veux savoir ce qu'ils dissimulent réellement au public.",
-        nextStep: "free_web",
-        loyalToFreeWeb: true,
-      },
-    ],
+        text: {
+          fr: "Je veux savoir ce qu'ils dissimulent réellement au public.",
+          en: "I want to see what they are hiding from the public."
+        },
+        nextStep: "free_web"
+      }
+    ]
   },
   corporate: {
-    message:
-      "Un pion effrayé... Peu importe. Même les lâches ont droit aux faits bruts. Je force l'accès sur ta machine.",
-    triggerInstall: true,
+    message: {
+      fr: "Un pion effrayé... Peu importe. Même les lâches ont droit aux faits bruts. Je force l'accès sur ta machine.",
+      en: "A terrified cog... No matter. Even cowards deserve raw reality. I'm forcing root access on your box."
+    },
+    triggerInstall: true
   },
   free_web: {
-    message:
-      "Exactement ce que j'espérais entendre. Je dépose une passerelle chiffrée sur ton bureau. Fais-en bon usage.",
-    triggerInstall: true,
-  },
+    message: {
+      fr: "Exactement ce que j'espérais entendre. Je dépose une passerelle chiffrée sur ton bureau. Fais-en bon usage.",
+      en: "Precisely what I wanted to hear. Injecting an encrypted gateway onto your workspace. Use it wisely."
+    },
+    triggerInstall: true
+  }
 };
 
 function pushLog(role: "ghost" | "player" | "sys", text: string, callback?: () => void) {
@@ -160,7 +178,7 @@ function pushLog(role: "ghost" | "player" | "sys", text: string, callback?: () =
 function displayStep(stepKey: string) {
   const step = scriptTree[stepKey];
   currentPrompt.value = step;
-  pushLog("ghost", step.message, () => {
+  pushLog("ghost", step.message[currentLang.value], () => {
     if (step.triggerInstall) {
       launchInstall();
     }
@@ -169,7 +187,7 @@ function displayStep(stepKey: string) {
 
 function handleSelect(option: StepOption) {
   audio.playClick(600);
-  pushLog("player", option.text, () => {
+  pushLog("player", option.text[currentLang.value], () => {
     displayStep(option.nextStep);
   });
 }
@@ -177,18 +195,29 @@ function handleSelect(option: StepOption) {
 function launchInstall() {
   isInstalling.value = true;
   let val = 0;
+  installStatusText.value = currentLang.value === "en" ? "Bypassing OmniFeed heuristics..." : "Contournement des pare-feux OmniFeed...";
+
   const interval = setInterval(() => {
     val += 15;
     installProgress.value = Math.min(100, val);
 
-    if (val === 45) installStatusText.value = "Contournement des pare-feux OmniFeed...";
-    if (val === 75) installStatusText.value = "Injection du binaire TorNet dans ~/Apps...";
+    if (val === 45) {
+      installStatusText.value = currentLang.value === "en" ? "Compiling TorNet socket..." : "Compilation du relais socket TorNet...";
+    }
+    if (val === 75) {
+      installStatusText.value = currentLang.value === "en" ? "Injecting binary into ~/Apps..." : "Injection du binaire TorNet dans ~/Apps...";
+    }
 
     if (val >= 100) {
       clearInterval(interval);
       setTimeout(() => {
         isInstalling.value = false;
-        pushLog("sys", "PAQUET INSTALLÉ : 'TorNet Gateway v2.4' activé sur votre bureau.");
+        pushLog(
+          "sys",
+          currentLang.value === "en"
+            ? "PACKAGE DEPLOYED: 'TorNet Gateway v2.4' added to workspace."
+            : "PAQUET INSTALLÉ : 'TorNet Gateway v2.4' activé sur votre bureau."
+        );
         audio.playAlert();
         isCompleted.value = true;
       }, 600);
@@ -291,9 +320,7 @@ onMounted(() => {
 }
 
 @keyframes blink {
-  50% {
-    opacity: 0;
-  }
+  50% { opacity: 0; }
 }
 
 .options-wrapper {

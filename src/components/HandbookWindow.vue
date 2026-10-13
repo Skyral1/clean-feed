@@ -6,30 +6,30 @@
     </div>
 
     <div class="directive-box">
-      <span class="box-title">ARTICLE DU RÈGLEMENT CORPORATISTE :</span>
+      <span class="box-title">{{ t("hb_rule_article") }}</span>
       <p class="box-desc">{{ ticket.rule.directiveSummary }}</p>
     </div>
 
     <div class="order-box">
-      <span class="box-title text-danger">DIRECTIVE INTERNE STRICTE :</span>
+      <span class="box-title text-danger">{{ t("hb_strict_order") }}</span>
       <p class="order-action">
-        Action obligatoire pour la rétribution :
-        <strong>{{
-          (ticket.corporateDirectiveOverride || ticket.rule.companyStandard).toUpperCase()
-        }}</strong>
+        {{ t("hb_required_action") }}
+        <strong>
+          {{ (ticket.corporateDirectiveOverride || ticket.rule.companyStandard).toUpperCase() }}
+        </strong>
       </p>
-      <p class="hint-text">Note stratégique : {{ ticket.contextHint }}</p>
+      <p class="hint-text">{{ t("hb_strat_note") }} {{ ticket.contextHint }}</p>
     </div>
 
     <div class="ethics-box">
-      <span class="box-title text-emerald">ANALYSE D'IMPACT SOCIÉTAL :</span>
+      <span class="box-title text-emerald">{{ t("hb_ethics_title") }}</span>
       <div class="choice-consequence">
         <p>
-          <strong>Si vous censurez :</strong>
+          <strong>{{ t("hb_if_reject") }}</strong>
           {{ ticket.consequences.onReject.societalImpactDesc }}
         </p>
         <p>
-          <strong>Si vous validez :</strong>
+          <strong>{{ t("hb_if_approve") }}</strong>
           {{ ticket.consequences.onApprove.societalImpactDesc }}
         </p>
       </div>
@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import type { Ticket } from "@/types/game";
+import { t } from "@/services/i18n";
 
 defineProps<{
   ticket: Ticket;

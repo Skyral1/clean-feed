@@ -1,37 +1,33 @@
 <template>
   <div class="status-monitor">
-    <!-- Profil de l'agent -->
     <div class="agent-profile-card">
       <div class="agent-avatar">👤</div>
       <div class="agent-details">
-        <div class="agent-id">OPÉRATEUR #9482-TX</div>
-        <div class="agent-role">Modérateur de contenu N3 // OmniFeed Corp</div>
-        <div class="agent-sub">POSTE DE CHARLEROI (DORTOIR B-14)</div>
+        <div class="agent-id">{{ t("status_operator") }}</div>
+        <div class="agent-role">{{ t("status_role") }}</div>
+        <div class="agent-sub">{{ t("status_room") }}</div>
       </div>
       <div class="day-badge">
-        JOUR <span>{{ stats.day }}</span>
+        {{ t("status_day") }} <span>{{ stats.day }}</span>
       </div>
     </div>
 
-    <!-- Grille des jauges vitales -->
     <div class="metrics-dashboard">
-      <!-- 1. Solde financier -->
       <div class="metric-tile">
         <div class="tile-header">
-          <span class="tile-label">SOLDE DISPONIBLE</span>
+          <span class="tile-label">{{ t("status_funds_avail") }}</span>
           <span class="tile-icon">💶</span>
         </div>
         <div class="tile-value text-emerald">{{ stats.funds.toFixed(2) }} €</div>
         <div class="tile-foot">
-          Loyer ce soir :
+          {{ t("status_rent_tonight") }}
           <strong class="text-danger">-{{ dailyRent.toFixed(2) }} €</strong>
         </div>
       </div>
 
-      <!-- 2. Santé mentale -->
       <div class="metric-tile">
         <div class="tile-header">
-          <span class="tile-label">STABILITÉ MENTALE</span>
+          <span class="tile-label">{{ t("status_mental") }}</span>
           <span class="tile-icon">🧠</span>
         </div>
         <div
@@ -49,42 +45,38 @@
         </div>
       </div>
 
-      <!-- 3. Statut disciplinaire RH -->
       <div class="metric-tile">
         <div class="tile-header">
-          <span class="tile-label">STRIKES RH</span>
+          <span class="tile-label">{{ t("status_strikes") }}</span>
           <span class="tile-icon">⚠️</span>
         </div>
         <div class="tile-value" :class="stats.hrStrikes > 0 ? 'text-danger' : 'text-emerald'">
           {{ stats.hrStrikes }} / 3
         </div>
         <div class="tile-foot">
-          <span v-if="stats.hrStrikes === 0" class="text-emerald">Dossier conforme</span>
-          <span v-else-if="stats.hrStrikes < 3" class="text-danger"
-            >Avertissement disciplinaire actif</span
-          >
-          <span v-else class="text-danger font-bold">LICENCIEMENT IMMINENT</span>
+          <span v-if="stats.hrStrikes === 0" class="text-emerald">{{ t("status_strike_clean") }}</span>
+          <span v-else-if="stats.hrStrikes < 3" class="text-danger">{{ t("status_strike_warn") }}</span>
+          <span v-else class="text-danger font-bold">{{ t("status_strike_fire") }}</span>
         </div>
       </div>
     </div>
 
-    <!-- Rapport de cadence et rentabilité du shift en cours -->
     <div class="shift-stats-box">
-      <div class="box-title">CYCLE ACTUEL // PERFORMANCE DU SHIFT</div>
+      <div class="box-title">{{ t("status_cycle_title") }}</div>
       <div class="shift-stats-grid">
         <div class="stat-col">
-          <span>Primes cumulées :</span>
+          <span>{{ t("status_cumul_gains") }}</span>
           <strong class="text-emerald">+{{ shiftGains.toFixed(2) }} €</strong>
         </div>
         <div class="stat-col">
-          <span>Pénalités d'audit :</span>
+          <span>{{ t("status_audit_penalties") }}</span>
           <strong class="text-danger">-{{ shiftLosses.toFixed(2) }} €</strong>
         </div>
         <div class="stat-col">
-          <span>Régularité contractuelle :</span>
-          <strong class="text-sky"
-            >{{ Math.round((stats.mentalHealth + (3 - stats.hrStrikes) * 33) / 2) }}%</strong
-          >
+          <span>{{ t("status_regularity") }}</span>
+          <strong class="text-sky">
+            {{ Math.round((stats.mentalHealth + (3 - stats.hrStrikes) * 33) / 2) }}%
+          </strong>
         </div>
       </div>
     </div>
@@ -93,6 +85,7 @@
 
 <script setup lang="ts">
 import type { PlayerStats } from "@/types/game";
+import { t } from "@/services/i18n";
 
 defineProps<{
   stats: PlayerStats;
@@ -123,7 +116,7 @@ defineProps<{
 .agent-avatar {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, #1e2938 0%, #0f172a 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   display: flex;
