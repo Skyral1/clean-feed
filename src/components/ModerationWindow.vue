@@ -1,6 +1,5 @@
 <template>
   <div class="mod-layout">
-    <!-- Notification flottante "Copié !" -->
     <transition name="fade">
       <div v-if="toastMessage" class="copy-toast">
         {{ toastMessage }}
@@ -33,7 +32,7 @@
       </div>
     </div>
 
-    <!-- Message et photo -->
+    <!-- Corps du signalement -->
     <div class="post-body">
       <p class="post-content-text selectable">"{{ ticket.content }}"</p>
 
@@ -53,7 +52,7 @@
       </div>
     </div>
 
-    <!-- Fil de commentaires des utilisateurs -->
+    <!-- Fil de commentaires -->
     <div class="comments-section">
       <span class="section-title">{{ t("mod_reactions_title") }}</span>
       <div class="comments-flow">
@@ -78,20 +77,39 @@
       </div>
     </div>
 
-    <!-- Rémunération par tâche -->
-    <div class="flat-reward-bar">
-      <span>{{ t("mod_reward_label") }}</span>
-      <strong class="text-emerald">+8.00 €</strong>
-    </div>
+    <!-- Barre d'arbitrage nuancé (4 actions) -->
+    <div class="arbitration-container">
+      <div class="flat-reward-bar">
+        <span>{{ t("mod_reward_label") }}</span>
+        <strong class="text-emerald">+8.00 €</strong>
+      </div>
 
-    <!-- Boutons d'arbitrage -->
-    <div class="decision-bar">
-      <button @click="$emit('decide', 'reject')" class="btn-arbitrage reject">
-        <span class="btn-shortcut">[Q]</span> {{ t("mod_btn_reject") }}
-      </button>
-      <button @click="$emit('decide', 'approve')" class="btn-arbitrage approve">
-        <span class="btn-shortcut">[E]</span> {{ t("mod_btn_approve") }}
-      </button>
+      <div class="decision-grid">
+        <button
+          @click="$emit('decide', 'reject')"
+          class="btn-arbitrage reject"
+          title="Raccourci: Q"
+        >
+          {{ t("mod_btn_reject") }}
+        </button>
+        <button
+          @click="$emit('decide', 'shadowban')"
+          class="btn-arbitrage shadowban"
+          title="Raccourci: W"
+        >
+          {{ t("mod_btn_shadowban") }}
+        </button>
+        <button @click="$emit('decide', 'warn')" class="btn-arbitrage warn" title="Raccourci: A">
+          {{ t("mod_btn_warn") }}
+        </button>
+        <button
+          @click="$emit('decide', 'approve')"
+          class="btn-arbitrage approve"
+          title="Raccourci: E"
+        >
+          {{ t("mod_btn_approve") }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -136,7 +154,7 @@ function quickSearch(text: string) {
 .mod-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1rem;
   position: relative;
 }
 
@@ -156,24 +174,12 @@ function quickSearch(text: string) {
   pointer-events: none;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-5px);
-}
-
 .post-header-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
 }
 
 .author-block {
@@ -183,12 +189,12 @@ function quickSearch(text: string) {
 }
 
 .author-display {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #fff;
 }
 .author-handle {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-dim);
 }
 .verified-tag {
@@ -196,36 +202,36 @@ function quickSearch(text: string) {
   background-color: rgba(245, 158, 11, 0.15);
   border: 1px solid var(--c-amber);
   color: var(--c-amber);
-  padding: 0.15rem 0.4rem;
+  padding: 0.1rem 0.35rem;
   border-radius: 4px;
 }
 
 .post-meta {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   font-family: ui-monospace, monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .reach-badge {
   background-color: var(--bg-card);
-  padding: 0.2rem 0.5rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 4px;
   color: var(--c-amber);
   font-weight: 700;
 }
 
 .post-content-text {
-  font-size: 1.2rem;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 1.45;
   color: #f1f5f9;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
 }
 
 .image-frame {
-  max-height: 220px;
+  max-height: 200px;
   overflow: hidden;
   border-radius: 6px;
   border: 1px solid var(--border-color);
@@ -234,7 +240,7 @@ function quickSearch(text: string) {
 
 .post-img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
   display: block;
 }
@@ -243,10 +249,10 @@ function quickSearch(text: string) {
   display: flex;
   justify-content: space-between;
   background-color: var(--bg-card);
-  padding: 0.6rem 0.85rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 4px;
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
 }
 
@@ -259,7 +265,7 @@ function quickSearch(text: string) {
 .comments-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .section-title {
@@ -272,18 +278,18 @@ function quickSearch(text: string) {
 .comments-flow {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  max-height: 150px;
+  gap: 0.4rem;
+  max-height: 120px;
   overflow-y: auto;
-  padding-right: 0.35rem;
+  padding-right: 0.25rem;
 }
 
 .comment-box {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 0.65rem 0.85rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .comment-box.official {
@@ -295,7 +301,7 @@ function quickSearch(text: string) {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .comment-author {
@@ -304,24 +310,30 @@ function quickSearch(text: string) {
 }
 .comment-handle {
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 .corp-tag {
   font-size: 0.6rem;
   background-color: var(--c-sky);
   color: #000;
   font-weight: 700;
-  padding: 0.1rem 0.3rem;
+  padding: 0.05rem 0.25rem;
   border-radius: 3px;
 }
 .comment-time {
   margin-left: auto;
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 .comment-text {
   color: var(--text-dim);
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+.arbitration-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .flat-reward-bar {
@@ -330,29 +342,29 @@ function quickSearch(text: string) {
   align-items: center;
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 0.65rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-family: ui-monospace, monospace;
 }
 
-.decision-bar {
+.decision-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
 }
 
 .btn-arbitrage {
-  padding: 0.9rem;
+  padding: 0.75rem 0.4rem;
   border-radius: 6px;
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
   border: 1px solid transparent;
+  font-family: ui-monospace, monospace;
   transition: all 0.15s;
 }
 
@@ -366,6 +378,26 @@ function quickSearch(text: string) {
   color: #fff;
 }
 
+.btn-arbitrage.shadowban {
+  background-color: rgba(217, 119, 6, 0.15);
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+.btn-arbitrage.shadowban:hover {
+  background-color: #f59e0b;
+  color: #000;
+}
+
+.btn-arbitrage.warn {
+  background-color: rgba(56, 189, 248, 0.15);
+  border-color: var(--c-sky);
+  color: var(--c-sky);
+}
+.btn-arbitrage.warn:hover {
+  background-color: var(--c-sky);
+  color: #000;
+}
+
 .btn-arbitrage.approve {
   background-color: rgba(16, 185, 129, 0.15);
   border-color: var(--c-emerald);
@@ -374,10 +406,5 @@ function quickSearch(text: string) {
 .btn-arbitrage.approve:hover {
   background-color: var(--c-emerald);
   color: #fff;
-}
-
-.btn-shortcut {
-  font-family: ui-monospace, monospace;
-  font-size: 0.8rem;
 }
 </style>

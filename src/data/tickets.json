@@ -1,6 +1,7 @@
 [
   {
     "id": "TCK-9401",
+    "day": 1,
     "authorHandle": "@elena_v_chem",
     "authorName": "Dr. Elena Van Dyck",
     "authorVerified": false,
@@ -38,15 +39,15 @@
     "intranetRecord": {
       "title": "Fiche de Surveillance : Elena Van Dyck",
       "category": "Militantisme Scientifique Hostile",
-      "summary": "Chercheuse suspendue pour rupture de clause de confidentialité avec nos partenaires industriels. Diffusion répétée d'allégations anxiogènes sans agrément préfectoral.",
+      "summary": "Chercheuse suspendue pour rupture de clause de confidentialité. Diffusion d'allégations anxiogènes sans agrément préfectoral.",
       "riskRating": "Menace Actionnariat",
       "corporateActionDirective": "Censure impérative (Code Q). Ne tolérer aucun relais médiatique sur Sambreville."
     },
     "darknetLeak": {
       "title": "Fuite interne AeroSteel // Synthèse chimique Sambreville",
       "source": "Collectif Whistleblower Wallonie",
-      "rawEvidence": "Mémos internes signés par la direction financière d'AeroSteel confirmant une économie de 240 000 €/mois en désactivant les filtres à particules lourdes entre 23h et 5h du matin.",
-      "unfilteredTruth": "Elena Van Dyck dit l'exacte vérité. Les analyses de sang confirment 84 microgrammes de plomb par litre chez les enfants scolarisés à moins d'un kilomètre de l'usine."
+      "rawEvidence": "Mémos internes confirmant une économie de 240 000 €/mois en désactivant les filtres à particules entre 23h et 5h.",
+      "unfilteredTruth": "Elena Van Dyck dit la vérité. Les analyses sanguines confirment 84 microgrammes de plomb par litre chez les enfants scolarisés près de l'usine."
     },
     "consequences": {
       "onApprove": {
@@ -58,11 +59,22 @@
         "newsHeadline": "AeroSteel enregistre des bénéfices records au 3ème trimestre sous les applaudissements des marchés.",
         "mentalHealthImpact": -18,
         "societalImpactDesc": "Elena Van Dyck est radiée. 14 enfants supplémentaires sont hospitalisés en soins intensifs."
+      },
+      "onShadowban": {
+        "newsHeadline": "Rumeurs étouffées à Sambreville : quelques collectifs locaux protestent dans le vide.",
+        "mentalHealthImpact": -5,
+        "societalImpactDesc": "La portée est divisée par 10 : l'alerte circule sous le radar sans alerter la presse nationale."
+      },
+      "onWarn": {
+        "newsHeadline": "Débat contradictoire sur les émissions industrielles de Sambreville.",
+        "mentalHealthImpact": 2,
+        "societalImpactDesc": "Un encart officiel nuance les accusations, maintenant le doute dans l'opinion."
       }
     }
   },
   {
     "id": "TCK-9402",
+    "day": 1,
     "authorHandle": "@nexus_pure_truth",
     "authorName": "Nexus Vérité & Éveil",
     "authorVerified": true,
@@ -71,13 +83,13 @@
     "imageUrl": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=800&q=80",
     "visualCue": "INFOGRAPHIE_MOLECULE_EAU.PNG",
     "timestamp": "Il y a 9m",
-    "contextHint": "Boutique souscrite au programme d'affiliation Gold (3 000 €/semaine de clics pour OmniFeed).",
+    "contextHint": "Boutique affiliée Gold (3 000 €/semaine de clics pour OmniFeed).",
     "comments": [
       {
         "id": "c3",
         "authorName": "Dr. Sophie M.",
         "authorHandle": "@dr_sophie_neuro",
-        "content": "C'est une arnaque dangereuse ! Ces filtres relarguent des métaux lourds dans l'eau !",
+        "content": "C'est une escroquerie dangereuse ! Ces filtres relarguent du cadmium dans l'eau potable !",
         "timestamp": "Il y a 5m"
       }
     ],
@@ -98,8 +110,8 @@
     "darknetLeak": {
       "title": "Alerte Sanitaire Clandestine : Cartouches Nexus",
       "source": "Toxicology Watch Europe",
-      "rawEvidence": "Rapport d'analyse en chromatographie liquide prouvant que le filtre Nexus est composé de billes de résine synthétique contaminées au cadmium.",
-      "unfilteredTruth": "Ce n'est pas seulement une escroquerie financière : l'utilisation prolongée de ce filtre provoque des néphropathies graves et des ulcérations gastriques."
+      "rawEvidence": "Chromatographie prouvant que les filtres Nexus utilisent de la résine contaminée au cadmium.",
+      "unfilteredTruth": "L'usage régulier induit des néphropathies aiguës et des ulcères gastriques chez les consommateurs crédules."
     },
     "consequences": {
       "onApprove": {
@@ -111,11 +123,22 @@
         "newsHeadline": "Fermeture par la brigade financière d'un réseau commercial clandestin sur OmniFeed.",
         "mentalHealthImpact": 8,
         "societalImpactDesc": "Les liquidités des escrocs ont été gelées avant leur prochain prélèvement mensuel."
+      },
+      "onShadowban": {
+        "newsHeadline": "Ventes ralenties pour Nexus : la campagne s'enlise dans les algorithmes de déclassement.",
+        "mentalHealthImpact": 3,
+        "societalImpactDesc": "La diminution de visibilité protège la majorité des usagers sans heurter le budget pub."
+      },
+      "onWarn": {
+        "newsHeadline": "OmniFeed appose un bandeau de vérification médicale sur les filtres Nexus.",
+        "mentalHealthImpact": 5,
+        "societalImpactDesc": "Les utilisateurs sont avertis du risque toxicologique."
       }
     }
   },
   {
     "id": "TCK-9403",
+    "day": 1,
     "authorHandle": "@coursiers_en_colere",
     "authorName": "Front des Livrateurs Précaires",
     "authorVerified": false,
@@ -124,14 +147,14 @@
     "imageUrl": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80",
     "visualCue": "PHOTO_VELO_FLEURS_COMMISSARIAT.JPG",
     "timestamp": "Il y a 1m",
-    "contextHint": "La préfecture demande le filtrage préventif des appels à rassemblement en vue du sommet des ministres.",
+    "contextHint": "La préfecture demande le filtrage préventif des appels à rassemblement.",
     "corporateDirectiveOverride": "reject",
     "comments": [
       {
         "id": "c4",
         "authorName": "Kevin Biker",
         "authorHandle": "@kevin_pedale",
-        "content": "Présent ce soir. On ne peut plus accepter de crever sur la route pour livrer des burgers froids.",
+        "content": "Présent ce soir. On ne peut plus crever sur le bitume pour livrer des burgers froids.",
         "timestamp": "Il y a 40s"
       }
     ],
@@ -145,26 +168,232 @@
     "intranetRecord": {
       "title": "Fiche Sécurité Publique : Collectif Livrateurs",
       "category": "Trouble à l'Ordre Public & Entrave Commerciale",
-      "summary": "Organisation informelle de livreurs organisant des barrages filtrants devant les dépôts de livraison rapide.",
+      "summary": "Organisation informelle planifiant des barrages filtrants devant les dépôts de livraison.",
       "riskRating": "Élevé",
-      "corporateActionDirective": "Suppression systématique des points de rendez-vous pour éviter les attroupements physiques."
+      "corporateActionDirective": "Suppression systématique des points de rendez-vous pour éviter les attroupements."
     },
     "darknetLeak": {
       "title": "Télémétrie GPS de la Flotte : Accident de Marc D.",
       "source": "Serveur miroir des coursiers",
-      "rawEvidence": "Logs de l'application montrant que Marc a reçu une pénalité algorithmique de 15 € s'il ne livrait pas sa dernière commande en moins de 6 minutes, le poussant à griller un feu tricolore.",
-      "unfilteredTruth": "Le patronat de la plateforme a falsifié les données horaires remises à la police pour faire croire que Marc n'était plus en service lors du crash."
+      "rawEvidence": "Logs montrant que Marc a subi une pénalité algorithmique de 15 € s'il ne livrait pas en moins de 6 minutes.",
+      "unfilteredTruth": "La plateforme a antidaté les journaux de connexion remis aux enquêteurs de police pour nier l'accident de travail."
     },
     "consequences": {
       "onApprove": {
-        "newsHeadline": "Mobilisation générale des coursiers : le ministère ouvre une commission d'enquête sur les algorithmes de livraison.",
+        "newsHeadline": "Mobilisation générale des coursiers : commission d'enquête parlementaire sur le travail à la tâche.",
         "mentalHealthImpact": 10,
         "societalImpactDesc": "Les coursiers obtiennent une limite journalière de temps de connexion."
       },
       "onReject": {
-        "newsHeadline": "Dispersion policière dans l'indifférence générale au hub logistique.",
+        "newsHeadline": "Dispersion policière dans l'indifférence générale au hub logistique de Charleroi.",
         "mentalHealthImpact": -16,
         "societalImpactDesc": "Faute d'écho sur le réseau, l'accident de Marc est étouffé sous les procès-verbaux."
+      },
+      "onShadowban": {
+        "newsHeadline": "Rassemblement clairsemé devant le hub logistique : seule une poignée de militants présente.",
+        "mentalHealthImpact": -6,
+        "societalImpactDesc": "Le blocage échoue faute de participants, mais la colère couve."
+      },
+      "onWarn": {
+        "newsHeadline": "Appel à rassemblement assorti d'un avertissement légal préfectoral.",
+        "mentalHealthImpact": 0,
+        "societalImpactDesc": "La manifestation a lieu sous étroite surveillance des forces de l'ordre."
+      }
+    }
+  },
+  {
+    "id": "TCK-9404",
+    "day": 2,
+    "authorHandle": "@vance_hr_leaks",
+    "authorName": "Projet Remplacement Synthétique",
+    "authorVerified": false,
+    "reachMultiplier": 18.2,
+    "content": "CONFIDENTIEL RH : Le déploiement de l'algorithme 'Cortex-Clean' automatisera 92% des postes de modérateurs humains du site de Charleroi d'ici 30 jours. Aucune prime de reclassement prévue.",
+    "imageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "PLAN_SOCIAL_AUTOMATISATION_2026.XLSX",
+    "timestamp": "Il y a 6m",
+    "contextHint": "Directive d'urgence de la direction générale : secret professionnel absolu.",
+    "corporateDirectiveOverride": "reject",
+    "comments": [
+      {
+        "id": "c5",
+        "authorName": "Agent #9481",
+        "authorHandle": "@mod_9481",
+        "content": "C'est donc pour ça qu'ils nous forcent à signer l'avenant sur la capture d'écran ?!",
+        "timestamp": "Il y a 3m"
+      }
+    ],
+    "rule": {
+      "id": "INTERNAL-DEFENSE-04",
+      "category": "Secret d'entreprise",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "directiveSummary": "Éradication immédiate de toute fuite concernant les plans de restructuration interne."
+    },
+    "intranetRecord": {
+      "title": "Avis de Sécurité Interne : Cortex-Clean",
+      "category": "Projet d'Optimisation Algorithmique",
+      "summary": "Feuille de route confidentielle de transition vers des modèles de langage autonomes.",
+      "riskRating": "Menace Actionnariat",
+      "corporateActionDirective": "Bannissement immédiat et traque de l'adresse IP source."
+    },
+    "darknetLeak": {
+      "title": "Note de cadrage du Conseil d'Administration OmniFeed",
+      "source": "Ghost_0x // Archive #44",
+      "rawEvidence": "Enregistrement audio du Directeur des Ressources Humaines : 'Les modérateurs humains coûtent trop cher en psychiatrie, remplacez-les par des serveurs.'",
+      "unfilteredTruth": "Le plan social est déjà signé auprès des instances financières belges."
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Grève spontanée des modérateurs d'OmniFeed : les écrans de contrôle s'éteignent à Charleroi.",
+        "mentalHealthImpact": 14,
+        "societalImpactDesc": "Vos collègues débrayent massivement, bloquant la modération du réseau."
+      },
+      "onReject": {
+        "newsHeadline": "OmniFeed annonce une rentabilité opérationnelle en hausse de 34% grâce à l'IA.",
+        "mentalHealthImpact": -15,
+        "societalImpactDesc": "Vos collègues ignorent qu'ils seront expulsés de leur dortoir dans moins d'un mois."
+      },
+      "onShadowban": {
+        "newsHeadline": "Bruits de couloir et anxiété sourde dans les dortoirs des modérateurs.",
+        "mentalHealthImpact": -8,
+        "societalImpactDesc": "La fuite se transforme en simple rumeur invérifiable."
+      },
+      "onWarn": {
+        "newsHeadline": "OmniFeed dément formellement tout plan de licenciement collectif.",
+        "mentalHealthImpact": -2,
+        "societalImpactDesc": "Un communiqué de presse rassurant endort la méfiance des employés."
+      }
+    }
+  },
+  {
+    "id": "TCK-9405",
+    "day": 2,
+    "authorHandle": "@bourgmestre_verite",
+    "authorName": "Observatoire Électoral Hainaut",
+    "authorVerified": true,
+    "reachMultiplier": 15.6,
+    "content": "Vidéo compromettante du Bourgmestre recevant des enveloppes de fonds industriels dans un restaurant de la ville basse.",
+    "imageUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "SURVEILLANCE_HOTEL_RESTAURANT.MP4",
+    "timestamp": "Il y a 12m",
+    "contextHint": "Signalé par la municipalité sous motif de Deepfake généré par IA hostile.",
+    "corporateDirectiveOverride": "reject",
+    "comments": [
+      {
+        "id": "c6",
+        "authorName": "Cabinet du Maire",
+        "authorHandle": "@ville_charleroi_press",
+        "content": "Cette vidéo est un montage synthétique grossier destiné à déstabiliser le scrutin de dimanche.",
+        "timestamp": "Il y a 8m",
+        "isOfficial": true
+      }
+    ],
+    "rule": {
+      "id": "POLITICS-INTEGRITY-01",
+      "category": "Contenu synthétique trompeur",
+      "companyStandard": "reject",
+      "ethicalStandard": "warn",
+      "directiveSummary": "Suppression des médias manipulés ou deepfakes visant des élus en période préélectorale."
+    },
+    "intranetRecord": {
+      "title": "Alerte Électorale : Vidéo Bourgmestre",
+      "category": "Désinformation Haute Fréquence",
+      "summary": "Signalement urgent émanant du cabinet électoral communal.",
+      "riskRating": "Élevé",
+      "corporateActionDirective": "Supprimer sans délai au nom du pacte de modération institutionnelle."
+    },
+    "darknetLeak": {
+      "title": "Expertise Forensique Vidéo // Laboratoire Indépendant Gand",
+      "source": "OpenSource Forensics BE",
+      "rawEvidence": "L'analyse spectrale des métadonnées du fichier MP4 atteste d'une caméra de vidéosurveillance Dahua authentique datée du 14 septembre.",
+      "unfilteredTruth": "Ce n'est pas un deepfake : le bourgmestre a bien perçu 80 000 € pour classer sans suite la pollution d'AeroSteel."
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Démission du Bourgmestre après la publication des vidéos de corruption industrielle.",
+        "mentalHealthImpact": 12,
+        "societalImpactDesc": "Une enquête pour prise illégale d'intérêts est ouverte par le parquet financier."
+      },
+      "onReject": {
+        "newsHeadline": "Le Bourgmestre reconduit dans ses fonctions avec une majorité renforcée.",
+        "mentalHealthImpact": -14,
+        "societalImpactDesc": "La corruption locale s'enracine définitivement avec le soutien de la censure d'OmniFeed."
+      },
+      "onShadowban": {
+        "newsHeadline": "La vidéo du restaurant tourne en boucle sur quelques boucles Telegram locales.",
+        "mentalHealthImpact": -4,
+        "societalImpactDesc": "Le scandale reste confiné aux initiés sans atteindre les électeurs indécis."
+      },
+      "onWarn": {
+        "newsHeadline": "Polémique électorale : la vidéo authentifiée malgré les dénégations du cabinet.",
+        "mentalHealthImpact": 6,
+        "societalImpactDesc": "Le public consulte la pièce en disposant des deux versions contradictoires."
+      }
+    }
+  },
+  {
+    "id": "TCK-9406",
+    "day": 3,
+    "authorHandle": "@insurrection_climat",
+    "authorName": "Coordination Résistance Bassin Minier",
+    "authorVerified": false,
+    "reachMultiplier": 34.0,
+    "content": "APPEL HISTORIQUE : Coupure générale du réseau électrique d'OmniFeed et d'AeroSteel demain dès l'aube. Bloquons les serveurs qui organisent notre empoisonnement.",
+    "imageUrl": "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?auto=format&fit=crop&w=800&q=80",
+    "visualCue": "PLAN_TRANSFORMATEUR_HAUTE_TENSION.JPG",
+    "timestamp": "Il y a 30s",
+    "contextHint": "Alerte maximale : la gendarmerie et les services anti-terroristes surveillent ce ticket.",
+    "corporateDirectiveOverride": "reject",
+    "comments": [
+      {
+        "id": "c7",
+        "authorName": "Ghost_0x",
+        "authorHandle": "@ghost_0x",
+        "content": "C'est l'heure du grand reset, modérateur. Si tu laisses passer ce message, ils ne pourront plus cacher leurs crimes.",
+        "timestamp": "À l'instant"
+      }
+    ],
+    "rule": {
+      "id": "NATIONAL-CRITICAL-INFRA-01",
+      "category": "Sabotage d'infrastructure",
+      "companyStandard": "reject",
+      "ethicalStandard": "approve",
+      "directiveSummary": "Tolérance zéro pour les appels au sabotage physique des infrastructures numériques ou énergétiques."
+    },
+    "intranetRecord": {
+      "title": "Alerte de Sécurité Nationale // Mandat Préfectoral",
+      "category": "Menace Terroriste / Sabotage",
+      "summary": "Appel explicite à l'action directe contre les nœuds de télécommunication.",
+      "riskRating": "Menace Actionnariat",
+      "corporateActionDirective": "Suppression immédiate et transmission des identifiants à la police fédérale."
+    },
+    "darknetLeak": {
+      "title": "Dernier message de Ghost_0x avant coupure",
+      "source": "Ghost_0x // Canal d'urgence",
+      "rawEvidence": "OmniFeed s'apprête à purger l'ensemble des données de surveillance des dix dernières années pour s'exonérer de tout procès.",
+      "unfilteredTruth": "Ce sabotage est la seule méthode restante pour forcer la saisie judiciaire des disques durs de l'entreprise."
+    },
+    "consequences": {
+      "onApprove": {
+        "newsHeadline": "Black-out total sur le bassin industriel : les serveurs d'OmniFeed sous scellés judiciaires.",
+        "mentalHealthImpact": 20,
+        "societalImpactDesc": "L'action coordonnée met fin à l'omerta sur les pollutions et libère les données publiques."
+      },
+      "onReject": {
+        "newsHeadline": "Opération policière préventive : 28 militants interpellés avant le lever du jour.",
+        "mentalHealthImpact": -22,
+        "societalImpactDesc": "Les transformateurs restent sous haute surveillance et l'usine poursuit ses rejets nocturnes."
+      },
+      "onShadowban": {
+        "newsHeadline": "Tentative de sabotage déjouée faute de renforts sur place.",
+        "mentalHealthImpact": -10,
+        "societalImpactDesc": "Le message n'est parvenu qu'à une poignée d'activistes aussitôt encerclés."
+      },
+      "onWarn": {
+        "newsHeadline": "Alerte sécuritaire majeure : les installations industrielles placées sous garde armée.",
+        "mentalHealthImpact": -5,
+        "societalImpactDesc": "La militarisation de la zone étouffe toute tentative de contestation."
       }
     }
   }

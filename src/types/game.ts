@@ -1,4 +1,4 @@
-export type ModerationAction = "approve" | "reject";
+export type ModerationAction = "approve" | "reject" | "shadowban" | "warn";
 export type GameStage = "menu" | "prologue" | "playing" | "shift_report" | "hacker_terminal";
 
 export interface GameEvent {
@@ -52,6 +52,7 @@ export interface TicketConsequence {
 
 export interface Ticket {
   id: string;
+  day: number;
   authorHandle: string;
   authorName: string;
   authorVerified: boolean;
@@ -69,6 +70,8 @@ export interface Ticket {
   consequences: {
     onApprove: TicketConsequence;
     onReject: TicketConsequence;
+    onShadowban?: TicketConsequence;
+    onWarn?: TicketConsequence;
   };
 }
 
@@ -101,4 +104,7 @@ export interface PlayerStats {
   mentalHealth: number;
   hrStrikes: number;
   day: number;
+  reputationResistance: number;
+  reputationCorporate: number;
+  hasProxyShield: boolean;
 }

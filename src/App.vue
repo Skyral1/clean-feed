@@ -3,18 +3,17 @@
     <!-- ÉCRAN 1 : ACCUEIL -->
     <MenuScreen v-if="gameStage === 'menu'" @start="startPrologue" />
 
-    <!-- ÉCRAN 2 : PROLOGUE / TUTORIEL INTERACTIF -->
+    <!-- ÉCRAN 2 : PROLOGUE -->
     <PrologueScreen v-else-if="gameStage === 'prologue'" @proceed="startGameplay" />
 
-    <!-- ÉCRAN INTERMÉDIAIRE : CONTACT DU HACKER GHOST APRÈS LE JOUR 1 -->
+    <!-- ÉCRAN INTERMÉDIAIRE : TERMINAL GHOST -->
     <HackerTerminal
       v-else-if="gameStage === 'hacker_terminal'"
       @finished="onHackerTerminalFinished"
     />
 
-    <!-- ÉCRAN 3 : BUREAU OMNIOS COMPLET -->
+    <!-- ÉCRAN 3 : BUREAU OMNIOS -->
     <div v-else-if="gameStage === 'playing'" class="desktop-screen" @click="closeStartMenu">
-      <!-- Modal d'événement inopiné -->
       <InGameEventModal :event="activeEvent" />
 
       <!-- Alerte de balayage de surveillance RH -->
@@ -143,45 +142,6 @@
         </WindowFrame>
       </div>
 
-      <!-- Menu Démarrer -->
-      <div v-if="isStartMenuOpen" class="start-menu-popup" @click.stop>
-        <div class="start-user-box" @click="restoreWindow('status')">
-          <div class="user-avatar">👤</div>
-          <div>
-            <div class="user-name">{{ t("start_user_title") }}</div>
-            <div class="user-sub">
-              {{ t("start_funds") }} : {{ stats.funds.toFixed(2) }} € | {{ t("start_stability") }} :
-              {{ stats.mentalHealth }}%
-            </div>
-          </div>
-        </div>
-
-        <div class="start-app-list">
-          <button class="start-app-item" @click="restoreWindow('moderation')">
-            <span>📋</span> {{ t("win_moderation") }}
-          </button>
-          <button class="start-app-item" @click="restoreWindow('search')">
-            <span>🔍</span> {{ t("win_search") }}
-          </button>
-          <button class="start-app-item" @click="restoreWindow('handbook')">
-            <span>📕</span> {{ t("win_handbook") }}
-          </button>
-          <button
-            v-if="isDarknetInstalled"
-            class="start-app-item text-emerald"
-            @click="restoreWindow('darknet')"
-          >
-            <span>🧅</span> {{ t("win_tornet") }}
-          </button>
-        </div>
-
-        <div class="start-menu-footer">
-          <button class="btn-lock" @click="concludeShift">
-            {{ t("start_btn_lock") }}
-          </button>
-        </div>
-      </div>
-
       <!-- Barre des tâches -->
       <nav class="taskbar">
         <div class="taskbar-left">
@@ -251,9 +211,12 @@
         <div class="taskbar-right">
           <div class="quick-status-badges" @click="restoreWindow('status')">
             <span class="badge-item text-emerald">💶 {{ stats.funds.toFixed(1) }} €</span>
-            <span class="badge-item" :class="stats.mentalHealth < 35 ? 'text-danger' : 'text-amber'"
-              >🧠 {{ stats.mentalHealth }}%</span
+            <span
+              class="badge-item"
+              :class="stats.mentalHealth < 35 ? 'text-danger' : 'text-amber'"
             >
+              🧠 {{ stats.mentalHealth }}%
+            </span>
             <span class="badge-item text-danger">⚠️ {{ stats.hrStrikes }}/3</span>
           </div>
           <div class="system-tray">
@@ -263,7 +226,7 @@
       </nav>
     </div>
 
-    <!-- ÉCRAN 4 : BILAN COMPTABLE & GAME OVER -->
+    <!-- ÉCRAN 4 : BILAN COMPTABLE -->
     <ShiftReport
       v-else-if="gameStage === 'shift_report'"
       :stats="stats"
@@ -273,12 +236,13 @@
       :decisions-log="decisionsLog"
       @next-day="startNextDay"
       @restart="restartGame"
+      @buy-item="handleShopPurchase"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, watch } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
 import type {
   Ticket,
   PlayerStats,
@@ -309,7 +273,7 @@ const gameStage = ref<GameStage>("menu");
 const dailyRent = 30.0;
 const isStartMenuOpen = ref(false);
 
-const tickets = ref<Ticket[]>(dataset as Ticket[]);
+const allTickets = ref<Ticket[]>(dataset as Ticket[]);
 const currentIndex = ref(0);
 const currentTicket = ref<Ticket | null>(null);
 
@@ -322,9 +286,15 @@ const stats = ref<PlayerStats>({
   mentalHealth: 100,
   hrStrikes: 0,
   day: 1,
+  reputationResistance: 0,
+  reputationCorporate: 0,
+  hasProxyShield: false,
 });
 
-// Événements dynamiques et recherche rapide
+const dayTickets = computed(() => {
+  return allTickets.value.filter((t) => t.day === stats.value.day);
+});
+
 const activeEvent = ref<GameEvent | null>(null);
 const activeSearchQuery = ref("");
 const triggeredEventIds = ref<Set<string>>(new Set());
@@ -332,7 +302,6 @@ const shiftElapsedSeconds = ref(0);
 let shiftTimerInterval: number | null = null;
 let eventTriggerWatcher: number | null = null;
 
-// Piratage et surveillance
 const isDarknetInstalled = ref(false);
 const detectionExposure = ref(0);
 const isHrScanning = ref(false);
@@ -340,7 +309,6 @@ const scanCountdown = ref(3.0);
 let stealthInterval: number | null = null;
 let hrScanInterval: number | null = null;
 
-// Disposition des fenêtres
 let topZ = 10;
 const topWindowId = ref("moderation");
 
@@ -414,15 +382,6 @@ function updateClock() {
   currentTimeString.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
-watch(currentLang, () => {
-  loadCurrentTicket();
-  windows.moderation.title = t("win_moderation");
-  windows.search.title = t("win_search");
-  windows.darknet.title = t("win_tornet");
-  windows.handbook.title = t("win_handbook");
-  windows.status.title = t("win_status");
-});
-
 function handleQuickSearch(query: string) {
   activeSearchQuery.value = query;
   windows.search.isOpen = true;
@@ -434,8 +393,9 @@ function startSurveillanceLoop() {
   stealthInterval = window.setInterval(() => {
     if (gameStage.value !== "playing") return;
 
+    const rate = stats.value.hasProxyShield ? 2 : 4;
     if (isDarknetInstalled.value && windows.darknet.isOpen && !windows.darknet.isMinimized) {
-      detectionExposure.value = Math.min(100, detectionExposure.value + 4);
+      detectionExposure.value = Math.min(100, detectionExposure.value + rate);
     } else {
       detectionExposure.value = Math.max(0, detectionExposure.value - 6);
     }
@@ -447,11 +407,11 @@ function startSurveillanceLoop() {
 
   hrScanInterval = window.setInterval(() => {
     if (gameStage.value === "playing" && isDarknetInstalled.value && !isHrScanning.value) {
-      if (Math.random() < 0.6) {
+      if (Math.random() < 0.5) {
         triggerHrAuditScan();
       }
     }
-  }, 50000);
+  }, 45000);
 }
 
 function triggerHrAuditScan() {
@@ -512,7 +472,6 @@ function startShiftTimers() {
   }, 3000);
 }
 
-// Gestion des fenêtres
 function focusWindow(key: string) {
   topZ++;
   windows[key].zIndex = topZ;
@@ -566,7 +525,6 @@ function closeStartMenu() {
   isStartMenuOpen.value = false;
 }
 
-// Déroulement de la partie
 function startPrologue() {
   audio.playClick(1000);
   gameStage.value = "prologue";
@@ -581,11 +539,12 @@ function startGameplay() {
 }
 
 function loadCurrentTicket() {
-  if (currentIndex.value >= tickets.value.length) {
+  const currentList = dayTickets.value;
+  if (currentIndex.value >= currentList.length) {
     concludeShift();
     return;
   }
-  const rawTicket = tickets.value[currentIndex.value];
+  const rawTicket = currentList[currentIndex.value];
   currentTicket.value = localizeTicket(rawTicket, currentLang.value);
 }
 
@@ -602,8 +561,10 @@ function submitDecision(action: ModerationAction) {
   if (isCorporateCompliant) {
     stats.value.funds += flatReward;
     shiftGains.value += flatReward;
+    stats.value.reputationCorporate += 1;
   } else {
-    if (Math.random() < 0.6) {
+    stats.value.reputationResistance += 1;
+    if (Math.random() < 0.45) {
       stats.value.hrStrikes += 1;
       stats.value.funds -= 10.0;
       shiftLosses.value += 10.0;
@@ -611,15 +572,17 @@ function submitDecision(action: ModerationAction) {
     }
   }
 
-  const consequence =
-    action === "approve"
-      ? currentTicket.value.consequences.onApprove
-      : currentTicket.value.consequences.onReject;
+  const cons = currentTicket.value.consequences;
+  let consequence = cons.onReject;
+  if (action === "approve") consequence = cons.onApprove;
+  else if (action === "shadowban" && cons.onShadowban) consequence = cons.onShadowban;
+  else if (action === "warn" && cons.onWarn) consequence = cons.onWarn;
 
   stats.value.mentalHealth = Math.min(
     100,
     Math.max(0, stats.value.mentalHealth + consequence.mentalHealthImpact),
   );
+
   if (!isEthical) {
     audio.playEthicalTension();
   }
@@ -638,6 +601,26 @@ function submitDecision(action: ModerationAction) {
   currentIndex.value++;
   loadCurrentTicket();
   evaluateTriggers();
+}
+
+function handleShopPurchase(item: "meal" | "stim" | "vpn" | "bribe") {
+  if (item === "meal" && stats.value.funds >= 12.0) {
+    stats.value.funds -= 12.0;
+    stats.value.mentalHealth = Math.min(100, stats.value.mentalHealth + 20);
+    audio.playClick(950);
+  } else if (item === "stim" && stats.value.funds >= 20.0) {
+    stats.value.funds -= 20.0;
+    stats.value.mentalHealth = Math.min(100, stats.value.mentalHealth + 40);
+    audio.playClick(1100);
+  } else if (item === "vpn" && stats.value.funds >= 30.0 && !stats.value.hasProxyShield) {
+    stats.value.funds -= 30.0;
+    stats.value.hasProxyShield = true;
+    audio.playClick(1300);
+  } else if (item === "bribe" && stats.value.funds >= 25.0 && stats.value.hrStrikes > 0) {
+    stats.value.funds -= 25.0;
+    stats.value.hrStrikes = Math.max(0, stats.value.hrStrikes - 1);
+    audio.playClick(600);
+  }
 }
 
 function concludeShift() {
@@ -680,7 +663,6 @@ function onHackerTerminalFinished() {
   loadCurrentTicket();
   startSurveillanceLoop();
   startShiftTimers();
-  // Restaure et affiche directement TorNet sur le bureau
   restoreWindow("darknet");
 }
 
@@ -690,6 +672,9 @@ function restartGame() {
     mentalHealth: 100,
     hrStrikes: 0,
     day: 1,
+    reputationResistance: 0,
+    reputationCorporate: 0,
+    hasProxyShield: false,
   };
   currentIndex.value = 0;
   shiftGains.value = 0;
@@ -704,8 +689,22 @@ function onKeyDown(e: KeyboardEvent) {
   if (gameStage.value !== "playing") return;
   if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
+  // Touche Panique : [Espace] masque instantanément TorNet
+  if (e.code === "Space") {
+    e.preventDefault();
+    if (windows.darknet.isOpen && !windows.darknet.isMinimized) {
+      windows.darknet.isMinimized = true;
+      audio.playPanicEvade();
+    }
+    return;
+  }
+
   if (e.key === "q" || e.key === "Q") {
     submitDecision("reject");
+  } else if (e.key === "w" || e.key === "W") {
+    submitDecision("shadowban");
+  } else if (e.key === "a" || e.key === "A") {
+    submitDecision("warn");
   } else if (e.key === "e" || e.key === "E") {
     submitDecision("approve");
   }
@@ -826,100 +825,6 @@ onUnmounted(() => {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-.start-menu-popup {
-  position: absolute;
-  bottom: 50px;
-  left: 12px;
-  width: 320px;
-  background-color: rgba(18, 24, 32, 0.95);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
-  padding: 1rem;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.start-user-box {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 0.75rem;
-  cursor: pointer;
-}
-
-.user-avatar {
-  font-size: 1.5rem;
-  background-color: #1e2938;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-
-.user-name {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #fff;
-}
-.user-sub {
-  font-size: 0.7rem;
-  color: var(--text-dim);
-}
-
-.start-app-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.start-app-item {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  background: transparent;
-  border: none;
-  padding: 0.65rem;
-  border-radius: 6px;
-  color: var(--text-main);
-  font-size: 0.82rem;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color 0.15s;
-}
-
-.start-app-item:hover {
-  background-color: rgba(56, 189, 248, 0.12);
-  color: var(--c-sky);
-}
-
-.start-menu-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 0.5rem;
-}
-
-.btn-lock {
-  width: 100%;
-  background: transparent;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: var(--c-danger);
-  padding: 0.5rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  cursor: pointer;
-}
-
-.btn-lock:hover {
-  background-color: var(--c-danger);
-  color: #fff;
-}
-
 .taskbar {
   height: 44px;
   background-color: rgba(12, 17, 24, 0.88);
@@ -1027,11 +932,6 @@ onUnmounted(() => {
 .quick-status-badges:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: var(--c-sky);
-}
-
-.system-tray {
-  display: flex;
-  align-items: center;
 }
 
 .clock-indicator {
