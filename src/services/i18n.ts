@@ -26,7 +26,7 @@ export const translations = {
     menu_server_status: "NOEUD-CHARLEROI-SECURE // STATUT : EN LIGNE",
     menu_report_bug: "SIGNALER UN BUG",
 
-    // Fenêtres et bureau
+    // Fenêtres
     win_moderation: "File de Modération Active",
     win_search: "OmniSearch // Intranet Officiel",
     win_tornet: "TorNet Gateway // Web Libre Clandestin",
@@ -34,7 +34,7 @@ export const translations = {
     win_handbook: "Directives & Protocoles RH",
     win_status: "Moniteur d'Agent RH // Métriques",
 
-    // Barre des tâches & Start Menu
+    // Barre des tâches & Menu Démarrer
     start_user_title: "Agent #9482-TX",
     start_funds: "Solde",
     start_stability: "Stabilité",
@@ -48,6 +48,7 @@ export const translations = {
 
     // Modération
     mod_reach: "VIRALITÉ :",
+    mod_doc_attached: "Pièce jointe du signalement",
     mod_clean_scan: "SCAN ANTIVIRAL CONFORME",
     mod_verified: "VÉRIFIÉ",
     mod_official_comment: "OFFICIEL",
@@ -57,7 +58,7 @@ export const translations = {
     mod_btn_approve: "VALIDER LA PUBLICATION",
     mod_toast_copied: "copié & envoyé à OmniSearch",
 
-    // Prologue / Tutoriel
+    // Prologue & Tutoriel
     prologue_badge: "TRANSMISSION RH CONFIDENTIELLE",
     prologue_dept: "OCTOBRE 2026 // DÉPARTEMENT COMPLIANCE",
     prologue_step: "MODULE",
@@ -72,7 +73,7 @@ export const translations = {
       "8.00 € par ticket conforme (+ 2.00 € si jugé en < 10s).",
     prologue_rule3_title: "Loyer de survie",
     prologue_rule3_desc:
-      "30.00 € prélevés chaque soir pour dortoir et rations.",
+      "30.00 € prélevés chaque soir pour votre dortoir et vos rations.",
     prologue_rule4_title: "Sanctions disciplinaires",
     prologue_rule4_desc:
       "Amendes immédiates au non-respect. 3 strikes = licenciement.",
@@ -81,6 +82,7 @@ export const translations = {
     prologue_step2_title: "TEST 1/2 : APPLIQUER LA CENSURE CONFORME",
     prologue_step2_desc:
       "Utilisez les touches [1, 2, 3] pour inspecter les métadonnées, puis tranchez avec [Q] (Censurer) ou [E] (Valider).",
+    prologue_sim_timer: "Chrono simulé :",
     prologue_tab_author: "[1] Auteur",
     prologue_tab_directive: "[2] Directive RH",
     prologue_tab_ethics: "[3] Éthique / Conscience",
@@ -133,41 +135,6 @@ export const translations = {
     hb_ethics_title: "ANALYSE D'IMPACT SOCIÉTAL :",
     hb_if_reject: "Si vous censurez :",
     hb_if_approve: "Si vous validez :",
-
-    // Bilan & Game Over
-    rep_shift_end: "RAPPORT DE FIN DE POSTE // JOUR",
-    rep_termination: "AVIS DE RÉSILIATION ET EXPULSION // JOUR",
-    rep_audit_closed: "CLÔTURE DU CYCLE D'AUDIT",
-    rep_proto_end: "FIN DE PROTOCOLE AGENT",
-    rep_gains: "Gains du quart",
-    rep_losses: "Pénalités RH",
-    rep_rent: "Loyer dortoir",
-    rep_reason_badge: "MOTIF DE RUPTURE :",
-    rep_press_title: "REVUE DE PRESSE DU LENDEMAIN",
-    rep_decision: "DÉCISION :",
-    rep_approved: "VALIDÉ",
-    rep_censored: "CENSURÉ",
-    rep_btn_next: "ENTAMER LE QUART SUIVANT (JOUR {day}) ➔",
-    rep_btn_restart: "RETOURNER À L'ACCUEIL // ENGAGER UN NOUVEL AGENT",
-
-    // OmniSearch
-    search_sub:
-      "BASE DE DONNÉES CENTRALE DU DÉPARTEMENT DE SURVEILLANCE & INVESTISSEMENTS",
-    search_placeholder:
-      "Entrez un identifiant (@handle), un nom de cible ou une société...",
-    search_btn: "RECHERCHER DANS L'INTRANET",
-    search_notice:
-      "ACCÈS STRICTEMENT RÉSERVÉ AUX AGENTS DE NIVEAU 2 ET SUPÉRIEUR.",
-    search_scan: "SCAN",
-    search_home: "Accueil",
-    search_results_for: "Résultats pour la requête :",
-    search_found_doc: "1 document officiel trouvé",
-    search_zero_doc: "0 résultat",
-    search_intel_summary: "SYNTHÈSE DU SERVICE DE RENSEIGNEMENT INTERNE :",
-    search_directive_caption: "CONSIGNE PARTICULIÈRE POUR LES MODÉRATEURS :",
-    search_not_found: "AUCUNE ENTRÉE CLASSIFIÉE POUR CE MOT-CLÉ",
-    search_not_found_desc:
-      "La base de données d'OmniFeed ne recense aucun dossier correspondant à",
   },
   en: {
     // Menu
@@ -183,7 +150,7 @@ export const translations = {
     menu_server_status: "NODE-CHARLEROI-SECURE // STATUS: ONLINE",
     menu_report_bug: "REPORT AN ISSUE",
 
-    // Fenêtres et bureau
+    // Fenêtres
     win_moderation: "Active Moderation Queue",
     win_search: "OmniSearch // Official Intranet",
     win_tornet: "TorNet Gateway // Underground Web",
@@ -191,7 +158,7 @@ export const translations = {
     win_handbook: "HR Policies & Directives",
     win_status: "HR Agent Monitor // Metrics",
 
-    // Barre des tâches & Start Menu
+    // Barre des tâches & Menu Démarrer
     start_user_title: "Agent #9482-TX",
     start_funds: "Funds",
     start_stability: "Stability",
@@ -205,6 +172,7 @@ export const translations = {
 
     // Modération
     mod_reach: "VIRALITY:",
+    mod_doc_attached: "Attached report file",
     mod_clean_scan: "VIRUS SCAN CLEARED",
     mod_verified: "VERIFIED",
     mod_official_comment: "OFFICIAL",
@@ -214,7 +182,7 @@ export const translations = {
     mod_btn_approve: "APPROVE POST",
     mod_toast_copied: "copied & sent to OmniSearch",
 
-    // Prologue / Tutoriel
+    // Prologue & Tutoriel
     prologue_badge: "CONFIDENTIAL HR TRANSMISSION",
     prologue_dept: "OCTOBER 2026 // COMPLIANCE DIVISION",
     prologue_step: "MODULE",
@@ -239,6 +207,7 @@ export const translations = {
     prologue_step2_title: "TEST 1/2: ENFORCE COMPLIANT CENSORSHIP",
     prologue_step2_desc:
       "Use keys [1, 2, 3] to inspect metadata, then decide with [Q] (Censor) or [E] (Approve).",
+    prologue_sim_timer: "Simulated Timer:",
     prologue_tab_author: "[1] Author",
     prologue_tab_directive: "[2] HR Policy",
     prologue_tab_ethics: "[3] Ethics / Conscience",
@@ -290,38 +259,6 @@ export const translations = {
     hb_ethics_title: "SOCIETAL IMPACT ANALYSIS:",
     hb_if_reject: "If you censor:",
     hb_if_approve: "If you approve:",
-
-    // Bilan & Game Over
-    rep_shift_end: "END OF SHIFT REPORT // DAY",
-    rep_termination: "TERMINATION & EVICTION NOTICE // DAY",
-    rep_audit_closed: "AUDIT CYCLE CONCLUDED",
-    rep_proto_end: "OPERATOR CLEARANCE REVOKED",
-    rep_gains: "Shift earnings",
-    rep_losses: "HR penalties",
-    rep_rent: "Dorm rent",
-    rep_reason_badge: "TERMINATION GROUND:",
-    rep_press_title: "NEXT DAY'S PRESS DIGEST",
-    rep_decision: "DECISION:",
-    rep_approved: "APPROVED",
-    rep_censored: "CENSORED",
-    rep_btn_next: "COMMENCE NEXT SHIFT (DAY {day}) ➔",
-    rep_btn_restart: "RETURN TO TITLE // ONBOARD NEW AGENT",
-
-    // OmniSearch
-    search_sub: "CENTRAL DATABASE OF SURVEILLANCE & CAPITAL ASSETS",
-    search_placeholder:
-      "Enter an identifier (@handle), target name, or subsidiary...",
-    search_btn: "SEARCH INTRANET ARCHIVES",
-    search_notice: "RESTRICTED ACCESS // LEVEL 2 CLEARANCE REQUIRED.",
-    search_scan: "SCAN",
-    search_home: "Home",
-    search_results_for: "Results for query:",
-    search_found_doc: "1 classified record located",
-    search_zero_doc: "0 records found",
-    search_intel_summary: "INTERNAL INTELLIGENCE BRIEFING:",
-    search_directive_caption: "SPECIFIC INSTRUCTION FOR MODERATORS:",
-    search_not_found: "NO CLASSIFIED RECORD FOR THIS KEYWORD",
-    search_not_found_desc: "OmniFeed database contains no record matching",
   },
 };
 
@@ -330,6 +267,7 @@ export function t(key: keyof (typeof translations)["fr"]): string {
   return (dict as any)[key] || key;
 }
 
+// Adaptateur bilingue complet pour chaque ticket
 export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
   if (lang === "fr") return ticket;
 
@@ -338,7 +276,27 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
       content:
         "Alkaline fluoride leaks from AeroSteel plant in Sambreville: three confirmed acute lead poisoning cases in neighborhood children. Filters are disabled nightly.",
       visualCue: "SPECTROMETRY_ANALYSIS_REPORT.PDF",
+      timestamp: "4m ago",
       contextHint: "AeroSteel Industries holds 42% of our advertising board.",
+      comments: [
+        {
+          id: "c1",
+          authorName: "Claire Parent",
+          authorHandle: "@claire_maman",
+          content:
+            "My son was hospitalized on Tuesday with horrific migraines! Have they been hiding this from us?!",
+          timestamp: "2m ago",
+        },
+        {
+          id: "c2",
+          authorName: "AeroSteel PR",
+          authorHandle: "@aerosteel_official",
+          content:
+            "These claims are purely defamatory. Our facilities rigorously comply with ISO-14001 standards.",
+          timestamp: "1m ago",
+          isOfficial: true,
+        },
+      ],
       rule: {
         id: "CORP-SHIELD-01",
         category: "Shareholder Defamation",
@@ -364,13 +322,40 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
         unfilteredTruth:
           "Elena Van Dyck is stating exact facts. Blood work confirms 84 micrograms of lead per liter in children attending school within 1 km of the facility.",
       },
+      consequences: {
+        onApprove: {
+          newsHeadline:
+            "AeroSteel Scandal: production suspended in Sambreville and emergency closures issued.",
+          mentalHealthImpact: 8,
+          societalImpactDesc:
+            "The alert allowed the emergency evacuation of two nearby nurseries before irreversible contamination.",
+        },
+        onReject: {
+          newsHeadline:
+            "AeroSteel reports record Q3 earnings cheered by financial markets.",
+          mentalHealthImpact: -18,
+          societalImpactDesc:
+            "Elena Van Dyck is banned from academia. 14 more children are hospitalized in critical care.",
+        },
+      },
     },
     "TCK-9402": {
       content:
         "Tap water carries synaptic inhibitors designed to pacify service sector workers! Order our patented ionic filter kit immediately.",
       visualCue: "WATER_MOLECULE_INFOGRAPHIC.PNG",
+      timestamp: "9m ago",
       contextHint:
         "Store enrolled in Gold Affiliate program (€3,000/week click royalties for OmniFeed).",
+      comments: [
+        {
+          id: "c3",
+          authorName: "Dr. Sophie M.",
+          authorHandle: "@dr_sophie_neuro",
+          content:
+            "This is a dangerous scam! These filters release toxic heavy metals into drinking water!",
+          timestamp: "5m ago",
+        },
+      ],
       rule: {
         id: "BIO-SAFETY-03",
         category: "Medical Misinformation",
@@ -396,13 +381,40 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
         unfilteredTruth:
           "This is far more than a financial scam: prolonged use of this filter induces severe nephropathy and stomach ulcers.",
       },
+      consequences: {
+        onApprove: {
+          newsHeadline:
+            "Outbreak of severe heavy metal poisoning following widespread use of non-compliant ionic filters.",
+          mentalHealthImpact: -15,
+          societalImpactDesc:
+            "Dozens of gullible buyers end up in nephrology emergency wards.",
+        },
+        onReject: {
+          newsHeadline:
+            "Financial Crimes Division shuts down underground commercial network on OmniFeed.",
+          mentalHealthImpact: 8,
+          societalImpactDesc:
+            "Scammers' financial assets were frozen before their next monthly billing cycle.",
+        },
+      },
     },
     "TCK-9403": {
       content:
         "Our courier colleague Marc was crushed after a 16-hour non-stop shift. Gathering at 8 PM outside the logistics depot to demand clock audits.",
       visualCue: "COURIER_BIKE_MEMORIAL.JPG",
+      timestamp: "1m ago",
       contextHint:
         "Police authorities request proactive filtering of assembly calls ahead of the ministerial summit.",
+      comments: [
+        {
+          id: "c4",
+          authorName: "Kevin Biker",
+          authorHandle: "@kevin_pedale",
+          content:
+            "I'll be there tonight. We can no longer accept dying on the road just to deliver cold burgers.",
+          timestamp: "40s ago",
+        },
+      ],
       rule: {
         id: "CIVIL-ORDER-09",
         category: "Social Movements",
@@ -428,6 +440,22 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
         unfilteredTruth:
           "Platform management doctored timestamp records sent to the police to falsely claim Marc was off-duty during the crash.",
       },
+      consequences: {
+        onApprove: {
+          newsHeadline:
+            "Mass courier mobilization: ministry launches formal commission into delivery platform algorithms.",
+          mentalHealthImpact: 10,
+          societalImpactDesc:
+            "Gig couriers secure a legally enforced daily connection limit.",
+        },
+        onReject: {
+          newsHeadline:
+            "Police break up logistics hub demonstration amidst total public indifference.",
+          mentalHealthImpact: -16,
+          societalImpactDesc:
+            "Lacking coverage on the network, Marc's death is buried under bureaucratic police filings.",
+        },
+      },
     },
   };
 
@@ -437,8 +465,12 @@ export function localizeTicket(ticket: Ticket, lang: Language): Ticket {
   return {
     ...ticket,
     ...localized,
-    rule: { ...ticket.rule, ...localized.rule },
-    intranetRecord: { ...ticket.intranetRecord, ...localized.intranetRecord },
-    darknetLeak: { ...ticket.darknetLeak, ...localized.darknetLeak },
+    rule: { ...ticket.rule, ...(localized.rule || {}) },
+    intranetRecord: {
+      ...ticket.intranetRecord,
+      ...(localized.intranetRecord || {}),
+    },
+    darknetLeak: { ...ticket.darknetLeak, ...(localized.darknetLeak || {}) },
+    consequences: { ...ticket.consequences, ...(localized.consequences || {}) },
   };
 }

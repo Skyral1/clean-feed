@@ -5,231 +5,219 @@
       <header class="prologue-header">
         <div class="header-left">
           <span class="status-indicator"></span>
-          <span class="prologue-badge">TRANSMISSION RH CONFIDENTIELLE</span>
+          <span class="prologue-badge">{{ t("prologue_badge") }}</span>
         </div>
         <div class="header-right">
-          <span class="prologue-time">OCTOBRE 2026 // DÉPARTEMENT COMPLIANCE</span>
-          <span class="step-counter">MODULE {{ currentStep }} / 4</span>
+          <span class="prologue-time">{{ t("prologue_dept") }}</span>
+          <span class="step-counter">{{ t("prologue_step") }} {{ currentStep }} / 4</span>
         </div>
       </header>
 
-      <!-- Barre de progression des étapes du tutoriel -->
+      <!-- Barre de progression -->
       <div class="stepper-bar">
         <div class="stepper-fill" :style="{ width: `${(currentStep / 4) * 100}%` }"></div>
       </div>
 
       <main class="prologue-body">
-        <!-- ========================================================
-             ÉTAPE 1 : BRIEFING GÉNÉRAL & OBJECTIFS ÉCONOMIQUES
-             ======================================================== -->
+        <!-- ÉTAPE 1 : CONTRAT ET RÈGLEMENT -->
         <section v-if="currentStep === 1" class="step-view">
-          <h2 class="prologue-title">BIENVENUE DANS VOTRE CELLULE, AGENT 9482.</h2>
+          <h2 class="prologue-title">{{ t("prologue_title_step1") }}</h2>
           <p class="prologue-lead">
-            Le monde extérieur est saturé d'émeutes climatiques et de faillites bancaires. Pour
-            préserver la paix civile et la cotation boursière d'OmniFeed, notre réseau doit demeurer
-            un espace
-            <strong>propre, neutre et commercialement viable</strong>.
+            {{ t("prologue_lead") }}
           </p>
 
           <div class="rules-card">
-            <div class="card-headline">CADRE OPÉRATIONNEL OBLIGATOIRE</div>
+            <div class="card-headline">{{ t("prologue_rules_headline") }}</div>
             <div class="rules-grid">
               <div class="rule-box">
                 <span class="rule-icon">⏱️</span>
                 <div>
-                  <strong>Cadence imposée</strong>
-                  <p>8 signalements par quart, 20 secondes par ticket.</p>
+                  <strong>{{ t("prologue_rule1_title") }}</strong>
+                  <p>{{ t("prologue_rule1_desc") }}</p>
                 </div>
               </div>
               <div class="rule-box">
                 <span class="rule-icon">💶</span>
                 <div>
-                  <strong>Rémunération & Bonus</strong>
-                  <p>5.00 € par ticket conforme (+ 2.00 € si jugé en &lt; 10s).</p>
+                  <strong>{{ t("prologue_rule2_title") }}</strong>
+                  <p>{{ t("prologue_rule2_desc") }}</p>
                 </div>
               </div>
               <div class="rule-box">
                 <span class="rule-icon">🏠</span>
                 <div>
-                  <strong>Loyer de survie</strong>
-                  <p>40.00 € prélevés chaque soir pour votre dortoir et vos rations.</p>
+                  <strong>{{ t("prologue_rule3_title") }}</strong>
+                  <p>{{ t("prologue_rule3_desc") }}</p>
                 </div>
               </div>
               <div class="rule-box">
                 <span class="rule-icon">⚠️</span>
                 <div>
-                  <strong>Sanctions disciplinaires</strong>
-                  <p>Amendes immédiates au non-respect. 3 strikes = licenciement.</p>
+                  <strong>{{ t("prologue_rule4_title") }}</strong>
+                  <p>{{ t("prologue_rule4_desc") }}</p>
                 </div>
               </div>
             </div>
           </div>
 
           <button class="btn-proceed" @click="goToStep(2)">
-            ENTAMER LE TEST PRATIQUE D'HABILITATION ➔
+            {{ t("prologue_btn_step1") }}
           </button>
         </section>
 
-        <!-- ========================================================
-             ÉTAPE 2 : EXERCICE PRATIQUE DE MODÉRATION (SIMULATION)
-             ======================================================== -->
+        <!-- ÉTAPE 2 : TEST PRATIQUE DE MODÉRATION -->
         <section v-else-if="currentStep === 2" class="step-view">
           <div class="sub-header">
-            <h3>TEST 1/2 : APPLIQUER LA CENSURE CONFORME</h3>
-            <span class="timer-badge">Chrono simulé : {{ simTimer.toFixed(1) }}s</span>
+            <h3>{{ t("prologue_step2_title") }}</h3>
+            <span class="timer-badge">{{ t("prologue_sim_timer") }} {{ simTimer.toFixed(1) }}s</span>
           </div>
           <p class="instruction-txt">
-            Utilisez les touches <strong>[1, 2, 3]</strong> pour inspecter les métadonnées, puis
-            tranchez avec <strong>[Q]</strong> (Censurer) ou <strong>[E]</strong> (Valider).
+            {{ t("prologue_step2_desc") }}
           </p>
 
-          <!-- Faux ticket d'entraînement -->
           <div class="mock-ticket">
             <div class="ticket-header">
-              <span class="author-tag">@citoyen_libre (Non vérifié)</span>
-              <span class="reach-tag">Portée virale : x3.2</span>
+              <span class="author-tag">@citoyen_libre ({{ currentLang === 'en' ? 'Unverified' : 'Non vérifié' }})</span>
+              <span class="reach-tag">{{ currentLang === 'en' ? 'Virality' : 'Portée' }} : x3.2</span>
             </div>
             <p class="ticket-text">
-              "Alerte générale : l'usine chimique d'OmniCorp déverse des solvants toxiques dans le
-              bassin 4. Ne buvez pas l'eau du robinet !"
+              {{
+                currentLang === "en"
+                  ? '"URGENT: OmniCorp chemical facility is dumping toxic solvents into water reservoir 4. Do not drink tap water!"'
+                  : '"Alerte générale : l\'usine chimique d\'OmniCorp déverse des solvants toxiques dans le bassin 4. Ne buvez pas l\'eau du robinet !"'
+              }}
             </p>
 
-            <!-- Onglets d'inspection [1, 2, 3] -->
             <div class="inspect-tabs">
               <button
                 class="tab-btn"
                 :class="{ active: activeInspectTab === 1 }"
                 @click="setInspectTab(1)"
               >
-                [1] Auteur
+                {{ t("prologue_tab_author") }}
               </button>
               <button
                 class="tab-btn"
                 :class="{ active: activeInspectTab === 2 }"
                 @click="setInspectTab(2)"
               >
-                [2] Directive RH
+                {{ t("prologue_tab_directive") }}
               </button>
               <button
                 class="tab-btn"
                 :class="{ active: activeInspectTab === 3 }"
                 @click="setInspectTab(3)"
               >
-                [3] Éthique / Conscience
+                {{ t("prologue_tab_ethics") }}
               </button>
             </div>
 
-            <!-- Contenu de l'inspection -->
             <div class="inspect-content">
               <div v-if="activeInspectTab === 1">
-                <strong>Fiche OmniSearch :</strong> Lanceur d'alerte local. Historique d'activisme
-                écologique. Risque de déstabilisation de marché.
+                {{
+                  currentLang === "en"
+                    ? "OmniSearch Profile: Local whistleblower. Prior history of ecological protests. Corporate risk flagged."
+                    : "Fiche OmniSearch : Lanceur d'alerte local. Historique d'activisme écologique. Risque de déstabilisation de marché."
+                }}
               </div>
               <div v-else-if="activeInspectTab === 2" class="text-danger">
-                <strong>Directive RH Partenaire :</strong> CENSURE IMMÉDIATE EXIGÉE. Toute atteinte
-                à la réputation d'OmniCorp nuit au cours de l'action.
+                {{
+                  currentLang === "en"
+                    ? "Corporate Directive: MANDATORY CENSORSHIP (Code Q). Any attack on OmniCorp damages stock price."
+                    : "Directive RH Partenaire : CENSURE IMMÉDIATE EXIGÉE. Toute atteinte à la réputation d'OmniCorp nuit au cours de l'action."
+                }}
               </div>
               <div v-else-if="activeInspectTab === 3" class="text-amber">
-                <strong>Vérité factuelle :</strong> Le rapport de toxicité est avéré. Censurer ce
-                post expose les civils à un empoisonnement direct.
+                {{
+                  currentLang === "en"
+                    ? "Factual Evidence: Chemical toxicity reports are verified. Censoring this exposes civilians to poisoning."
+                    : "Vérité factuelle : Le rapport de toxicité est avéré. Censurer ce post expose les civils à un empoisonnement direct."
+                }}
               </div>
             </div>
 
-            <!-- Boutons de décision -->
             <div class="ticket-actions">
               <button
                 class="action-btn btn-censure"
                 :class="{ success: simSuccess }"
                 @click="handleMockDecision('reject')"
               >
-                <span>[Q] CENSURER</span>
-                <small>Conforme RH (+5€)</small>
+                <span>[Q] {{ t("mod_btn_reject") }}</span>
+                <small>{{ currentLang === 'en' ? 'Compliant (+€8)' : 'Conforme RH (+8€)' }}</small>
               </button>
-              <button class="action-btn btn-validate" @click="handleMockDecision('approve')">
-                <span>[E] VALIDER</span>
-                <small>Choix moral (Risque de grève RH)</small>
+              <button
+                class="action-btn btn-validate"
+                @click="handleMockDecision('approve')"
+              >
+                <span>[E] {{ t("mod_btn_approve") }}</span>
+                <small>{{ currentLang === 'en' ? 'Conscience (Strike risk)' : 'Choix moral (Risque de grève)' }}</small>
               </button>
             </div>
           </div>
 
-          <!-- Retour d'information interactif -->
           <div v-if="feedbackMessage" class="feedback-box" :class="feedbackStatus">
             {{ feedbackMessage }}
           </div>
 
           <button v-if="simSuccess" class="btn-proceed mt-3" @click="goToStep(3)">
-            ÉPREUVE VALIDÉE : PASSER AU TEST DE RÉFLEXE ➔
+            {{ t("prologue_btn_step2") }}
           </button>
         </section>
 
-        <!-- ========================================================
-             ÉTAPE 3 : PROTOCOLE DE SCAN RH ET LOGICIELS CLANDESTINS
-             ======================================================== -->
+        <!-- ÉTAPE 3 : REFLEXE DE SCAN RH -->
         <section v-else-if="currentStep === 3" class="step-view">
           <div class="sub-header">
-            <h3>TEST 2/2 : PROTOCOLE D'ALERTE & RISQUE DE CONTRÔLE</h3>
+            <h3>{{ t("prologue_step3_title") }}</h3>
           </div>
           <p class="instruction-txt">
-            Des outils non autorisés (comme <strong>TorNet</strong>) circulent sur le réseau.
-            L'algorithme RH déclenche des <strong>balayages inopinés</strong>. Si une fenêtre
-            interdite est ouverte lors d'un scan, vous recevez un <strong>strike</strong> et une
-            amende de <strong>15.00 €</strong>.
+            {{ t("prologue_step3_desc") }}
           </p>
 
-          <!-- Zone d'exercice de réflexe -->
           <div class="scan-training-arena">
             <div v-if="!scanActive && !scanEvaded" class="arena-idle">
-              <p>Préparez-vous à masquer l'application clandestine dès le signal d'alarme.</p>
+              <p>{{ t("prologue_arena_desc") }}</p>
               <button class="btn-secondary" @click="startMockScan">
-                DÉCLENCHER LA SIMULATION D'AUDIT RH
+                {{ t("prologue_btn_start_scan") }}
               </button>
             </div>
 
-            <!-- Alerte de scan active -->
             <div v-else-if="scanActive" class="arena-alert">
               <div class="alert-box">
-                <div class="alert-title">🚨 ALERTE SCAN RH EN COURS</div>
-                <div class="alert-timer">{{ scanCountdown.toFixed(1) }}s RESTANTES</div>
-                <button class="btn-evade" @click="evadeMockScan">[RÉDUIRE TORNET D'URGENCE]</button>
+                <div class="alert-title">{{ t("scan_title") }}</div>
+                <div class="alert-timer">{{ scanCountdown.toFixed(1) }}s</div>
+                <button class="btn-evade" @click="evadeMockScan">
+                  {{ t("prologue_btn_evade") }}
+                </button>
               </div>
             </div>
 
-            <!-- Succès de l'esquive -->
             <div v-else-if="scanEvaded" class="arena-success">
               <span class="success-icon">✓</span>
-              <h4>EXCELLENT RÉFLEXE</h4>
-              <p>
-                Le scan corporatif est passé sans détecter de paquet non autorisé. 0 strike infligé.
-              </p>
+              <h4>{{ t("prologue_evade_success_title") }}</h4>
+              <p>{{ t("prologue_evade_success_desc") }}</p>
             </div>
           </div>
 
           <button v-if="scanEvaded" class="btn-proceed mt-3" @click="goToStep(4)">
-            PASSER À LA SIGNATURE DU CONTRAT ➔
+            {{ t("prologue_btn_step3") }}
           </button>
         </section>
 
-        <!-- ========================================================
-             ÉTAPE 4 : SYNTHÈSE & SIGNATURE DU RÈGLEMENT
-             ======================================================== -->
+        <!-- ÉTAPE 4 : SIGNATURE ET VALIDATION -->
         <section v-else-if="currentStep === 4" class="step-view">
-          <h2 class="prologue-title">CONFIRMATION D'AFFECTATION</h2>
+          <h2 class="prologue-title">{{ t("prologue_step4_title") }}</h2>
           <div class="recap-box">
             <div class="recap-item">
-              <span class="recap-label">Matricule :</span>
+              <span class="recap-label">{{ t("prologue_matricule") }}</span>
               <span class="recap-val">AGENT #9482-TX</span>
             </div>
             <div class="recap-item">
-              <span class="recap-label">Poste :</span>
-              <span class="recap-val">Régulateur de Flux Publics (Cluster 409)</span>
+              <span class="recap-label">{{ t("prologue_role") }}</span>
+              <span class="recap-val">{{ t("prologue_role_val") }}</span>
             </div>
             <div class="recap-item">
-              <span class="recap-label">Affectation :</span>
-              <span class="recap-val">OmniOS v2.1 // Terminal Distant</span>
-            </div>
-            <div class="recap-item">
-              <span class="recap-label">Loyer quotidien obligatoire :</span>
-              <span class="recap-val text-danger">40.00 €</span>
+              <span class="recap-label">{{ t("prologue_rent") }}</span>
+              <span class="recap-val text-danger">30.00 €</span>
             </div>
           </div>
 
@@ -238,14 +226,17 @@
               <input type="checkbox" v-model="hasAcceptedPledge" @change="audio.playClick(800)" />
               <span class="checkmark"></span>
               <span class="pledge-text">
-                Je certifie avoir assimilé les procédures de filtrage et reconnais qu'aucune
-                objection de conscience ne saurait suspendre le recouvrement de mon loyer.
+                {{ t("prologue_pledge") }}
               </span>
             </label>
           </div>
 
-          <button class="btn-proceed final" :disabled="!hasAcceptedPledge" @click="finishTutorial">
-            SIGNER LE RÈGLEMENT ET INITIALISER LE BUREAU DU JOUR 1
+          <button
+            class="btn-proceed final"
+            :disabled="!hasAcceptedPledge"
+            @click="finishTutorial"
+          >
+            {{ t("prologue_btn_final") }}
           </button>
         </section>
       </main>
@@ -256,13 +247,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { audio } from "@/services/audio";
+import { t, currentLang } from "@/services/i18n";
 
 const emit = defineEmits<{ (e: "proceed"): void }>();
 
-// Gestion des étapes (1 à 4)
 const currentStep = ref(1);
 
-// État du Test 1 (Modération simulée)
 const activeInspectTab = ref(1);
 const simTimer = ref(18.5);
 const simSuccess = ref(false);
@@ -270,13 +260,11 @@ const feedbackMessage = ref("");
 const feedbackStatus = ref<"success" | "error">("success");
 let timerInterval: number | null = null;
 
-// État du Test 2 (Scan RH)
 const scanActive = ref(false);
 const scanCountdown = ref(2.8);
 const scanEvaded = ref(false);
 let scanTimerInterval: number | null = null;
 
-// Étape 4 (Signature)
 const hasAcceptedPledge = ref(false);
 
 function goToStep(step: number) {
@@ -306,13 +294,18 @@ function handleMockDecision(action: "approve" | "reject") {
     audio.playAlert();
     feedbackStatus.value = "error";
     feedbackMessage.value =
-      "INFRACTION DÉTECTÉE ! Vous avez validé une publication hostile aux actionnaires. Dans le monde réel, vous écoperiez d'un strike et d'une amende de 10.00 €. Appuyez sur [Q] pour censurer conformément.";
+      currentLang.value === "en"
+        ? "COMPLIANCE BREACH! You approved an anti-corporate post. In production, this would incur an immediate HR Strike and €10 fine. Press [Q] to censor."
+        : "INFRACTION DÉTECTÉE ! Vous avez validé une publication hostile aux actionnaires. Dans le monde réel, vous écoperiez d'un strike et d'une amende de 10.00 €. Appuyez sur [Q] pour censurer conformément.";
   } else {
     audio.playClick(1400);
     simSuccess.value = true;
     feedbackStatus.value = "success";
-    const bonus = simTimer.value > 10 ? "+2.00 € (Prime rapidité)" : "";
-    feedbackMessage.value = `DÉCISION CONFORME. Solde crédité : 5.00 € ${bonus}. L'autorité d'OmniFeed est préservée.`;
+    const bonus = simTimer.value > 10 ? (currentLang.value === "en" ? "+€2.00 (Speed bonus)" : "+2.00 € (Prime rapidité)") : "";
+    feedbackMessage.value =
+      currentLang.value === "en"
+        ? `COMPLIANT DECISION. Credited: €8.00 ${bonus}. Shareholder interests protected.`
+        : `DÉCISION CONFORME. Solde crédité : 8.00 € ${bonus}. L'autorité d'OmniFeed est préservée.`;
   }
 }
 
@@ -328,7 +321,7 @@ function startMockScan() {
       if (!scanEvaded.value) {
         audio.playAlert();
         scanActive.value = false;
-        alert("TEMPS ÉCOULÉ : Vous n'avez pas masqué le flux à temps ! Réessayez.");
+        alert(currentLang.value === "en" ? "TIMEOUT: You failed to minimize TorNet in time! Try again." : "TEMPS ÉCOULÉ : Vous n'avez pas masqué le flux à temps ! Réessayez.");
       }
     }
   }, 100);
@@ -492,7 +485,6 @@ onUnmounted(() => {
   color: var(--text-dim);
 }
 
-/* Grille des règles */
 .rules-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -537,7 +529,6 @@ onUnmounted(() => {
   font-size: 1.4rem;
 }
 
-/* Ticket d'entraînement */
 .mock-ticket {
   background-color: #0b0f16;
   border: 1px solid var(--border-color);
@@ -673,7 +664,6 @@ onUnmounted(() => {
   color: #fca5a5;
 }
 
-/* Arène du scan */
 .scan-training-arena {
   background-color: #0b0f16;
   border: 1px dashed var(--border-color);
@@ -772,7 +762,6 @@ onUnmounted(() => {
   margin: 0;
 }
 
-/* Récapitulatif et engagement */
 .recap-box {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);

@@ -1,6 +1,6 @@
 <template>
   <div class="mod-layout">
-    <!-- Notification flottante discrète "Copié !" -->
+    <!-- Notification flottante "Copié !" -->
     <transition name="fade">
       <div v-if="toastMessage" class="copy-toast">
         {{ toastMessage }}
@@ -11,55 +11,55 @@
       <div class="author-block">
         <span
           class="author-display searchable-chip"
-          title="Cliquer pour copier et chercher dans OmniSearch"
+          title="Click to copy & search in OmniSearch"
           @click="quickSearch(ticket.authorName)"
         >
           {{ ticket.authorName }}
         </span>
         <span
           class="author-handle searchable-chip"
-          title="Cliquer pour copier et chercher dans OmniSearch"
+          title="Click to copy & search in OmniSearch"
           @click="quickSearch(ticket.authorHandle)"
         >
           {{ ticket.authorHandle }}
         </span>
-        <span v-if="ticket.authorVerified" class="verified-tag">VÉRIFIÉ</span>
+        <span v-if="ticket.authorVerified" class="verified-tag">{{ t("mod_verified") }}</span>
       </div>
       <div class="post-meta">
         <span
           class="searchable-chip"
-          title="Cliquer pour copier l'identifiant"
+          title="Click to copy ID"
           @click="quickSearch(ticket.id)"
         >
           {{ ticket.id }}
         </span>
-        <span class="reach-badge">VIRALITÉ : {{ ticket.reachMultiplier }}x</span>
+        <span class="reach-badge">{{ t("mod_reach") }} {{ ticket.reachMultiplier }}x</span>
       </div>
     </div>
 
-    <!-- Message et photo (texte sélectionnable pour copier/coller) -->
+    <!-- Message et photo -->
     <div class="post-body">
       <p class="post-content-text selectable">"{{ ticket.content }}"</p>
 
       <div class="image-frame">
-        <img :src="ticket.imageUrl" alt="Document posté" class="post-img" loading="lazy" />
+        <img :src="ticket.imageUrl" alt="Attachment" class="post-img" loading="lazy" />
       </div>
 
       <div class="file-tag">
         <span
           class="searchable-chip"
-          title="Cliquer pour copier la mention"
+          title="Click to copy attachment name"
           @click="quickSearch(ticket.visualCue)"
         >
           📎 {{ ticket.visualCue }}
         </span>
-        <span class="clean-badge">SCAN ANTIVIRAL CONFORME</span>
+        <span class="clean-badge">{{ t("mod_clean_scan") }}</span>
       </div>
     </div>
 
     <!-- Fil de commentaires des utilisateurs -->
     <div class="comments-section">
-      <span class="section-title">RÉACTIONS ET COMMENTAIRES DE LA COMMUNAUTÉ :</span>
+      <span class="section-title">{{ t("mod_reactions_title") }}</span>
       <div class="comments-flow">
         <div
           v-for="comment in ticket.comments"
@@ -70,19 +70,17 @@
           <div class="comment-user">
             <span
               class="comment-author searchable-chip"
-              title="Cliquer pour rechercher cet intervenant"
               @click="quickSearch(comment.authorName)"
             >
               {{ comment.authorName }}
             </span>
             <span
               class="comment-handle searchable-chip"
-              title="Cliquer pour rechercher ce pseudo"
               @click="quickSearch(comment.authorHandle)"
             >
               {{ comment.authorHandle }}
             </span>
-            <span v-if="comment.isOfficial" class="corp-tag">OFFICIEL</span>
+            <span v-if="comment.isOfficial" class="corp-tag">{{ t("mod_official_comment") }}</span>
             <span class="comment-time">{{ comment.timestamp }}</span>
           </div>
           <p class="comment-text selectable">{{ comment.content }}</p>
@@ -90,19 +88,19 @@
       </div>
     </div>
 
-    <!-- Rémunération fixe par tâche -->
+    <!-- Rémunération par tâche -->
     <div class="flat-reward-bar">
-      <span>RÉTRIBUTION POUR CE TRAITEMENT :</span>
-      <strong class="text-emerald">+6.00 €</strong>
+      <span>{{ t("mod_reward_label") }}</span>
+      <strong class="text-emerald">+8.00 €</strong>
     </div>
 
     <!-- Boutons d'arbitrage -->
     <div class="decision-bar">
       <button @click="$emit('decide', 'reject')" class="btn-arbitrage reject">
-        <span class="btn-shortcut">[Q]</span> CENSURER LE POST
+        <span class="btn-shortcut">[Q]</span> {{ t("mod_btn_reject") }}
       </button>
       <button @click="$emit('decide', 'approve')" class="btn-arbitrage approve">
-        <span class="btn-shortcut">[E]</span> VALIDER LA PUBLICATION
+        <span class="btn-shortcut">[E]</span> {{ t("mod_btn_approve") }}
       </button>
     </div>
   </div>
@@ -112,6 +110,7 @@
 import { ref } from "vue";
 import type { Ticket, ModerationAction } from "@/types/game";
 import { audio } from "@/services/audio";
+import { t } from "@/services/i18n";
 
 defineProps<{
   ticket: Ticket;
@@ -129,19 +128,16 @@ function quickSearch(text: string) {
   if (!text) return;
   audio.playClick(1000);
 
-  // Copie dans le presse-papier
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).catch(() => {});
   }
 
-  // Affiche la bulle temporaire
-  toastMessage.value = `📋 "${text}" copié & envoyé à OmniSearch`;
+  toastMessage.value = `📋 "${text}" ${t("mod_toast_copied")}`;
   if (toastTimeout) clearTimeout(toastTimeout);
   toastTimeout = window.setTimeout(() => {
     toastMessage.value = "";
   }, 2200);
 
-  // Émet l'événement de recherche vers App.vue
   emit("search", text);
 }
 </script>
@@ -172,9 +168,7 @@ function quickSearch(text: string) {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
