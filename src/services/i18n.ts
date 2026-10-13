@@ -30,7 +30,6 @@ export const translations = {
     win_moderation: "File de Modération Active",
     win_search: "OmniSearch // Intranet Officiel",
     win_tornet: "TorNet Gateway // Web Libre Clandestin",
-    win_chat: "GhostChat // Canal Chiffré",
     win_handbook: "Directives & Protocoles RH",
     win_status: "Moniteur d'Agent RH // Métriques",
 
@@ -154,7 +153,6 @@ export const translations = {
     win_moderation: "Active Moderation Queue",
     win_search: "OmniSearch // Official Intranet",
     win_tornet: "TorNet Gateway // Underground Web",
-    win_chat: "GhostChat // Encrypted Channel",
     win_handbook: "HR Policies & Directives",
     win_status: "HR Agent Monitor // Metrics",
 

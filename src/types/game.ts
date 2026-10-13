@@ -1,5 +1,10 @@
 export type ModerationAction = "approve" | "reject";
-export type GameStage = "menu" | "prologue" | "playing" | "shift_report" | "hacker_terminal";
+export type GameStage =
+  | "menu"
+  | "prologue"
+  | "playing"
+  | "shift_report"
+  | "hacker_terminal";
 
 export interface GameEvent {
   id: string;
@@ -73,7 +78,7 @@ export interface Ticket {
 }
 
 export interface WindowState {
-  id: "moderation" | "search" | "darknet" | "chat" | "handbook" | "status";
+  id: "moderation" | "search" | "darknet" | "handbook" | "status";
   title: string;
   icon: string;
   isOpen: boolean;
@@ -101,10 +106,4 @@ export interface PlayerStats {
   mentalHealth: number;
   hrStrikes: number;
   day: number;
-}
-
-export interface ChatMessage {
-  sender: "ghost" | "player";
-  text: string;
-  timestamp: string;
 }

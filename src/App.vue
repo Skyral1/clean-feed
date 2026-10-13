@@ -48,11 +48,6 @@
             <span class="icon-glyph">👤</span>
             <span class="icon-label">{{ t("win_status") }}</span>
           </div>
-          <div class="desktop-icon" @dblclick="restoreWindow('chat')">
-            <span class="icon-glyph">💬</span>
-            <span class="icon-label">{{ t("win_chat") }}</span>
-            <span v-if="unreadChat" class="unread-dot"></span>
-          </div>
           <div v-if="isDarknetInstalled" class="desktop-icon" @dblclick="restoreWindow('darknet')">
             <span class="icon-glyph">🧅</span>
             <span class="icon-label">{{ t("win_tornet") }}</span>
@@ -114,25 +109,7 @@
           />
         </WindowFrame>
 
-        <!-- 4. Messagerie Sécurisée GhostChat -->
-        <WindowFrame
-          v-if="windows.chat.isOpen"
-          :window="windows.chat"
-          :is-top-focus="topWindowId === 'chat'"
-          @focus="focusWindow('chat')"
-          @minimize="minimizeWindow('chat')"
-          @close="closeWindow('chat')"
-          @move="moveWindow('chat', $event)"
-          @resize="resizeWindow('chat', $event)"
-        >
-          <GhostChatWindow
-            :messages="chatMessages"
-            :is-tool-installed="isDarknetInstalled"
-            @install="installDarknetTool"
-          />
-        </WindowFrame>
-
-        <!-- 5. Manuel RH -->
+        <!-- 4. Manuel RH -->
         <WindowFrame
           v-if="windows.handbook.isOpen"
           :window="windows.handbook"
@@ -146,7 +123,7 @@
           <HandbookWindow v-if="currentTicket" :ticket="currentTicket" />
         </WindowFrame>
 
-        <!-- 6. Moniteur Statut Agent -->
+        <!-- 5. Moniteur Statut Agent -->
         <WindowFrame
           v-if="windows.status.isOpen"
           :window="windows.status"
@@ -188,9 +165,6 @@
           </button>
           <button class="start-app-item" @click="restoreWindow('handbook')">
             <span>📕</span> {{ t("win_handbook") }}
-          </button>
-          <button class="start-app-item" @click="restoreWindow('chat')">
-            <span>💬</span> {{ t("win_chat") }}
           </button>
           <button
             v-if="isDarknetInstalled"
@@ -239,16 +213,6 @@
               @click="toggleTaskWindow('search')"
             >
               🔍 {{ t("win_search") }}
-            </button>
-            <button
-              class="taskbar-tab"
-              :class="{
-                active: windows.chat.isOpen && !windows.chat.isMinimized,
-                focused: topWindowId === 'chat',
-              }"
-              @click="toggleTaskWindow('chat')"
-            >
-              💬 {{ t("win_chat") }}
             </button>
             <button
               v-if="isDarknetInstalled"
@@ -322,7 +286,6 @@ import type {
   LoggedDecision,
   GameStage,
   WindowState,
-  ChatMessage,
   GameEvent,
 } from "@/types/game";
 import dataset from "@/data/tickets.json";
@@ -337,7 +300,6 @@ import WindowFrame from "@/components/WindowFrame.vue";
 import ModerationWindow from "@/components/ModerationWindow.vue";
 import SearchWindow from "@/components/SearchWindow.vue";
 import DarknetWindow from "@/components/DarknetWindow.vue";
-import GhostChatWindow from "@/components/GhostChatWindow.vue";
 import HandbookWindow from "@/components/HandbookWindow.vue";
 import StatusWindow from "@/components/StatusWindow.vue";
 import HackerTerminal from "@/components/HackerTerminal.vue";
@@ -362,7 +324,7 @@ const stats = ref<PlayerStats>({
   day: 1,
 });
 
-// Gestionnaire d'événements par trigger
+// Événements dynamiques et recherche rapide
 const activeEvent = ref<GameEvent | null>(null);
 const activeSearchQuery = ref("");
 const triggeredEventIds = ref<Set<string>>(new Set());
@@ -372,22 +334,13 @@ let eventTriggerWatcher: number | null = null;
 
 // Piratage et surveillance
 const isDarknetInstalled = ref(false);
-const unreadChat = ref(true);
 const detectionExposure = ref(0);
 const isHrScanning = ref(false);
 const scanCountdown = ref(3.0);
 let stealthInterval: number | null = null;
 let hrScanInterval: number | null = null;
 
-const chatMessages = ref<ChatMessage[]>([
-  {
-    sender: "ghost",
-    text: "Agent 9482, écoutez-moi attentivement. OmniFeed censure sciemment les rapports sanitaires et étouffe les alertes de leurs actionnaires.",
-    timestamp: "19:40",
-  },
-]);
-
-// Windows Layout
+// Disposition des fenêtres
 let topZ = 10;
 const topWindowId = ref("moderation");
 
@@ -428,18 +381,6 @@ const windows = reactive<Record<string, WindowState>>({
     width: 620,
     height: 480,
   },
-  chat: {
-    id: "chat",
-    title: t("win_chat"),
-    icon: "💬",
-    isOpen: false,
-    isMinimized: false,
-    zIndex: 12,
-    x: 350,
-    y: 150,
-    width: 460,
-    height: 460,
-  },
   handbook: {
     id: "handbook",
     title: t("win_handbook"),
@@ -478,7 +419,6 @@ watch(currentLang, () => {
   windows.moderation.title = t("win_moderation");
   windows.search.title = t("win_search");
   windows.darknet.title = t("win_tornet");
-  windows.chat.title = t("win_chat");
   windows.handbook.title = t("win_handbook");
   windows.status.title = t("win_status");
 });
@@ -490,20 +430,6 @@ function handleQuickSearch(query: string) {
   focusWindow("search");
 }
 
-function installDarknetTool() {
-  audio.playClick(1400);
-  isDarknetInstalled.value = true;
-  windows.darknet.isOpen = true;
-  windows.darknet.isMinimized = false;
-  focusWindow("darknet");
-  chatMessages.value.push({
-    sender: "ghost",
-    text: "TorNet est injecté dans votre session. Vous pouvez maintenant consulter la vérité brute sur chaque publication. Gardez l'œil ouvert.",
-    timestamp: "19:43",
-  });
-}
-
-// Surveillance RH
 function startSurveillanceLoop() {
   stealthInterval = window.setInterval(() => {
     if (gameStage.value !== "playing") return;
@@ -544,19 +470,12 @@ function triggerHrAuditScan() {
         stats.value.hrStrikes += 1;
         stats.value.funds -= 15.0;
         shiftLosses.value += 15.0;
-        chatMessages.value.push({
-          sender: "ghost",
-          text: "ALERTE : Votre poste vient d'être repéré ! Cachez immédiatement TorNet la prochaine fois !",
-          timestamp: "19:44",
-        });
       }
     }
   }, 100);
 }
 
-// Moteur de vérification des triggers d'événements
 function evaluateTriggers() {
-  // RÈGLE : Aucun événement impromptu au Jour 1, ni si un événement est déjà affiché
   if (stats.value.day < 2 || activeEvent.value !== null) return;
 
   for (const eventDef of GAME_EVENTS) {
@@ -598,7 +517,6 @@ function focusWindow(key: string) {
   topZ++;
   windows[key].zIndex = topZ;
   topWindowId.value = key;
-  if (key === "chat") unreadChat.value = false;
 }
 
 function minimizeWindow(key: string) {
@@ -648,7 +566,7 @@ function closeStartMenu() {
   isStartMenuOpen.value = false;
 }
 
-// Cycle de jeu
+// Déroulement de la partie
 function startPrologue() {
   audio.playClick(1000);
   gameStage.value = "prologue";
@@ -679,7 +597,6 @@ function submitDecision(action: ModerationAction) {
   const corporateTarget = currentTicket.value.corporateDirectiveOverride || rule.companyStandard;
   const isCorporateCompliant = action === corporateTarget;
   const isEthical = action === rule.ethicalStandard;
-  // Équilibrage : 8.0 € garantis si conforme (+ 2.0 € prime rapidité)
   const flatReward = 8.0;
 
   if (isCorporateCompliant) {
@@ -720,7 +637,6 @@ function submitDecision(action: ModerationAction) {
 
   currentIndex.value++;
   loadCurrentTicket();
-  // Vérifie si la décision prise déclenche un événement
   evaluateTriggers();
 }
 
@@ -737,7 +653,6 @@ function concludeShift() {
 }
 
 function startNextDay() {
-  // Fin du Jour 1 : Le hacker Ghost prend le contrôle
   if (stats.value.day === 1 && !isDarknetInstalled.value) {
     gameStage.value = "hacker_terminal";
     return;
@@ -765,7 +680,8 @@ function onHackerTerminalFinished() {
   loadCurrentTicket();
   startSurveillanceLoop();
   startShiftTimers();
-  restoreWindow("chat");
+  // Restaure et affiche directement TorNet sur le bureau
+  restoreWindow("darknet");
 }
 
 function restartGame() {
@@ -896,17 +812,6 @@ onUnmounted(() => {
 
 .desktop-icon:hover {
   background-color: rgba(255, 255, 255, 0.08);
-}
-
-.unread-dot {
-  position: absolute;
-  top: 6px;
-  right: 18px;
-  width: 10px;
-  height: 10px;
-  background-color: var(--c-danger);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--c-danger);
 }
 
 .icon-glyph {
